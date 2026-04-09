@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<refactoring:RefactoringModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:refactoring="http://momot.big.tuwien.ac.at/examples/refactoring/1.0">
+  <properties name="userId" type="//@types.0"/>          
+  <properties name="userName" type="//@types.0"/>        
+  <properties name="productId" type="//@types.0"/>       
+  <properties name="name" type="//@types.0"/>            
+  <properties name="orderId" type="//@types.0"/>         
+  <properties name="timestamp" type="//@types.0"/>       
+  <properties name="paymentId" type="//@types.0"/>       
+  <properties name="notificationId" type="//@types.0"/>  
+  <properties name="address" type="//@types.0"/>         
+  <properties name="created" type="//@types.0"/>         
+  <properties name="config" type="//@types.0"/>          
+  <properties name="status" type="//@types.0"/>          
+  <properties name="amount" type="//@types.0"/>          
+  <properties name="metadata" type="//@types.0"/>        
+  <properties name="permissions" type="//@types.0"/>     
+  <properties name="rules" type="//@types.0"/>           
+  <properties name="messageType" type="//@types.0"/>     
+  <properties name="fileType" type="//@types.0"/>        
+  <properties name="cacheType" type="//@types.0"/>       
+  <properties name="connectionType" type="//@types.0"/>  
+  <properties name="validationType" type="//@types.0"/>  
+  <properties name="processorType" type="//@types.0"/>   
+  <properties name="monitorType" type="//@types.0"/>     
+  <properties name="permissions" type="//@types.0"/>     
+  <properties name="lastLogin" type="//@types.0"/>       
+  <properties name="email" type="//@types.0"/>           
+  <properties name="phone" type="//@types.0"/>           
+  <properties name="company" type="//@types.0"/>         
+  <properties name="rating" type="//@types.0"/>          
+  <properties name="department" type="//@types.0"/>      
+  <properties name="shift" type="//@types.0"/>           
+  <properties name="weight" type="//@types.0"/>          
+  <properties name="dimensions" type="//@types.0"/>      
+  <properties name="fileSize" type="//@types.0"/>        
+  <properties name="format" type="//@types.0"/>          
+  <properties name="duration" type="//@types.0"/>        
+  <properties name="level" type="//@types.0"/>           
+  <properties name="browser" type="//@types.0"/>         
+  <properties name="sessionId" type="//@types.0"/>       
+  <properties name="deviceId" type="//@types.0"/>        
+  <properties name="appVersion" type="//@types.0"/>      
+  <properties name="agentId" type="//@types.0"/>         
+  <properties name="callDuration" type="//@types.0"/>    
+  <properties name="cardNumber" type="//@types.0"/>      
+  <properties name="expiryDate" type="//@types.0"/>      
+  <properties name="email" type="//@types.0"/>           
+  <properties name="accountId" type="//@types.0"/>       
+  <properties name="accountNumber" type="//@types.0"/>   
+  <properties name="routingNumber" type="//@types.0"/>   
+  <properties name="subject" type="//@types.0"/>         
+  <properties name="htmlBody" type="//@types.0"/>        
+  <properties name="phoneNumber" type="//@types.0"/>     
+  <properties name="message" type="//@types.0"/>         
+  <properties name="deviceToken" type="//@types.0"/>     
+  <properties name="payload" type="//@types.0"/>         
+  <properties name="tier" type="//@types.0"/>            
+  <properties name="points" type="//@types.0"/>          
+  <properties name="businessId" type="//@types.0"/>      
+  <properties name="taxNumber" type="//@types.0"/>       
+  <properties name="sessionToken" type="//@types.0"/>    
+  <properties name="tempId" type="//@types.0"/>          
+  <properties name="partnerCode" type="//@types.0"/>     
+  <properties name="commission" type="//@types.0"/>      
+  <properties name="version" type="//@types.0"/>         
+  <properties name="beta" type="//@types.0"/>            
+  <properties name="featured" type="//@types.0"/>        
+  <properties name="priority" type="//@types.0"/>        
+  <properties name="deprecated" type="//@types.0"/>      
+  <properties name="replacement" type="//@types.0"/>     
+  <properties name="customerId" type="//@types.0"/>      
+  <properties name="specifications" type="//@types.0"/>  
+  <properties name="parameters" type="//@types.0"/>      
+  <properties name="schema" type="//@types.0"/>          
+  <properties name="manager" type="//@types.0"/>         
+  <properties name="sla" type="//@types.0"/>             
+  <properties name="endpoint" type="//@types.0"/>        
+  <properties name="method" type="//@types.0"/>          
+  <properties name="features" type="//@types.0"/>        
+  <properties name="tier" type="//@types.0"/>            
+  <properties name="priority" type="//@types.0"/>        
+  <properties name="tracking" type="//@types.0"/>        
+  <properties name="quantity" type="//@types.0"/>        
+  <properties name="discount" type="//@types.0"/>        
+  <properties name="schedule" type="//@types.0"/>        
+  <properties name="recurring" type="//@types.0"/>       
+  <properties name="encryption" type="//@types.0"/>      
+  <properties name="certificate" type="//@types.0"/>     
+  <properties name="speed" type="//@types.0"/>           
+  <properties name="fee" type="//@types.0"/>             
+  <properties name="delay" type="//@types.0"/>           
+  <properties name="reason" type="//@types.0"/>          
+  <properties name="sender" type="//@types.0"/>          
+  <properties name="recipient" type="//@types.0"/>       
+  <properties name="phone" type="//@types.0"/>           
+  <properties name="gateway" type="//@types.0"/>         
+  <properties name="token" type="//@types.0"/>           
+  <properties name="platform" type="//@types.0"/>        
+  <properties name="resolution" type="//@types.0"/>      
+  <properties name="format" type="//@types.0"/>          
+  <properties name="duration" type="//@types.0"/>        
+  <properties name="codec" type="//@types.0"/>           
+  <properties name="pages" type="//@types.0"/>           
+  <properties name="author" type="//@types.0"/>          
+  <properties name="host" type="//@types.0"/>            
+  <properties name="port" type="//@types.0"/>            
+  <properties name="size" type="//@types.0"/>            
+  <properties name="ttl" type="//@types.0"/>             
+  <properties name="table" type="//@types.0"/>           
+  <properties name="connection" type="//@types.0"/>      
+  <properties name="endpoint" type="//@types.0"/>        
+  <properties name="auth" type="//@types.0"/>            
+  <properties name="driver" type="//@types.0"/>          
+  <properties name="credentials" type="//@types.0"/>     
+  <properties name="queue" type="//@types.0"/>           
+  <properties name="consumer" type="//@types.0"/>        
+  <properties name="pattern" type="//@types.0"/>         
+  <properties name="domain" type="//@types.0"/>          
+  <properties name="country" type="//@types.0"/>         
+  <properties name="format" type="//@types.0"/>          
+  <properties name="cardType" type="//@types.0"/>        
+  <properties name="checksum" type="//@types.0"/>        
+  <properties name="filters" type="//@types.0"/>         
+  <properties name="quality" type="//@types.0"/>         
+  <properties name="encoding" type="//@types.0"/>        
+  <properties name="language" type="//@types.0"/>        
+  <properties name="schema" type="//@types.0"/>          
+  <properties name="validation" type="//@types.0"/>      
+  <properties name="cores" type="//@types.0"/>           
+  <properties name="usage" type="//@types.0"/>           
+  <properties name="total" type="//@types.0"/>           
+  <properties name="available" type="//@types.0"/>       
+  <properties name="interface" type="//@types.0"/>       
+  <properties name="bandwidth" type="//@types.0"/>       
+  <entities name="UserBase" specialization="//@generalizations.0 //@generalizations.1 //@generalizations.2 //@generalizations.3"/>
+  <entities name="Admin" ownedAttribute="//@properties.0 //@properties.1 //@properties.23 //@properties.24" generalization="//@generalizations.0"/>
+  <entities name="Customer" ownedAttribute="//@properties.0 //@properties.1 //@properties.25 //@properties.26" generalization="//@generalizations.1"/>
+  <entities name="Vendor" ownedAttribute="//@properties.0 //@properties.1 //@properties.27 //@properties.28" generalization="//@generalizations.2"/>
+  <entities name="Support" ownedAttribute="//@properties.0 //@properties.1 //@properties.29 //@properties.30" generalization="//@generalizations.3"/>
+  <entities name="ProductBase" specialization="//@generalizations.4 //@generalizations.5 //@generalizations.6"/>
+  <entities name="PhysicalProduct" ownedAttribute="//@properties.2 //@properties.3 //@properties.31 //@properties.32" generalization="//@generalizations.4"/>
+  <entities name="DigitalProduct" ownedAttribute="//@properties.2 //@properties.3 //@properties.33 //@properties.34" generalization="//@generalizations.5"/>
+  <entities name="ServiceProduct" ownedAttribute="//@properties.2 //@properties.3 //@properties.35 //@properties.36" generalization="//@generalizations.6"/>
+  <entities name="OrderBase" specialization="//@generalizations.7 //@generalizations.8 //@generalizations.9"/>
+  <entities name="WebOrder" ownedAttribute="//@properties.4 //@properties.5 //@properties.37 //@properties.38" generalization="//@generalizations.7"/>
+  <entities name="MobileOrder" ownedAttribute="//@properties.4 //@properties.5 //@properties.39 //@properties.40" generalization="//@generalizations.8"/>
+  <entities name="PhoneOrder" ownedAttribute="//@properties.4 //@properties.5 //@properties.41 //@properties.42" generalization="//@generalizations.9"/>
+  <entities name="PaymentBase" specialization="//@generalizations.10 //@generalizations.11 //@generalizations.12"/>
+  <entities name="CreditCard" ownedAttribute="//@properties.6 //@properties.43 //@properties.44" generalization="//@generalizations.10"/>
+  <entities name="PayPal" ownedAttribute="//@properties.6 //@properties.45 //@properties.46" generalization="//@generalizations.11"/>
+  <entities name="BankTransfer" ownedAttribute="//@properties.6 //@properties.47 //@properties.48" generalization="//@generalizations.12"/>
+  <entities name="NotificationBase" specialization="//@generalizations.13 //@generalizations.14 //@generalizations.15"/>
+  <entities name="EmailNotification" ownedAttribute="//@properties.7 //@properties.49 //@properties.50" generalization="//@generalizations.13"/>
+  <entities name="SMSNotification" ownedAttribute="//@properties.7 //@properties.51 //@properties.52" generalization="//@generalizations.14"/>
+  <entities name="PushNotification" ownedAttribute="//@properties.7 //@properties.53 //@properties.54" generalization="//@generalizations.15"/>
+  <entities name="UserExtended" specialization="//@generalizations.16 //@generalizations.17 //@generalizations.18 //@generalizations.19"/>
+  <entities name="PremiumCustomer" ownedAttribute="//@properties.8 //@properties.55 //@properties.56" generalization="//@generalizations.16"/>
+  <entities name="BusinessCustomer" ownedAttribute="//@properties.8 //@properties.57 //@properties.58" generalization="//@generalizations.17"/>
+  <entities name="GuestCustomer" ownedAttribute="//@properties.59 //@properties.60" generalization="//@generalizations.18"/>
+  <entities name="PartnerCustomer" ownedAttribute="//@properties.8 //@properties.61 //@properties.62" generalization="//@generalizations.19"/>
+  <entities name="ProductExtended" specialization="//@generalizations.20 //@generalizations.21 //@generalizations.22 //@generalizations.23"/>
+  <entities name="NewProduct" ownedAttribute="//@properties.9 //@properties.63 //@properties.64" generalization="//@generalizations.20"/>
+  <entities name="FeaturedProduct" ownedAttribute="//@properties.9 //@properties.65 //@properties.66" generalization="//@generalizations.21"/>
+  <entities name="LegacyProduct" ownedAttribute="//@properties.67 //@properties.68" generalization="//@generalizations.22"/>
+  <entities name="CustomProduct" ownedAttribute="//@properties.9 //@properties.69 //@properties.70" generalization="//@generalizations.23"/>
+  <entities name="ServiceBase" specialization="//@generalizations.24 //@generalizations.25 //@generalizations.26 //@generalizations.27"/>
+  <entities name="ConfigurableService" ownedAttribute="//@properties.10 //@properties.71 //@properties.72" generalization="//@generalizations.24"/>
+  <entities name="ManagedService" ownedAttribute="//@properties.10 //@properties.73 //@properties.74" generalization="//@generalizations.25"/>
+  <entities name="BasicService" ownedAttribute="//@properties.75 //@properties.76" generalization="//@generalizations.26"/>
+  <entities name="PremiumService" ownedAttribute="//@properties.10 //@properties.77 //@properties.78" generalization="//@generalizations.27"/>
+  <entities name="OrderExtended" specialization="//@generalizations.28 //@generalizations.29 //@generalizations.30"/>
+  <entities name="ExpressOrder" ownedAttribute="//@properties.11 //@properties.79 //@properties.80" generalization="//@generalizations.28"/>
+  <entities name="BulkOrder" ownedAttribute="//@properties.11 //@properties.81 //@properties.82" generalization="//@generalizations.29"/>
+  <entities name="ScheduledOrder" ownedAttribute="//@properties.83 //@properties.84" generalization="//@generalizations.30"/>
+  <entities name="PaymentExtended" specialization="//@generalizations.31 //@generalizations.32 //@generalizations.33"/>
+  <entities name="SecurePayment" ownedAttribute="//@properties.12 //@properties.85 //@properties.86" generalization="//@generalizations.31"/>
+  <entities name="InstantPayment" ownedAttribute="//@properties.12 //@properties.87 //@properties.88" generalization="//@generalizations.32"/>
+  <entities name="DelayedPayment" ownedAttribute="//@properties.89 //@properties.90" generalization="//@generalizations.33"/>
+  <entities name="EmailMsg" ownedAttribute="//@properties.16 //@properties.91 //@properties.92"/>
+  <entities name="SMSMsg" ownedAttribute="//@properties.16 //@properties.93 //@properties.94"/>
+  <entities name="PushMsg" ownedAttribute="//@properties.16 //@properties.95 //@properties.96"/>
+  <entities name="ImageFile" ownedAttribute="//@properties.17 //@properties.97 //@properties.98"/>
+  <entities name="VideoFile" ownedAttribute="//@properties.17 //@properties.99 //@properties.100"/>
+  <entities name="DocFile" ownedAttribute="//@properties.17 //@properties.101 //@properties.102"/>
+  <entities name="RedisCache" ownedAttribute="//@properties.18 //@properties.103 //@properties.104"/>
+  <entities name="MemCache" ownedAttribute="//@properties.18 //@properties.105 //@properties.106"/>
+  <entities name="DBCache" ownedAttribute="//@properties.18 //@properties.107 //@properties.108"/>
+  <entities name="APIConn" ownedAttribute="//@properties.19 //@properties.109 //@properties.110"/>
+  <entities name="DBConn" ownedAttribute="//@properties.19 //@properties.111 //@properties.112"/>
+  <entities name="QueueConn" ownedAttribute="//@properties.19 //@properties.113 //@properties.114"/>
+  <entities name="EmailVal" ownedAttribute="//@properties.20 //@properties.115 //@properties.116"/>
+  <entities name="PhoneVal" ownedAttribute="//@properties.20 //@properties.117 //@properties.118"/>
+  <entities name="CardVal" ownedAttribute="//@properties.20 //@properties.119 //@properties.120"/>
+  <entities name="ImageProc" ownedAttribute="//@properties.21 //@properties.121 //@properties.122"/>
+  <entities name="TextProc" ownedAttribute="//@properties.21 //@properties.123 //@properties.124"/>
+  <entities name="DataProc" ownedAttribute="//@properties.21 //@properties.125 //@properties.126"/>
+  <entities name="CPUMon" ownedAttribute="//@properties.22 //@properties.127 //@properties.128"/>
+  <entities name="MemMon" ownedAttribute="//@properties.22 //@properties.129 //@properties.130"/>
+  <entities name="NetMon" ownedAttribute="//@properties.22 //@properties.131 //@properties.132"/>
+  <types name="String"/>
+  <generalizations specific="//@entities.1" general="//@entities.0"/>   
+  <generalizations specific="//@entities.2" general="//@entities.0"/>   
+  <generalizations specific="//@entities.3" general="//@entities.0"/>   
+  <generalizations specific="//@entities.4" general="//@entities.0"/>   
+  <generalizations specific="//@entities.6" general="//@entities.5"/>   
+  <generalizations specific="//@entities.7" general="//@entities.5"/>   
+  <generalizations specific="//@entities.8" general="//@entities.5"/>   
+  <generalizations specific="//@entities.10" general="//@entities.9"/>  
+  <generalizations specific="//@entities.11" general="//@entities.9"/>  
+  <generalizations specific="//@entities.12" general="//@entities.9"/>  
+  <generalizations specific="//@entities.14" general="//@entities.13"/> 
+  <generalizations specific="//@entities.15" general="//@entities.13"/> 
+  <generalizations specific="//@entities.16" general="//@entities.13"/> 
+  <generalizations specific="//@entities.18" general="//@entities.17"/> 
+  <generalizations specific="//@entities.19" general="//@entities.17"/> 
+  <generalizations specific="//@entities.20" general="//@entities.17"/> 
+  <generalizations specific="//@entities.22" general="//@entities.21"/> 
+  <generalizations specific="//@entities.23" general="//@entities.21"/> 
+  <generalizations specific="//@entities.24" general="//@entities.21"/> 
+  <generalizations specific="//@entities.25" general="//@entities.21"/> 
+  <generalizations specific="//@entities.27" general="//@entities.26"/> 
+  <generalizations specific="//@entities.28" general="//@entities.26"/> 
+  <generalizations specific="//@entities.29" general="//@entities.26"/> 
+  <generalizations specific="//@entities.30" general="//@entities.26"/> 
+  <generalizations specific="//@entities.32" general="//@entities.31"/> 
+  <generalizations specific="//@entities.33" general="//@entities.31"/> 
+  <generalizations specific="//@entities.34" general="//@entities.31"/> 
+  <generalizations specific="//@entities.35" general="//@entities.31"/> 
+  <generalizations specific="//@entities.37" general="//@entities.36"/> 
+  <generalizations specific="//@entities.38" general="//@entities.36"/> 
+  <generalizations specific="//@entities.39" general="//@entities.36"/> 
+  <generalizations specific="//@entities.41" general="//@entities.40"/> 
+  <generalizations specific="//@entities.42" general="//@entities.40"/> 
+  <generalizations specific="//@entities.43" general="//@entities.40"/> 
+</refactoring:RefactoringModel>

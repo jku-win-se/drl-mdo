@@ -1,0 +1,574 @@
+[
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 5,
+                "fromId": "Stack_4"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-0_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 5,
+                "fromId": "Stack_2"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-0_1_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 3,
+                "fromId": "Stack_1"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-0_2_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_4",
+                "amount": 3,
+                "fromId": "Stack_3"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-0_3_0.0.xmi",
+        "isLast": true
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 2,
+                "fromId": "Stack_2"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-1_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 4,
+                "fromId": "Stack_2"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-1_1_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 2,
+                "fromId": "Stack_1"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-1_2_0.0.xmi",
+        "isLast": true
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_2",
+                "amount": 1,
+                "fromId": "Stack_1"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-2_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 2,
+                "fromId": "Stack_2"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-2_1_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 2,
+                "fromId": "Stack_2"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-2_2_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 4,
+                "fromId": "Stack_4"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-2_3_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 1,
+                "fromId": "Stack_4"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-2_4_0.0.xmi",
+        "isLast": true
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 3,
+                "fromId": "Stack_2"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-3_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 2,
+                "fromId": "Stack_4"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-3_1_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 3,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-3_2_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_2",
+                "amount": 1,
+                "fromId": "Stack_3"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-3_3_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 2,
+                "fromId": "Stack_4"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-3_4_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 2,
+                "fromId": "Stack_2"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-3_5_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_4",
+                "amount": 4,
+                "fromId": "Stack_3"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-3_6_0.0.xmi",
+        "isLast": true
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 5,
+                "fromId": "Stack_5"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-4_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 2,
+                "fromId": "Stack_1"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-4_1_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_2",
+                "amount": 2,
+                "fromId": "Stack_1"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-4_2_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 1,
+                "fromId": "Stack_2"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-4_3_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 1,
+                "fromId": "Stack_4"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-4_4_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 3,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-4_5_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_2",
+                "amount": 1,
+                "fromId": "Stack_3"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-4_6_0.0.xmi",
+        "isLast": true
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 3,
+                "fromId": "Stack_4"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-5_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 5,
+                "fromId": "Stack_5"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-5_1_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_2",
+                "amount": 2,
+                "fromId": "Stack_1"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-5_2_0.0.xmi",
+        "isLast": true
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 2,
+                "fromId": "Stack_2"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-6_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 2,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-6_1_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 2,
+                "fromId": "Stack_4"
+            },
+            "unitId": 0,
+            "unitName": "shiftLeft"
+        },
+        "modelPath": "datasets/stack/train/5/model-6_2_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 3,
+                "fromId": "Stack_5"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-6_3_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 1,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-6_4_0.0.xmi",
+        "isLast": true
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 4,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-7_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 2,
+                "fromId": "Stack_2"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-7_1_0.0.xmi",
+        "isLast": true
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 3,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-8_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 4,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-8_1_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 5,
+                "fromId": "Stack_5"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-8_2_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 2,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-8_3_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_3",
+                "amount": 3,
+                "fromId": "Stack_2"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-8_4_0.0.xmi",
+        "isLast": true
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 4,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-9_0_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_1",
+                "amount": 3,
+                "fromId": "Stack_5"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-9_1_0.0.xmi",
+        "isLast": false
+    },
+    {
+        "appState": {
+            "paramValues": {
+                "toId": "Stack_5",
+                "amount": 3,
+                "fromId": "Stack_4"
+            },
+            "unitId": 1,
+            "unitName": "shiftRight"
+        },
+        "modelPath": "datasets/stack/train/5/model-9_2_0.0.xmi",
+        "isLast": true
+    }
+]

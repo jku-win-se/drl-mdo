@@ -1,0 +1,27 @@
+{
+	"nodeIdentifierAttributeName": "id",
+
+	"unitPrefix": "stack::Stack::",
+	"maxNodeParams": 2,
+	"maxValueParams": 1,
+	"units": {
+		"shiftLeft": {
+			"id": "0",
+			"nodeParams": [
+				{ "position": 0, "name": "fromId", "validType": "Stack",  "attr_condition": { "load": {"gt": 0}}},
+				{ "position": 1, "name": "toId", "validType": "Stack", "pred_relation_dependency": "left" }
+			],
+			"valueParams": [{ "name": "amount", "position": 2, "range": { "min": 1, "max": 50 }, "node_attr_condition": { "0": {"load": "le"}}}]
+		},
+
+		"shiftRight": {
+			"id": "1",
+			"nodeParams": [
+				{ "position": 0, "name": "fromId", "validType": "Stack", "attr_condition": { "load": {"gt": 0}}},
+				{ "position": 1, "name": "toId", "validType": "Stack", "pred_relation_dependency": "right" }
+			],
+			"valueParams": [{ "name": "amount", "position": 2, "range": { "min": 1, "max": 50 }, "node_attr_condition": { "0": {"load": "le"}}}]
+		}
+	},
+	"additionalNodeEncodingAttributes": ["load"]
+}

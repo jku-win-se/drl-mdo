@@ -1,0 +1,3842 @@
+[
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 4,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_43",
+      "amount": 4,
+      "fromId": "Stack_44"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 1,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_13",
+      "amount": 1,
+      "fromId": "Stack_14"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_19",
+      "amount": 3,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I5",
+      "amount": 5,
+      "fromId": "Stack_4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_44",
+      "amount": 5,
+      "fromId": "Stack_43"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_4",
+      "amount": 3,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_21",
+      "amount": 3,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_7",
+      "amount": 4,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_50",
+      "amount": 4,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_41",
+      "amount": 2,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_35",
+      "amount": 2,
+      "fromId": "Stack_36"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I3",
+      "amount": 2,
+      "fromId": "Stack_24"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_23",
+      "amount": 1,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 1,
+      "fromId": "Stack_21"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_45",
+      "amount": 1,
+      "fromId": "Stack_44"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 4,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I1",
+      "amount": 5,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_16",
+      "amount": 1,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 1,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_22",
+      "amount": 2,
+      "fromId": "Stack_23"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_29",
+      "amount": 4,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I4",
+      "amount": 2,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_23_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_30",
+      "amount": 3,
+      "fromId": "Stack_29"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_24_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 3,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_25_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_10",
+      "amount": 1,
+      "fromId": "Stack_11"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_26_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_43",
+      "amount": 4,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_27_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I2",
+      "amount": 2,
+      "fromId": "Stack_37"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_28_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 2,
+      "fromId": "Stack_17"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-0_29_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_49",
+      "amount": 1,
+      "fromId": "Stack_48"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_5",
+      "amount": 2,
+      "fromId": "Stack_4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_7",
+      "amount": 4,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_15",
+      "amount": 3,
+      "fromId": "Stack_16"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_25",
+      "amount": 4,
+      "fromId": "Stack_24"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_21",
+      "amount": 2,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 4,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 5,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_22",
+      "amount": 2,
+      "fromId": "Stack_21"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_13",
+      "amount": 3,
+      "fromId": "Stack_14"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_23",
+      "amount": 4,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_6",
+      "amount": 2,
+      "fromId": "Stack_5"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_39",
+      "amount": 2,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_43",
+      "amount": 2,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_24",
+      "amount": 5,
+      "fromId": "Stack_23"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 4,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 1,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_22",
+      "amount": 1,
+      "fromId": "Stack_21"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_21",
+      "amount": 1,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_42",
+      "amount": 3,
+      "fromId": "Stack_43"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I1",
+      "amount": 4,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_48",
+      "amount": 4,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 4,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 1,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_23_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_16",
+      "amount": 3,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_24_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_43",
+      "amount": 4,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_25_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_26",
+      "amount": 2,
+      "fromId": "Stack_25"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_26_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 3,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_27_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_30",
+      "amount": 2,
+      "fromId": "Stack_31"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_28_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I2",
+      "amount": 5,
+      "fromId": "Stack_35"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_29_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I5",
+      "amount": 5,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_30_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 4,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_31_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I3",
+      "amount": 3,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_32_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_19",
+      "amount": 2,
+      "fromId": "Stack_18"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_33_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_41",
+      "amount": 1,
+      "fromId": "Stack_42"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-1_34_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_3",
+      "amount": 4,
+      "fromId": "Stack_4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_37",
+      "amount": 3,
+      "fromId": "Stack_36"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_27",
+      "amount": 1,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I5",
+      "amount": 4,
+      "fromId": "Stack_9"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_4",
+      "amount": 4,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_28",
+      "amount": 3,
+      "fromId": "Stack_27"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_39",
+      "amount": 3,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_49",
+      "amount": 1,
+      "fromId": "Stack_48"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I1",
+      "amount": 5,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_27",
+      "amount": 4,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_47",
+      "amount": 1,
+      "fromId": "Stack_48"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_32",
+      "amount": 4,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_28",
+      "amount": 3,
+      "fromId": "Stack_27"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_46",
+      "amount": 3,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_1",
+      "amount": 1,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_5",
+      "amount": 4,
+      "fromId": "Stack_4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_47",
+      "amount": 3,
+      "fromId": "Stack_46"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 4,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_36",
+      "amount": 3,
+      "fromId": "Stack_35"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_46",
+      "amount": 3,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_50",
+      "amount": 5,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 3,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_27",
+      "amount": 1,
+      "fromId": "Stack_26"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 4,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_23_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I3",
+      "amount": 2,
+      "fromId": "Stack_21"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_24_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_49",
+      "amount": 2,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_25_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_5",
+      "amount": 1,
+      "fromId": "Stack_4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_26_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 3,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_27_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 3,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_28_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_16",
+      "amount": 2,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_29_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 5,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_30_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_4",
+      "amount": 5,
+      "fromId": "Stack_5"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_31_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_29",
+      "amount": 4,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_32_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_49",
+      "amount": 3,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_33_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_30",
+      "amount": 5,
+      "fromId": "Stack_31"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_34_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_50",
+      "amount": 2,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_35_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_49",
+      "amount": 2,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_36_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_48",
+      "amount": 3,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_37_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I3",
+      "amount": 3,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_38_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_45",
+      "amount": 1,
+      "fromId": "Stack_46"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_39_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 3,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_40_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_7",
+      "amount": 4,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_41_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_21",
+      "amount": 2,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_42_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I2",
+      "amount": 5,
+      "fromId": "Stack_37"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-2_43_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_43",
+      "amount": 1,
+      "fromId": "Stack_44"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I5",
+      "amount": 3,
+      "fromId": "Stack_4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_2",
+      "amount": 1,
+      "fromId": "Stack_1"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_38",
+      "amount": 2,
+      "fromId": "Stack_37"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_35",
+      "amount": 1,
+      "fromId": "Stack_36"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_25",
+      "amount": 1,
+      "fromId": "Stack_26"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_27",
+      "amount": 1,
+      "fromId": "Stack_26"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_19",
+      "amount": 2,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 5,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_39",
+      "amount": 4,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_19",
+      "amount": 1,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_35",
+      "amount": 2,
+      "fromId": "Stack_36"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_15",
+      "amount": 2,
+      "fromId": "Stack_16"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_2",
+      "amount": 3,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 3,
+      "fromId": "Stack_13"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_33",
+      "amount": 2,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_41",
+      "amount": 3,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_5",
+      "amount": 2,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_43",
+      "amount": 2,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_26",
+      "amount": 4,
+      "fromId": "Stack_27"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 5,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_21",
+      "amount": 3,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_46",
+      "amount": 2,
+      "fromId": "Stack_45"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_36",
+      "amount": 3,
+      "fromId": "Stack_35"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_23_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I1",
+      "amount": 4,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_24_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_21",
+      "amount": 1,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_25_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_7",
+      "amount": 1,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_26_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I3",
+      "amount": 1,
+      "fromId": "Stack_29"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_27_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_46",
+      "amount": 1,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_28_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 3,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_29_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_21",
+      "amount": 3,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_30_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_1",
+      "amount": 4,
+      "fromId": "Stack_2"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_31_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_44",
+      "amount": 2,
+      "fromId": "Stack_45"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_32_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_32",
+      "amount": 2,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_33_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_46",
+      "amount": 2,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_34_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_32",
+      "amount": 1,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_35_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_47",
+      "amount": 1,
+      "fromId": "Stack_46"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_36_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_23",
+      "amount": 2,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_37_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I2",
+      "amount": 3,
+      "fromId": "Stack_39"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_38_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 5,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_39_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_19",
+      "amount": 2,
+      "fromId": "Stack_18"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_40_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_20",
+      "amount": 4,
+      "fromId": "Stack_21"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_41_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_13",
+      "amount": 5,
+      "fromId": "Stack_14"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_42_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 3,
+      "fromId": "Stack_13"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_43_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_29",
+      "amount": 4,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_44_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_43",
+      "amount": 1,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_45_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_46",
+      "amount": 1,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_46_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_16",
+      "amount": 1,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_47_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 1,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_48_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 2,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_49_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_27",
+      "amount": 3,
+      "fromId": "Stack_26"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_50_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_45",
+      "amount": 5,
+      "fromId": "Stack_46"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-3_51_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I3",
+      "amount": 3,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_26",
+      "amount": 3,
+      "fromId": "Stack_27"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 4,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_49",
+      "amount": 4,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_36",
+      "amount": 4,
+      "fromId": "Stack_35"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_25",
+      "amount": 3,
+      "fromId": "Stack_26"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_39",
+      "amount": 2,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 3,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_50",
+      "amount": 3,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 5,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_29",
+      "amount": 4,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 2,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_41",
+      "amount": 1,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_16",
+      "amount": 3,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I5",
+      "amount": 1,
+      "fromId": "Stack_7"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_39",
+      "amount": 3,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_19",
+      "amount": 4,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_21",
+      "amount": 1,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_19",
+      "amount": 1,
+      "fromId": "Stack_18"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_48",
+      "amount": 1,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_21",
+      "amount": 2,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_3",
+      "amount": 3,
+      "fromId": "Stack_2"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_7",
+      "amount": 4,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_28",
+      "amount": 1,
+      "fromId": "Stack_29"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_23_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_16",
+      "amount": 1,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_24_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_50",
+      "amount": 5,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_25_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_27",
+      "amount": 2,
+      "fromId": "Stack_26"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_26_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_41",
+      "amount": 2,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_27_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_37",
+      "amount": 4,
+      "fromId": "Stack_36"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_28_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 2,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_29_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_2",
+      "amount": 4,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_30_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_15",
+      "amount": 3,
+      "fromId": "Stack_16"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_31_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_22",
+      "amount": 1,
+      "fromId": "Stack_21"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_32_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 2,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_33_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_38",
+      "amount": 2,
+      "fromId": "Stack_39"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_34_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_4",
+      "amount": 4,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_35_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_10",
+      "amount": 2,
+      "fromId": "Stack_9"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_36_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_3",
+      "amount": 4,
+      "fromId": "Stack_4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_37_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 3,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_38_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_38",
+      "amount": 1,
+      "fromId": "Stack_39"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_39_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_13",
+      "amount": 2,
+      "fromId": "Stack_14"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_40_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_1",
+      "amount": 2,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_41_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 1,
+      "fromId": "Stack_13"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_42_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_20",
+      "amount": 2,
+      "fromId": "Stack_19"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_43_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I1",
+      "amount": 3,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_44_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I5",
+      "amount": 2,
+      "fromId": "Stack_7"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_45_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I1",
+      "amount": 1,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_46_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_30",
+      "amount": 2,
+      "fromId": "Stack_31"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_47_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_49",
+      "amount": 2,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_48_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_34",
+      "amount": 2,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_49_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_47",
+      "amount": 2,
+      "fromId": "Stack_48"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_50_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 4,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_51_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_13",
+      "amount": 3,
+      "fromId": "Stack_14"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_52_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 5,
+      "fromId": "Stack_13"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-4_53_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_21",
+      "amount": 2,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_45",
+      "amount": 1,
+      "fromId": "Stack_46"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_25",
+      "amount": 1,
+      "fromId": "Stack_26"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_28",
+      "amount": 2,
+      "fromId": "Stack_27"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_26",
+      "amount": 2,
+      "fromId": "Stack_25"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 4,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I3",
+      "amount": 2,
+      "fromId": "Stack_24"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_16",
+      "amount": 5,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I5",
+      "amount": 1,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_32",
+      "amount": 2,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_29",
+      "amount": 4,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 2,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 2,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_41",
+      "amount": 2,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 3,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_27",
+      "amount": 3,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 4,
+      "fromId": "Stack_16"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_1",
+      "amount": 2,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_33",
+      "amount": 4,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_50",
+      "amount": 1,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_43",
+      "amount": 2,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_32",
+      "amount": 5,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_10",
+      "amount": 3,
+      "fromId": "Stack_9"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I5",
+      "amount": 3,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_23_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I2",
+      "amount": 2,
+      "fromId": "Stack_37"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_24_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_48",
+      "amount": 1,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_25_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I4",
+      "amount": 5,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_26_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_39",
+      "amount": 2,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_27_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_43",
+      "amount": 1,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_28_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_25",
+      "amount": 1,
+      "fromId": "Stack_26"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_29_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_15",
+      "amount": 2,
+      "fromId": "Stack_I4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_30_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_7",
+      "amount": 3,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_31_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 3,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_32_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I1",
+      "amount": 5,
+      "fromId": "Stack_47"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-5_33_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I2",
+      "amount": 4,
+      "fromId": "Stack_35"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_20",
+      "amount": 3,
+      "fromId": "Stack_19"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I3",
+      "amount": 4,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_47",
+      "amount": 2,
+      "fromId": "Stack_48"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_25",
+      "amount": 1,
+      "fromId": "Stack_24"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_21",
+      "amount": 2,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_4",
+      "amount": 3,
+      "fromId": "Stack_5"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I5",
+      "amount": 5,
+      "fromId": "Stack_4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_10",
+      "amount": 3,
+      "fromId": "Stack_9"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I1",
+      "amount": 3,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_16",
+      "amount": 5,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_1",
+      "amount": 1,
+      "fromId": "Stack_50"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_5",
+      "amount": 4,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_21",
+      "amount": 5,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_5",
+      "amount": 2,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_48",
+      "amount": 1,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I4",
+      "amount": 4,
+      "fromId": "Stack_16"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_2",
+      "amount": 3,
+      "fromId": "Stack_1"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 4,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_6",
+      "amount": 3,
+      "fromId": "Stack_5"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 5,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_19",
+      "amount": 2,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I1",
+      "amount": 3,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_38",
+      "amount": 2,
+      "fromId": "Stack_37"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_23_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_1",
+      "amount": 3,
+      "fromId": "Stack_2"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_24_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 1,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_25_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_46",
+      "amount": 2,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_26_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I2",
+      "amount": 1,
+      "fromId": "Stack_36"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_27_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_22",
+      "amount": 2,
+      "fromId": "Stack_21"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_28_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_20",
+      "amount": 3,
+      "fromId": "Stack_21"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_29_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_41",
+      "amount": 3,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_30_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_21",
+      "amount": 2,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_31_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_23",
+      "amount": 3,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_32_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_19",
+      "amount": 2,
+      "fromId": "Stack_18"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_33_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 4,
+      "fromId": "Stack_34"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-6_34_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_43",
+      "amount": 1,
+      "fromId": "Stack_44"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I5",
+      "amount": 2,
+      "fromId": "Stack_5"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_2",
+      "amount": 2,
+      "fromId": "Stack_1"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_38",
+      "amount": 3,
+      "fromId": "Stack_37"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 4,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_5",
+      "amount": 5,
+      "fromId": "Stack_4"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 5,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I3",
+      "amount": 3,
+      "fromId": "Stack_24"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_28",
+      "amount": 2,
+      "fromId": "Stack_27"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_19",
+      "amount": 3,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_21",
+      "amount": 2,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_47",
+      "amount": 1,
+      "fromId": "Stack_48"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 4,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_33",
+      "amount": 5,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_37",
+      "amount": 1,
+      "fromId": "Stack_36"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_19",
+      "amount": 3,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_23",
+      "amount": 1,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_27",
+      "amount": 1,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_41",
+      "amount": 3,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_32",
+      "amount": 2,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 4,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_7",
+      "amount": 2,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_20",
+      "amount": 3,
+      "fromId": "Stack_19"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_44",
+      "amount": 1,
+      "fromId": "Stack_45"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_23_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_34",
+      "amount": 5,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_24_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_29",
+      "amount": 5,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_25_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_33",
+      "amount": 5,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_26_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_32",
+      "amount": 5,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_27_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 3,
+      "fromId": "Stack_14"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_28_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_4",
+      "amount": 2,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_29_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_24",
+      "amount": 1,
+      "fromId": "Stack_23"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_30_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I2",
+      "amount": 3,
+      "fromId": "Stack_35"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_31_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_45",
+      "amount": 2,
+      "fromId": "Stack_46"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_32_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_1",
+      "amount": 1,
+      "fromId": "Stack_2"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_33_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_46",
+      "amount": 3,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_34_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 2,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_35_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 1,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_36_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_3",
+      "amount": 1,
+      "fromId": "Stack_2"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_37_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_4",
+      "amount": 2,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_38_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I1",
+      "amount": 5,
+      "fromId": "Stack_42"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-7_39_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_38",
+      "amount": 4,
+      "fromId": "Stack_37"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_9",
+      "amount": 2,
+      "fromId": "Stack_10"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_25",
+      "amount": 2,
+      "fromId": "Stack_24"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_10",
+      "amount": 4,
+      "fromId": "Stack_9"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_7",
+      "amount": 4,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 4,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 4,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 5,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I2",
+      "amount": 1,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_41",
+      "amount": 4,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_23",
+      "amount": 2,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_37",
+      "amount": 2,
+      "fromId": "Stack_36"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I5",
+      "amount": 1,
+      "fromId": "Stack_7"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_21",
+      "amount": 3,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I3",
+      "amount": 4,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 3,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_24",
+      "amount": 2,
+      "fromId": "Stack_23"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_39",
+      "amount": 2,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I4",
+      "amount": 1,
+      "fromId": "Stack_13"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 3,
+      "fromId": "Stack_14"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I2",
+      "amount": 2,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I2",
+      "amount": 2,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I1",
+      "amount": 3,
+      "fromId": "Stack_50"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-8_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_29",
+      "amount": 4,
+      "fromId": "Stack_28"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_0_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_31",
+      "amount": 5,
+      "fromId": "Stack_32"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_1_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_6",
+      "amount": 1,
+      "fromId": "Stack_5"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_2_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_35",
+      "amount": 4,
+      "fromId": "Stack_34"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_3_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_48",
+      "amount": 4,
+      "fromId": "Stack_47"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_4_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I3",
+      "amount": 1,
+      "fromId": "Stack_23"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_5_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_49",
+      "amount": 5,
+      "fromId": "Stack_48"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_6_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_34",
+      "amount": 1,
+      "fromId": "Stack_35"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_7_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I1",
+      "amount": 4,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_8_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_49",
+      "amount": 1,
+      "fromId": "Stack_I1"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_9_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_38",
+      "amount": 3,
+      "fromId": "Stack_37"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_10_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_41",
+      "amount": 1,
+      "fromId": "Stack_40"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_11_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I5",
+      "amount": 3,
+      "fromId": "Stack_3"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_12_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_10",
+      "amount": 2,
+      "fromId": "Stack_11"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_13_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_42",
+      "amount": 3,
+      "fromId": "Stack_43"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_14_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_15",
+      "amount": 5,
+      "fromId": "Stack_16"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_15_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_15",
+      "amount": 1,
+      "fromId": "Stack_14"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_16_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I1",
+      "amount": 4,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_17_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_16",
+      "amount": 2,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_18_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_43",
+      "amount": 4,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_19_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_25",
+      "amount": 2,
+      "fromId": "Stack_26"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_20_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 2,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_21_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_34",
+      "amount": 1,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_22_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 5,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_23_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_16",
+      "amount": 4,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_24_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_7",
+      "amount": 4,
+      "fromId": "Stack_6"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_25_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_19",
+      "amount": 2,
+      "fromId": "Stack_20"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_26_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_19",
+      "amount": 1,
+      "fromId": "Stack_18"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_27_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_32",
+      "amount": 1,
+      "fromId": "Stack_33"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_28_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 1,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_29_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_14",
+      "amount": 3,
+      "fromId": "Stack_15"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_30_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_48",
+      "amount": 2,
+      "fromId": "Stack_49"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_31_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_I3",
+      "amount": 3,
+      "fromId": "Stack_22"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_32_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_18",
+      "amount": 2,
+      "fromId": "Stack_17"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_33_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_41",
+      "amount": 3,
+      "fromId": "Stack_42"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_34_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftLeft",
+      "toId": "Stack_I4",
+      "amount": 4,
+      "fromId": "Stack_14"
+    },
+    "isLast": false,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_35_0.0.xmi"
+  },
+  {
+    "appState": {
+      "unitName": "shiftRight",
+      "toId": "Stack_30",
+      "amount": 3,
+      "fromId": "Stack_29"
+    },
+    "isLast": true,
+    "modelPath": "datasets/stack/train/ISOLA_250_disturbed_train/model-9_36_0.0.xmi"
+  }
+]

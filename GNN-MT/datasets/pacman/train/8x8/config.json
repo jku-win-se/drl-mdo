@@ -1,0 +1,30 @@
+{
+  "unitPrefix": "play_game::",
+  "nodeIdentifierAttributeName": "id",
+  "maxNodeParams": 0,
+  "maxValueParams": 0,
+  "units": {
+    "moveRightUnit": {
+      "id": "1",
+      "nodeParams": [],
+      "valueParams": []
+    },
+
+    "moveLeftUnit": {
+      "id": "3",
+      "nodeParams": [],
+      "valueParams": []
+    },
+    "moveUpUnit": {
+      "id": "0",
+      "nodeParams": [],
+      "valueParams": []
+    },
+    "moveDownUnit": {
+      "id": "2",
+      "nodeParams": [],
+      "valueParams": []
+    }
+  },
+  "additionalNodeEncodingAttributes": []
+}

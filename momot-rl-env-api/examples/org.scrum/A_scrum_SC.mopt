@@ -1,0 +1,33 @@
+problem {
+	basepath <models/>
+	metamodel <SprintPlanning.SprintPlanningPackage>
+	model <sprint-planning-model-5-stakeholders-119-items.xmi>
+}
+goal {
+	objective MinimiseAvgCustomerImportanceDeviation minimise java { "guidancefunctions.MinimiseAvgCustomerImportanceDeviation" }
+	objective MinimiseSprintEffortDeviation minimise java { "guidancefunctions.MinimiseSprintEffortDeviation" }
+	constraint NoUnassignedWorkItems java { "guidancefunctions.NoUnassignedWorkItems" }
+	constraint NoMultiAssignedWorkItems java { "guidancefunctions.NoMultiAssignedWorkItems" }
+	constraint NotExceedingMaximumNumberOfSprints java { "guidancefunctions.NotExceedingMaximumNumberOfSprints" }
+	constraint NotFallingBelowMinimumNumberOfSprints java { "guidancefunctions.NotFallingBelowMinimumNumberOfSprints" }
+}
+search {
+	mutate using <sprint-mutation.henshin> unit "addUnassignedWorkItemToNewSprintRespectingMax"
+	mutate using <sprint-mutation.henshin> unit "addUnassignedWorkItemToExSprint"
+	mutate using <sprint-mutation.henshin> unit "moveWorkItemToNewSprintRespectingMax"	
+	mutate using <sprint-mutation.henshin> unit "moveWorkItemToExSprint"
+	mutate using <sprint-mutation.henshin> unit "deleteEmptySprintRespectingMin"
+}
+solver {
+	optimisation provider moea algorithm NSGAII {
+		population: 100
+		variation: mutation
+		mutation.step: 1
+		mutation.strategy: random
+	}
+	termination {
+		delta: 3
+		iterations: 100
+	}
+	batches 1
+}

@@ -1,0 +1,122 @@
+Running case: slb
+Num. environments: 10
+Models path: models/datasets/slb/train-N30-25.-50./
+Test Models path: NONE
+Out: -20260409_211657
+Port: 8000
+Loaded model: 10_stacks-36.6 with 25 steps
+Loaded model: 10_stacks-41.8 with 25 steps
+Loaded model: 12_stacks-34.166666666666664 with 30 steps
+Loaded model: 12_stacks-44.5 with 30 steps
+Loaded model: 13_stacks-44.76923076923077 with 32 steps
+Loaded model: 16_stacks-36.5 with 40 steps
+Loaded model: 16_stacks-40.9375 with 40 steps
+Loaded model: 16_stacks-41.375 with 40 steps
+Loaded model: 19_stacks-38.73684210526316 with 47 steps
+Loaded model: 22_stacks-43.90909090909091 with 55 steps
+Loaded model: 22_stacks-44.95454545454545 with 55 steps
+Loaded model: 25_stacks-43.24 with 62 steps
+Loaded model: 26_stacks-43.53846153846154 with 65 steps
+Loaded model: 33_stacks-42.63636363636363 with 82 steps
+Loaded model: 36_stacks-44.52777777777778 with 90 steps
+Loaded model: 47_stacks-41.46808510638298 with 117 steps
+Loaded model: 47_stacks-42.38297872340426 with 117 steps
+Loaded model: 48_stacks-41.333333333333336 with 120 steps
+Loaded model: 50_stacks-44.18 with 125 steps
+Loaded model: 58_stacks-44.53448275862069 with 145 steps
+Loaded model: 64_stacks-44.3125 with 160 steps
+Loaded model: 69_stacks-44.17391304347826 with 172 steps
+Loaded model: 69_stacks-44.42028985507246 with 172 steps
+Loaded model: 74_stacks-42.567567567567565 with 185 steps
+Loaded model: 75_stacks-44.44 with 187 steps
+Loaded model: 76_stacks-44.3421052631579 with 190 steps
+Loaded model: 85_stacks-43.37647058823529 with 212 steps
+Loaded model: 89_stacks-42.943820224719104 with 222 steps
+Loaded model: 92_stacks-42.78260869565217 with 230 steps
+Loaded model: 92_stacks-44.80434782608695 with 230 steps
+Loaded 30 models from models/datasets/slb/train-N30-25.-50./
+  Model 0: 10_stacks-36.6 (steps: 25)
+  Model 1: 10_stacks-41.8 (steps: 25)
+  Model 2: 12_stacks-34.166666666666664 (steps: 30)
+  Model 3: 12_stacks-44.5 (steps: 30)
+  Model 4: 13_stacks-44.76923076923077 (steps: 32)
+  Model 5: 16_stacks-36.5 (steps: 40)
+  Model 6: 16_stacks-40.9375 (steps: 40)
+  Model 7: 16_stacks-41.375 (steps: 40)
+  Model 8: 19_stacks-38.73684210526316 (steps: 47)
+  Model 9: 22_stacks-43.90909090909091 (steps: 55)
+  Model 10: 22_stacks-44.95454545454545 (steps: 55)
+  Model 11: 25_stacks-43.24 (steps: 62)
+  Model 12: 26_stacks-43.53846153846154 (steps: 65)
+  Model 13: 33_stacks-42.63636363636363 (steps: 82)
+  Model 14: 36_stacks-44.52777777777778 (steps: 90)
+  Model 15: 47_stacks-41.46808510638298 (steps: 117)
+  Model 16: 47_stacks-42.38297872340426 (steps: 117)
+  Model 17: 48_stacks-41.333333333333336 (steps: 120)
+  Model 18: 50_stacks-44.18 (steps: 125)
+  Model 19: 58_stacks-44.53448275862069 (steps: 145)
+  Model 20: 64_stacks-44.3125 (steps: 160)
+  Model 21: 69_stacks-44.17391304347826 (steps: 172)
+  Model 22: 69_stacks-44.42028985507246 (steps: 172)
+  Model 23: 74_stacks-42.567567567567565 (steps: 185)
+  Model 24: 75_stacks-44.44 (steps: 187)
+  Model 25: 76_stacks-44.3421052631579 (steps: 190)
+  Model 26: 85_stacks-43.37647058823529 (steps: 212)
+  Model 27: 89_stacks-42.943820224719104 (steps: 222)
+  Model 28: 92_stacks-42.78260869565217 (steps: 230)
+  Model 29: 92_stacks-44.80434782608695 (steps: 230)
+Environment 0 initialized with model 0 (steps: 25)
+Environment 1 initialized with model 1 (steps: 25)
+Environment 2 initialized with model 2 (steps: 30)
+Environment 3 initialized with model 3 (steps: 30)
+Environment 4 initialized with model 4 (steps: 32)
+Environment 5 initialized with model 5 (steps: 40)
+Environment 6 initialized with model 6 (steps: 40)
+Environment 7 initialized with model 7 (steps: 40)
+Environment 8 initialized with model 8 (steps: 47)
+Environment 9 initialized with model 9 (steps: 55)
+Training API Server (Multi-Model) is on 8000...
+co.gongzh.procbridge.ProtocolException: unrecognized protocol
+	at co.gongzh.procbridge.Protocol.read(Protocol.java:33)
+	at co.gongzh.procbridge.Protocol.readRequest(Protocol.java:130)
+	at co.gongzh.procbridge.Server$Connection.run(Server.java:37)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+------------------------------------ RESET ENV 0 WITH MODEL 0 (steps: 25) ------------------------------------
+Solution @ 0 has length 0
+44 88 24 82 5 10 14 16 45 38  -> 27.623178672991276
+
+------------------------------------ RESET ENV 1 WITH MODEL 1 (steps: 25) ------------------------------------
+Solution @ 1 has length 0
+84 78 6 25 57 4 49 12 90 13  -> 32.260812141048156
+
+------------------------------------ RESET ENV 2 WITH MODEL 2 (steps: 30) ------------------------------------
+Solution @ 2 has length 0
+19 41 21 46 11 8 46 21 81 75 0 41  -> 24.494330409754465
+
+------------------------------------ RESET ENV 3 WITH MODEL 3 (steps: 30) ------------------------------------
+Solution @ 3 has length 0
+1 33 48 77 66 3 27 48 74 56 41 60  -> 23.89386253134195
+
+------------------------------------ RESET ENV 4 WITH MODEL 4 (steps: 32) ------------------------------------
+Solution @ 4 has length 0
+50 97 18 3 0 73 19 53 64 5 49 82 69  -> 31.246301556292156
+
+------------------------------------ RESET ENV 5 WITH MODEL 5 (steps: 40) ------------------------------------
+Solution @ 5 has length 0
+17 21 47 6 14 0 47 26 16 17 84 46 72 94 29 48  -> 26.951345049922832
+
+------------------------------------ RESET ENV 6 WITH MODEL 6 (steps: 40) ------------------------------------
+Solution @ 6 has length 0
+2 83 56 13 87 39 78 25 23 56 52 23 58 42 2 16  -> 26.77328134073222
+
+------------------------------------ RESET ENV 7 WITH MODEL 7 (steps: 40) ------------------------------------
+Solution @ 7 has length 0
+82 1 9 80 80 39 23 49 13 16 25 84 89 31 38 3  -> 30.728396883013602
+
+------------------------------------ RESET ENV 8 WITH MODEL 8 (steps: 47) ------------------------------------
+Solution @ 8 has length 0
+83 35 18 6 60 54 47 21 49 20 57 9 18 39 44 32 20 53 71  -> 20.9205064476867
+
+Shutdown hook triggered. Cleaning up...

@@ -1,0 +1,10 @@
+{
+	"maxNodeParams": 2,
+	"maxValueParams": 1,
+	"units": {
+		"shiftLeft": { "id": "0", "nodeParamPos": [0, 1], "valueParams": [{ "position": 2, "range": { "min": 1, "max": 50 } }] },
+
+		"shiftRight": { "id": "1", "nodeParamPos": [0, 1], "valueParams": [{ "position": 2, "range": { "min": 1, "max": 50 } }] }
+	},
+	"additionalNodeEncodingAttributes": ["load"]
+}

@@ -1,0 +1,35 @@
+{
+	"unitPrefix": "Refactoring::",
+	"nodeIdentifierAttributeName": "name",
+	"maxNodeParams": 3,
+	"maxValueParams": 0,
+	"units": {
+		"createRootClass": {
+			"id": "0",
+			"nodeParams": [
+				{ "position": 0, "name": "n", "validType": "Property" },
+				{ "position": 1, "name": "e1", "validType": "Entity" },
+                { "position": 2, "name": "e2", "validType": "Entity" }
+			],
+			"valueParams": []
+		},
+        "extractSuperClass": {
+			"id": "1",
+			"nodeParams": [
+				{ "position": 0, "name": "n", "validType": "Property" },
+				{ "position": 1, "name": "e1", "validType": "Entity" },
+                { "position": 2, "name": "e2", "validType": "Entity" }
+			],
+			"valueParams": []
+		},
+        "pullUpAttribute": {
+			"id": "2",
+			"nodeParams": [
+				{ "position": 0, "name": "e", "validType": "Entity" },
+				{ "position": 1, "name": "n", "validType": "Property" }
+			],
+			"valueParams": []
+		}
+	},
+	"additionalNodeEncodingAttributes": []
+}

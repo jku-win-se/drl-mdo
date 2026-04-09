@@ -1,0 +1,17 @@
+{
+	"unitPrefix": "architecture::",
+	"nodeIdentifierAttributeName": "name",
+	"maxNodeParams": 2,
+	"maxValueParams": 0,
+	"units": {
+		"reassignFeature": {
+			"id": "0",
+			"nodeParams": [
+				{ "position": 0, "name": "featureName", "validType": "Feature" },
+				{ "position": 1, "name": "className", "validType": "Class" }
+			],
+			"valueParams": []
+		}
+	},
+	"additionalNodeEncodingAttributes": []
+}

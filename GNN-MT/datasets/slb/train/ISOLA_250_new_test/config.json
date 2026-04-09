@@ -1,0 +1,24 @@
+{
+	"maxNodeParams": 2,
+	"maxValueParams": 1,
+	"units": {
+		"shiftLeft": {
+			"id": "0",
+			"nodeParams": [
+				{ "position": 0, "name": "fromId" },
+				{ "position": 1, "name": "toId" }
+			],
+			"valueParams": [{ "name": "amount", "position": 2, "range": { "min": 1, "max": 5 } }]
+		},
+
+		"shiftRight": {
+			"id": "1",
+			"nodeParams": [
+				{ "position": 0, "name": "fromId" },
+				{ "position": 1, "name": "toId" }
+			],
+			"valueParams": [{ "name": "amount", "position": 2, "range": { "min": 1, "max": 5 } }]
+		}
+	},
+	"additionalNodeEncodingAttributes": ["load"]
+}

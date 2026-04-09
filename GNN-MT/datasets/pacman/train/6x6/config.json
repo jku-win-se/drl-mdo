@@ -1,0 +1,34 @@
+{
+  "unitPrefix": "play_game::",
+  "maxNodeParams": 0,
+  "maxValueParams": 0,
+  "units": {
+    "moveRight": {
+      "id": "2",
+      "nodeParams": [],
+      "valueParams": []
+    },
+
+    "moveLeft": {
+      "id": "1",
+      "nodeParams": [],
+      "valueParams": []
+    },
+    "moveUp": {
+      "id": "3",
+      "nodeParams": [],
+      "valueParams": []
+    },
+    "moveDown": {
+      "id": "0",
+      "nodeParams": [],
+      "valueParams": []
+    },
+    "eat": {
+      "id": "4",
+      "nodeParams": [],
+      "valueParams": []
+    }
+  },
+  "additionalNodeEncodingAttributes": []
+}

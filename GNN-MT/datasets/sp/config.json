@@ -1,0 +1,50 @@
+{
+	"unitPrefix": "sprint-mutation2::",
+	"nodeIdentifierAttributeName": "name",
+	"maxNodeParams": 2,
+	"maxValueParams": 0,
+	"units": {
+		"addUnassignedWorkItemToNewSprintRespectingMax": {
+			"id": "0",
+			"conditions": {"elements": {"Sprint": {"max":15}} },
+			"nodeParams": [
+				{ "position": 0, "name": "workItem", "validType": "WorkItem", "relForbidden": {"out": ["isPlannedFor"]}}
+        	],
+			"valueParams": []
+		},
+        "moveWorkItemToExSprint": {
+			"id": "1",
+			"nodeParams": [
+				{ "position": 0, "name": "workItem", "validType": "WorkItem", "relRequired": {"out": ["isPlannedFor"]} },
+                { "position": 1, "name": "toSprint", "validType": "Sprint", "pred_relation_restriction": "isPlannedFor" }
+			],
+			"valueParams": []
+		},
+        "deleteEmptySprintRespectingMin": {
+			"id": "2",
+			"conditions": {"elements": {"Sprint": {"min":10}}},
+			"nodeParams": [
+				{ "position": 0, "name": "sprint", "validType": "Sprint", "relForbidden": {"in": ["isPlannedFor"]} }
+			],
+			"valueParams": []
+		},
+        "addUnassignedWorkItemToExSprint": {
+			"id": "3",
+			"nodeParams": [
+				{ "position": 0, "name": "workItem", "validType": "WorkItem", "relForbidden": {"out": ["isPlannedFor"]} },
+                { "position": 1, "name": "sprint", "validType": "Sprint" }
+
+			],
+			"valueParams": []
+		},
+        "moveWorkItemToNewSprintRespectingMax": {
+			"id": "4",
+			"conditions": {"elements": {"Sprint": {"max":15}}},
+			"nodeParams": [
+				{ "position": 0, "name": "workItem", "validType": "WorkItem", "relRequired": {"out": ["isPlannedFor"]}}
+			],
+			"valueParams": []
+		}
+	},
+	"additionalNodeEncodingAttributes": ["Importance", "Effort"]
+}

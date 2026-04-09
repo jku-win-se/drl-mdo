@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<architecture:ClassModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:architecture="http://momot.big.tuwien.ac.at/examples/icmt/architecture/1.0">
+  <features xsi:type="architecture:Method" name="M_0" dataDependency="//@features.3 //@features.9 //@features.10 //@features.25" functionalDependency="//@features.14 //@features.15"/>
+  <features xsi:type="architecture:Attribute" name="A_1"/>
+  <features xsi:type="architecture:Attribute" name="A_2"/>
+  <features xsi:type="architecture:Attribute" name="A_3"/>
+  <features xsi:type="architecture:Method" name="M_4" dataDependency="//@features.25 //@features.29"/>
+  <features xsi:type="architecture:Attribute" name="A_5"/>
+  <features xsi:type="architecture:Attribute" name="A_6"/>
+  <features xsi:type="architecture:Method" name="M_7" dataDependency="//@features.23 //@features.26" functionalDependency="//@features.14 //@features.30"/>
+  <features xsi:type="architecture:Method" name="M_8" dataDependency="//@features.1 //@features.2 //@features.12 //@features.28 //@features.29" functionalDependency="//@features.0 //@features.7 //@features.17"/>
+  <features xsi:type="architecture:Attribute" name="A_9"/>
+  <features xsi:type="architecture:Attribute" name="A_10"/>
+  <features xsi:type="architecture:Attribute" name="A_11"/>
+  <features xsi:type="architecture:Attribute" name="A_12"/>
+  <features xsi:type="architecture:Attribute" name="A_13"/>
+  <features xsi:type="architecture:Method" name="M_14" dataDependency="//@features.3 //@features.10 //@features.13" functionalDependency="//@features.0 //@features.4 //@features.8 //@features.15 //@features.17 //@features.21 //@features.27 //@features.31"/>
+  <features xsi:type="architecture:Method" name="M_15" dataDependency="//@features.25" functionalDependency="//@features.0 //@features.20 //@features.22 //@features.30"/>
+  <features xsi:type="architecture:Attribute" name="A_16"/>
+  <features xsi:type="architecture:Method" name="M_17" dataDependency="//@features.9 //@features.26 //@features.28 //@features.29" functionalDependency="//@features.4 //@features.8 //@features.24"/>
+  <features xsi:type="architecture:Attribute" name="A_18"/>
+  <features xsi:type="architecture:Method" name="M_19" dataDependency="//@features.2 //@features.28" functionalDependency="//@features.14 //@features.17 //@features.20"/>
+  <features xsi:type="architecture:Method" name="M_20" dataDependency="//@features.9 //@features.13 //@features.18 //@features.23" functionalDependency="//@features.22 //@features.31"/>
+  <features xsi:type="architecture:Method" name="M_21" dataDependency="//@features.12 //@features.18 //@features.26 //@features.28" functionalDependency="//@features.0 //@features.4 //@features.15 //@features.22 //@features.27 //@features.30"/>
+  <features xsi:type="architecture:Method" name="M_22" dataDependency="//@features.28" functionalDependency="//@features.15 //@features.27"/>
+  <features xsi:type="architecture:Attribute" name="A_23"/>
+  <features xsi:type="architecture:Method" name="M_24" dataDependency="//@features.2 //@features.3 //@features.10 //@features.12 //@features.13" functionalDependency="//@features.21 //@features.31"/>
+  <features xsi:type="architecture:Attribute" name="A_25"/>
+  <features xsi:type="architecture:Attribute" name="A_26"/>
+  <features xsi:type="architecture:Method" name="M_27" dataDependency="//@features.2 //@features.10 //@features.23" functionalDependency="//@features.7 //@features.21"/>
+  <features xsi:type="architecture:Attribute" name="A_28"/>
+  <features xsi:type="architecture:Attribute" name="A_29"/>
+  <features xsi:type="architecture:Method" name="M_30" dataDependency="//@features.1 //@features.3 //@features.5 //@features.9 //@features.16 //@features.25" functionalDependency="//@features.4 //@features.14 //@features.27"/>
+  <features xsi:type="architecture:Method" name="M_31" dataDependency="//@features.11 //@features.13 //@features.29" functionalDependency="//@features.24 //@features.30"/>
+</architecture:ClassModel>

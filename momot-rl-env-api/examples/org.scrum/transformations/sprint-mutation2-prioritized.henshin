@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qp-iMAF1EeiuyJvX_087sA">
+  <imports href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_w3qzgAF1EeiuyJvX_087sA" name="addUnassignedWorkItemToNewSprintRespectingMax">
+    <parameters xmi:id="_vQYicCRDEfC0Cd88gvsvFQ" name="workItem">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_nCVN0AoaEeuTN57F4C8quw" name="cur" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_nCV04QoaEeuTN57F4C8quw" name="max" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_w40qEAF1EeiuyJvX_087sA" name="Lhs">
+      <nodes xmi:id="_zfZDsAF1EeiuyJvX_087sA" name="p" outgoing="_cHg3UAevEeu5386a60ja5A">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+        <attributes xmi:id="_ijT2gBhMEeu5bOMuVgCeAw" value="cur">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/currentSprints"/>
+        </attributes>
+        <attributes xmi:id="_i4uF0BhMEeu5bOMuVgCeAw" value="max">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/maxSprints"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7ydGEAF1EeiuyJvX_087sA" name="wi" incoming="_ccRmYAevEeu5386a60ja5A">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+        <attributes xmi:id="_scP8ACRFEfC_b5zNbFWUhA" value="workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bPLhIAevEeu5386a60ja5A" name="b" incoming="_cHg3UAevEeu5386a60ja5A" outgoing="_ccRmYAevEeu5386a60ja5A">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_cHg3UAevEeu5386a60ja5A" source="_zfZDsAF1EeiuyJvX_087sA" target="_bPLhIAevEeu5386a60ja5A">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+      <edges xmi:id="_ccRmYAevEeu5386a60ja5A" source="_bPLhIAevEeu5386a60ja5A" target="_7ydGEAF1EeiuyJvX_087sA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_8-jFwAF1EeiuyJvX_087sA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_8-jFwQF1EeiuyJvX_087sA">
+          <conclusion xmi:id="_8-jFwgF1EeiuyJvX_087sA">
+            <nodes xmi:id="_8-kT4AF1EeiuyJvX_087sA" outgoing="_aBpOsAb5Eeu8pY8d24X2Nw _cHg3UgevEeu5386a60ja5A">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+              <attributes xmi:id="_ijT2ghhMEeu5bOMuVgCeAw" value="cur">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/currentSprints"/>
+              </attributes>
+              <attributes xmi:id="_i4us4RhMEeu5bOMuVgCeAw" value="max">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/maxSprints"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_8-k68AF1EeiuyJvX_087sA" incoming="_ccRmYgevEeu5386a60ja5A" outgoing="_9oIOQAF1EeiuyJvX_087sA">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+              <attributes xmi:id="_scRKISRFEfC_b5zNbFWUhA" value="workItem">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_8-ZUwAF1EeiuyJvX_087sA" name="fs" incoming="_9oIOQAF1EeiuyJvX_087sA _aBpOsAb5Eeu8pY8d24X2Nw">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+            </nodes>
+            <nodes xmi:id="_bPLhIwevEeu5386a60ja5A" incoming="_cHg3UgevEeu5386a60ja5A" outgoing="_ccRmYgevEeu5386a60ja5A">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+            </nodes>
+            <edges xmi:id="_9oIOQAF1EeiuyJvX_087sA" source="_8-k68AF1EeiuyJvX_087sA" target="_8-ZUwAF1EeiuyJvX_087sA">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+            </edges>
+            <edges xmi:id="_aBpOsAb5Eeu8pY8d24X2Nw" source="_8-kT4AF1EeiuyJvX_087sA" target="_8-ZUwAF1EeiuyJvX_087sA">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+            </edges>
+            <edges xmi:id="_cHg3UgevEeu5386a60ja5A" source="_8-kT4AF1EeiuyJvX_087sA" target="_bPLhIwevEeu5386a60ja5A">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+            </edges>
+            <edges xmi:id="_ccRmYgevEeu5386a60ja5A" source="_bPLhIwevEeu5386a60ja5A" target="_8-k68AF1EeiuyJvX_087sA">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_8-kT4QF1EeiuyJvX_087sA" origin="_zfZDsAF1EeiuyJvX_087sA" image="_8-kT4AF1EeiuyJvX_087sA"/>
+          <mappings xmi:id="_8-k68QF1EeiuyJvX_087sA" origin="_7ydGEAF1EeiuyJvX_087sA" image="_8-k68AF1EeiuyJvX_087sA"/>
+          <mappings xmi:id="_bPMIMAevEeu5386a60ja5A" origin="_bPLhIAevEeu5386a60ja5A" image="_bPLhIwevEeu5386a60ja5A"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_w40qEQF1EeiuyJvX_087sA" name="Rhs">
+      <nodes xmi:id="_zfZDsQF1EeiuyJvX_087sA" name="p" outgoing="_5R7DAAF1EeiuyJvX_087sA _cHg3UQevEeu5386a60ja5A">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+        <attributes xmi:id="_ijT2gRhMEeu5bOMuVgCeAw" value="cur + 1">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/currentSprints"/>
+        </attributes>
+        <attributes xmi:id="_i4us4BhMEeu5bOMuVgCeAw" value="max">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/maxSprints"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_4r2hgAF1EeiuyJvX_087sA" name="ns" incoming="_5R7DAAF1EeiuyJvX_087sA _pq0EsBhMEeu5bOMuVgCeAw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+        <attributes xmi:id="_7HNc4CT7EfC_b5zNbFWUhA" value="'S_' + workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7ydGEQF1EeiuyJvX_087sA" name="wi" incoming="_ccRmYQevEeu5386a60ja5A" outgoing="_pq0EsBhMEeu5bOMuVgCeAw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+        <attributes xmi:id="_scRKICRFEfC_b5zNbFWUhA" value="workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bPLhIQevEeu5386a60ja5A" name="b" incoming="_cHg3UQevEeu5386a60ja5A" outgoing="_ccRmYQevEeu5386a60ja5A">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_5R7DAAF1EeiuyJvX_087sA" source="_zfZDsQF1EeiuyJvX_087sA" target="_4r2hgAF1EeiuyJvX_087sA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_cHg3UQevEeu5386a60ja5A" source="_zfZDsQF1EeiuyJvX_087sA" target="_bPLhIQevEeu5386a60ja5A">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+      <edges xmi:id="_ccRmYQevEeu5386a60ja5A" source="_bPLhIQevEeu5386a60ja5A" target="_7ydGEQF1EeiuyJvX_087sA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+      </edges>
+      <edges xmi:id="_pq0EsBhMEeu5bOMuVgCeAw" source="_7ydGEQF1EeiuyJvX_087sA" target="_4r2hgAF1EeiuyJvX_087sA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+      </edges>
+    </rhs>
+    <attributeConditions xmi:id="_NMhGYAoaEeuTN57F4C8quw" name="RespectMaxSprints" conditionText="cur+1 &lt;= max"/>
+    <mappings xmi:id="_zfbf8AF1EeiuyJvX_087sA" origin="_zfZDsAF1EeiuyJvX_087sA" image="_zfZDsQF1EeiuyJvX_087sA"/>
+    <mappings xmi:id="_7ydGEgF1EeiuyJvX_087sA" origin="_7ydGEAF1EeiuyJvX_087sA" image="_7ydGEQF1EeiuyJvX_087sA"/>
+    <mappings xmi:id="_bPLhIgevEeu5386a60ja5A" origin="_bPLhIAevEeu5386a60ja5A" image="_bPLhIQevEeu5386a60ja5A"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_m4DvsCbYEeiuzazXSaJLVA" name="moveWorkItemToExSprint">
+    <parameters xmi:id="___PscCRDEfC0Cd88gvsvFQ" name="workItem">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="___PscSRDEfC0Cd88gvsvFQ" name="toSprint">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_m4DvsSbYEeiuzazXSaJLVA" name="Lhs">
+      <nodes xmi:id="_m4DvsibYEeiuzazXSaJLVA" name="cs" incoming="_m4DvtSbYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+        <attributes xmi:id="_udIOoCRFEfC_b5zNbFWUhA" value="toSprint">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_m4DvsybYEeiuzazXSaJLVA" name="p" outgoing="_m4DvtSbYEeiuzazXSaJLVA _xB-mACbYEeiuzazXSaJLVA _5AKUEAejEeuTuaQ6eLf-2g">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+      </nodes>
+      <nodes xmi:id="_m4DvtCbYEeiuzazXSaJLVA" name="wi" incoming="_4p7lYAejEeuTuaQ6eLf-2g" outgoing="_l3ix8BhNEeu5bOMuVgCeAw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+        <attributes xmi:id="_t84BQCRFEfC_b5zNbFWUhA" value="workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_thKKoCbYEeiuzazXSaJLVA" name="ds" incoming="_xB-mACbYEeiuzazXSaJLVA _l3ix8BhNEeu5bOMuVgCeAw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+      </nodes>
+      <nodes xmi:id="_3uAIoAejEeuTuaQ6eLf-2g" name="b" incoming="_5AKUEAejEeuTuaQ6eLf-2g" outgoing="_4p7lYAejEeuTuaQ6eLf-2g">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_m4DvtSbYEeiuzazXSaJLVA" source="_m4DvsybYEeiuzazXSaJLVA" target="_m4DvsibYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_xB-mACbYEeiuzazXSaJLVA" source="_m4DvsybYEeiuzazXSaJLVA" target="_thKKoCbYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_4p7lYAejEeuTuaQ6eLf-2g" source="_3uAIoAejEeuTuaQ6eLf-2g" target="_m4DvtCbYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+      </edges>
+      <edges xmi:id="_5AKUEAejEeuTuaQ6eLf-2g" source="_m4DvsybYEeiuzazXSaJLVA" target="_3uAIoAejEeuTuaQ6eLf-2g">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+      <edges xmi:id="_l3ix8BhNEeu5bOMuVgCeAw" source="_m4DvtCbYEeiuzazXSaJLVA" target="_thKKoCbYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_m4EWxibYEeiuzazXSaJLVA" name="Rhs">
+      <nodes xmi:id="_m4EWxybYEeiuzazXSaJLVA" name="cs" incoming="_m4EWyibYEeiuzazXSaJLVA _nrnXoBhNEeu5bOMuVgCeAw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+        <attributes xmi:id="_udIOoSRFEfC_b5zNbFWUhA" value="toSprint">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_m4EWyCbYEeiuzazXSaJLVA" name="p" outgoing="_m4EWyibYEeiuzazXSaJLVA _xB_0ICbYEeiuzazXSaJLVA _5AKUEQejEeuTuaQ6eLf-2g">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+      </nodes>
+      <nodes xmi:id="_m4EWySbYEeiuzazXSaJLVA" name="wi" incoming="_4p7lYQejEeuTuaQ6eLf-2g" outgoing="_nrnXoBhNEeu5bOMuVgCeAw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+        <attributes xmi:id="_t85PYCRFEfC_b5zNbFWUhA" value="workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_thKKoSbYEeiuzazXSaJLVA" name="ds" incoming="_xB_0ICbYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+      </nodes>
+      <nodes xmi:id="_3uAvsAejEeuTuaQ6eLf-2g" name="b" incoming="_5AKUEQejEeuTuaQ6eLf-2g" outgoing="_4p7lYQejEeuTuaQ6eLf-2g">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_m4EWyibYEeiuzazXSaJLVA" source="_m4EWyCbYEeiuzazXSaJLVA" target="_m4EWxybYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_xB_0ICbYEeiuzazXSaJLVA" source="_m4EWyCbYEeiuzazXSaJLVA" target="_thKKoSbYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_4p7lYQejEeuTuaQ6eLf-2g" source="_3uAvsAejEeuTuaQ6eLf-2g" target="_m4EWySbYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+      </edges>
+      <edges xmi:id="_5AKUEQejEeuTuaQ6eLf-2g" source="_m4EWyCbYEeiuzazXSaJLVA" target="_3uAvsAejEeuTuaQ6eLf-2g">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+      <edges xmi:id="_nrnXoBhNEeu5bOMuVgCeAw" source="_m4EWySbYEeiuzazXSaJLVA" target="_m4EWxybYEeiuzazXSaJLVA">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+      </edges>
+    </rhs>
+    <attributeConditions xmi:id="_tmytwNBCEfC1KvNeVZwBhg" name="AllWorkitemsAssigned" conditionText="ocl:self.backlog->any(b | b.workitems->exists(w | w.name=workItem)).workitems->select(w | w.isPlannedFor->isEmpty())->size()=0"/>
+    <mappings xmi:id="_m4EWzCbYEeiuzazXSaJLVA" origin="_m4DvsibYEeiuzazXSaJLVA" image="_m4EWxybYEeiuzazXSaJLVA"/>
+    <mappings xmi:id="_m4EWzSbYEeiuzazXSaJLVA" origin="_m4DvsybYEeiuzazXSaJLVA" image="_m4EWyCbYEeiuzazXSaJLVA"/>
+    <mappings xmi:id="_m4EWzibYEeiuzazXSaJLVA" origin="_m4DvtCbYEeiuzazXSaJLVA" image="_m4EWySbYEeiuzazXSaJLVA"/>
+    <mappings xmi:id="_thKKoibYEeiuzazXSaJLVA" origin="_thKKoCbYEeiuzazXSaJLVA" image="_thKKoSbYEeiuzazXSaJLVA"/>
+    <mappings xmi:id="_3uAvsQejEeuTuaQ6eLf-2g" origin="_3uAIoAejEeuTuaQ6eLf-2g" image="_3uAvsAejEeuTuaQ6eLf-2g"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_7ytdwAogEeuTN57F4C8quw" name="deleteEmptySprintRespectingMin">
+    <parameters xmi:id="_KMtmACREEfC0Cd88gvsvFQ" name="sprint">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_OIe7MAohEeuTN57F4C8quw" name="cur" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_OIe7MQohEeuTN57F4C8quw" name="min" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_7ytdwQogEeuTN57F4C8quw" name="Lhs">
+      <nodes xmi:id="_7ytdwgogEeuTN57F4C8quw" name="p" outgoing="_7ytdxQogEeuTN57F4C8quw _7ytdxgogEeuTN57F4C8quw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+        <attributes xmi:id="_zWuJUBhMEeu5bOMuVgCeAw" value="cur">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/currentSprints"/>
+        </attributes>
+        <attributes xmi:id="_zoTokBhMEeu5bOMuVgCeAw" value="min">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/minSprints"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7ytdwwogEeuTN57F4C8quw" name="s" incoming="_7ytdxQogEeuTN57F4C8quw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+        <attributes xmi:id="_wnraoCRFEfC_b5zNbFWUhA" value="sprint">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7ytdxAogEeuTN57F4C8quw" incoming="_7ytdxgogEeuTN57F4C8quw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_7ytdxQogEeuTN57F4C8quw" source="_7ytdwgogEeuTN57F4C8quw" target="_7ytdwwogEeuTN57F4C8quw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_7ytdxgogEeuTN57F4C8quw" source="_7ytdwgogEeuTN57F4C8quw" target="_7ytdxAogEeuTN57F4C8quw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_7ytdxwogEeuTN57F4C8quw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_7ytdyAogEeuTN57F4C8quw">
+          <conclusion xmi:id="_7ytdyQogEeuTN57F4C8quw">
+            <nodes xmi:id="_7ytdygogEeuTN57F4C8quw" outgoing="_7ytdzgogEeuTN57F4C8quw _7ytd0AogEeuTN57F4C8quw">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+              <attributes xmi:id="_zWv-gRhMEeu5bOMuVgCeAw" value="cur">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/currentSprints"/>
+              </attributes>
+              <attributes xmi:id="_zoTokhhMEeu5bOMuVgCeAw" value="min">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/minSprints"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_7ytdywogEeuTN57F4C8quw" incoming="_7ytdzgogEeuTN57F4C8quw _FFwHIBheEeu5bOMuVgCeAw">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+              <attributes xmi:id="_wnsBsCRFEfC_b5zNbFWUhA" value="sprint">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_7ytdzAogEeuTN57F4C8quw" name="wi" incoming="_7ytd0QogEeuTN57F4C8quw" outgoing="_FFwHIBheEeu5bOMuVgCeAw">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+            </nodes>
+            <nodes xmi:id="_7ytdzQogEeuTN57F4C8quw" incoming="_7ytd0AogEeuTN57F4C8quw" outgoing="_7ytd0QogEeuTN57F4C8quw">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+            </nodes>
+            <edges xmi:id="_7ytdzgogEeuTN57F4C8quw" source="_7ytdygogEeuTN57F4C8quw" target="_7ytdywogEeuTN57F4C8quw">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+            </edges>
+            <edges xmi:id="_7ytd0AogEeuTN57F4C8quw" source="_7ytdygogEeuTN57F4C8quw" target="_7ytdzQogEeuTN57F4C8quw">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+            </edges>
+            <edges xmi:id="_7ytd0QogEeuTN57F4C8quw" source="_7ytdzQogEeuTN57F4C8quw" target="_7ytdzAogEeuTN57F4C8quw">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+            </edges>
+            <edges xmi:id="_FFwHIBheEeu5bOMuVgCeAw" source="_7ytdzAogEeuTN57F4C8quw" target="_7ytdywogEeuTN57F4C8quw">
+              <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_7ytd0gogEeuTN57F4C8quw" origin="_7ytdwgogEeuTN57F4C8quw" image="_7ytdygogEeuTN57F4C8quw"/>
+          <mappings xmi:id="_7ytd0wogEeuTN57F4C8quw" origin="_7ytdwwogEeuTN57F4C8quw" image="_7ytdywogEeuTN57F4C8quw"/>
+          <mappings xmi:id="_7ytd1AogEeuTN57F4C8quw" origin="_7ytdxAogEeuTN57F4C8quw" image="_7ytdzQogEeuTN57F4C8quw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_7ytd1QogEeuTN57F4C8quw" name="Rhs">
+      <nodes xmi:id="_7ytd1gogEeuTN57F4C8quw" name="p" outgoing="_7ytd2AogEeuTN57F4C8quw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+        <attributes xmi:id="_zWv-gBhMEeu5bOMuVgCeAw" value="cur - 1">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/currentSprints"/>
+        </attributes>
+        <attributes xmi:id="_zoTokRhMEeu5bOMuVgCeAw" value="min">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/minSprints"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7ytd1wogEeuTN57F4C8quw" incoming="_7ytd2AogEeuTN57F4C8quw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_7ytd2AogEeuTN57F4C8quw" source="_7ytd1gogEeuTN57F4C8quw" target="_7ytd1wogEeuTN57F4C8quw">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+    </rhs>
+    <attributeConditions xmi:id="_H79ukAohEeuTN57F4C8quw" name="RespectMinSprints" conditionText="cur-1 >= min"/>
+    <attributeConditions xmi:id="_lauOwNBDEfC1KvNeVZwBhg" name="AllWorkitemsAssigned" conditionText="ocl:Plan.allInstances()->any(p | p.sprints->exists(s | s.name=sprint)).backlog.workitems->select(w | w.isPlannedFor->isEmpty())->size()=0"/>
+    <mappings xmi:id="_7ytd2QogEeuTN57F4C8quw" origin="_7ytdwgogEeuTN57F4C8quw" image="_7ytd1gogEeuTN57F4C8quw"/>
+    <mappings xmi:id="_7ytd2gogEeuTN57F4C8quw" origin="_7ytdxAogEeuTN57F4C8quw" image="_7ytd1wogEeuTN57F4C8quw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6XGA0A-xEeusy7ABmT-oeg" name="addUnassignedWorkItemToExSprint">
+    <parameters xmi:id="_ge2yYCREEfC0Cd88gvsvFQ" name="workItem">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_ge3ZcCREEfC0Cd88gvsvFQ" name="sprint">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_6XGA0Q-xEeusy7ABmT-oeg" name="Lhs">
+      <nodes xmi:id="_6XGA0g-xEeusy7ABmT-oeg" name="ps" incoming="_6XGA1g-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+        <attributes xmi:id="_0bOkwCRFEfC_b5zNbFWUhA" value="sprint">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_6XGA0w-xEeusy7ABmT-oeg" name="p" outgoing="_6XGA1g-xEeusy7ABmT-oeg _6XGA1w-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+      </nodes>
+      <nodes xmi:id="_6XGA1A-xEeusy7ABmT-oeg" name="wi" incoming="_6XGA2A-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+        <attributes xmi:id="_zmxB8CRFEfC_b5zNbFWUhA" value="workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_6XGA1Q-xEeusy7ABmT-oeg" name="b" incoming="_6XGA1w-xEeusy7ABmT-oeg" outgoing="_6XGA2A-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_6XGA1g-xEeusy7ABmT-oeg" source="_6XGA0w-xEeusy7ABmT-oeg" target="_6XGA0g-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_6XGA1w-xEeusy7ABmT-oeg" source="_6XGA0w-xEeusy7ABmT-oeg" target="_6XGA1Q-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+      <edges xmi:id="_6XGA2A-xEeusy7ABmT-oeg" source="_6XGA1Q-xEeusy7ABmT-oeg" target="_6XGA1A-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_LxVDEA-yEeusy7ABmT-oeg">
+        <left xsi:type="henshin:Not" xmi:id="_KyIP4Q-yEeusy7ABmT-oeg">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_KyIP4g-yEeusy7ABmT-oeg">
+            <conclusion xmi:id="_KyIP4w-yEeusy7ABmT-oeg" name="1">
+              <nodes xmi:id="_KyIP5A-yEeusy7ABmT-oeg" name="ps" incoming="_KyIP6A-yEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+                <attributes xmi:id="_0bOkwiRFEfC_b5zNbFWUhA" value="sprint">
+                  <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+                </attributes>
+              </nodes>
+              <nodes xmi:id="_KyIP5g-yEeusy7ABmT-oeg" name="p" outgoing="_KyIP6A-yEeusy7ABmT-oeg _KyIP6w-yEeusy7ABmT-oeg _6XGA4w-xEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+              </nodes>
+              <nodes xmi:id="_KyIP6Q-yEeusy7ABmT-oeg" name="b" incoming="_KyIP6w-yEeusy7ABmT-oeg" outgoing="_KyIP8Q-yEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+              </nodes>
+              <nodes xmi:id="_6XGA3w-xEeusy7ABmT-oeg" name="fs" incoming="_6XGA4Q-xEeusy7ABmT-oeg _6XGA4w-xEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+              </nodes>
+              <nodes xmi:id="_KyIP7w-yEeusy7ABmT-oeg" name="wi" incoming="_KyIP8Q-yEeusy7ABmT-oeg" outgoing="_6XGA4Q-xEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+                <attributes xmi:id="_zmyQESRFEfC_b5zNbFWUhA" value="workItem">
+                  <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+                </attributes>
+              </nodes>
+              <edges xmi:id="_KyIP6A-yEeusy7ABmT-oeg" source="_KyIP5g-yEeusy7ABmT-oeg" target="_KyIP5A-yEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+              </edges>
+              <edges xmi:id="_KyIP6w-yEeusy7ABmT-oeg" source="_KyIP5g-yEeusy7ABmT-oeg" target="_KyIP6Q-yEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+              </edges>
+              <edges xmi:id="_KyIP8Q-yEeusy7ABmT-oeg" source="_KyIP6Q-yEeusy7ABmT-oeg" target="_KyIP7w-yEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+              </edges>
+              <edges xmi:id="_6XGA4Q-xEeusy7ABmT-oeg" source="_KyIP7w-yEeusy7ABmT-oeg" target="_6XGA3w-xEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+              </edges>
+              <edges xmi:id="_6XGA4w-xEeusy7ABmT-oeg" source="_KyIP5g-yEeusy7ABmT-oeg" target="_6XGA3w-xEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_KyIP5Q-yEeusy7ABmT-oeg" origin="_6XGA0g-xEeusy7ABmT-oeg" image="_KyIP5A-yEeusy7ABmT-oeg"/>
+            <mappings xmi:id="_KyIP5w-yEeusy7ABmT-oeg" origin="_6XGA0w-xEeusy7ABmT-oeg" image="_KyIP5g-yEeusy7ABmT-oeg"/>
+            <mappings xmi:id="_KyIP6g-yEeusy7ABmT-oeg" origin="_6XGA1Q-xEeusy7ABmT-oeg" image="_KyIP6Q-yEeusy7ABmT-oeg"/>
+            <mappings xmi:id="_KyIP8A-yEeusy7ABmT-oeg" origin="_6XGA1A-xEeusy7ABmT-oeg" image="_KyIP7w-yEeusy7ABmT-oeg"/>
+          </child>
+        </left>
+        <right xsi:type="henshin:Not" xmi:id="_LxVDEQ-yEeusy7ABmT-oeg">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_LxVDEg-yEeusy7ABmT-oeg">
+            <conclusion xmi:id="_LxVDEw-yEeusy7ABmT-oeg" name="2">
+              <nodes xmi:id="_LxVDFA-yEeusy7ABmT-oeg" name="wi" outgoing="_6XGA5A-xEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+                <attributes xmi:id="_zmyQEiRFEfC_b5zNbFWUhA" value="workItem">
+                  <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+                </attributes>
+              </nodes>
+              <nodes xmi:id="_LxVDFg-yEeusy7ABmT-oeg" name="ps" incoming="_6XGA5A-xEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+                <attributes xmi:id="_0bOkwyRFEfC_b5zNbFWUhA" value="sprint">
+                  <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+                </attributes>
+              </nodes>
+              <edges xmi:id="_6XGA5A-xEeusy7ABmT-oeg" source="_LxVDFA-yEeusy7ABmT-oeg" target="_LxVDFg-yEeusy7ABmT-oeg">
+                <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_LxVDFQ-yEeusy7ABmT-oeg" origin="_6XGA1A-xEeusy7ABmT-oeg" image="_LxVDFA-yEeusy7ABmT-oeg"/>
+            <mappings xmi:id="_LxVDFw-yEeusy7ABmT-oeg" origin="_6XGA0g-xEeusy7ABmT-oeg" image="_LxVDFg-yEeusy7ABmT-oeg"/>
+          </child>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_6XGA6w-xEeusy7ABmT-oeg" name="Rhs">
+      <nodes xmi:id="_6XGA7A-xEeusy7ABmT-oeg" name="ps" incoming="_6XGA8A-xEeusy7ABmT-oeg _vsVJ8BhGEeu6or9olyIQMQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+        <attributes xmi:id="_0bOkwSRFEfC_b5zNbFWUhA" value="sprint">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_6XGA7Q-xEeusy7ABmT-oeg" name="p" outgoing="_6XGA8A-xEeusy7ABmT-oeg _6XGA8g-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+      </nodes>
+      <nodes xmi:id="_6XGA7g-xEeusy7ABmT-oeg" name="wi" incoming="_6XGA8w-xEeusy7ABmT-oeg" outgoing="_vsVJ8BhGEeu6or9olyIQMQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+        <attributes xmi:id="_zmyQECRFEfC_b5zNbFWUhA" value="workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_6XGA7w-xEeusy7ABmT-oeg" name="b" incoming="_6XGA8g-xEeusy7ABmT-oeg" outgoing="_6XGA8w-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_6XGA8A-xEeusy7ABmT-oeg" source="_6XGA7Q-xEeusy7ABmT-oeg" target="_6XGA7A-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_6XGA8g-xEeusy7ABmT-oeg" source="_6XGA7Q-xEeusy7ABmT-oeg" target="_6XGA7w-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+      <edges xmi:id="_6XGA8w-xEeusy7ABmT-oeg" source="_6XGA7w-xEeusy7ABmT-oeg" target="_6XGA7g-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+      </edges>
+      <edges xmi:id="_vsVJ8BhGEeu6or9olyIQMQ" source="_6XGA7g-xEeusy7ABmT-oeg" target="_6XGA7A-xEeusy7ABmT-oeg">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_6XGA9A-xEeusy7ABmT-oeg" origin="_6XGA0g-xEeusy7ABmT-oeg" image="_6XGA7A-xEeusy7ABmT-oeg"/>
+    <mappings xmi:id="_6XGA9Q-xEeusy7ABmT-oeg" origin="_6XGA0w-xEeusy7ABmT-oeg" image="_6XGA7Q-xEeusy7ABmT-oeg"/>
+    <mappings xmi:id="_6XGA9g-xEeusy7ABmT-oeg" origin="_6XGA1A-xEeusy7ABmT-oeg" image="_6XGA7g-xEeusy7ABmT-oeg"/>
+    <mappings xmi:id="_6XGA9w-xEeusy7ABmT-oeg" origin="_6XGA1Q-xEeusy7ABmT-oeg" image="_6XGA7w-xEeusy7ABmT-oeg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_mffHsBLnEeuprKV89RQrrQ" name="moveWorkItemToNewSprintRespectingMax">
+    <parameters xmi:id="_UqP74CREEfC0Cd88gvsvFQ" name="workItem">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_mffHsRLnEeuprKV89RQrrQ" name="cur" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_mffHshLnEeuprKV89RQrrQ" name="max" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_mffHsxLnEeuprKV89RQrrQ" name="Lhs">
+      <nodes xmi:id="_mffHtBLnEeuprKV89RQrrQ" name="p" outgoing="_mffHuhLnEeuprKV89RQrrQ _mffHvBLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+        <attributes xmi:id="_aZgd0BhMEeu5bOMuVgCeAw" value="cur">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/currentSprints"/>
+        </attributes>
+        <attributes xmi:id="_a1zYQBhMEeu5bOMuVgCeAw" value="max">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/maxSprints"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mffHtxLnEeuprKV89RQrrQ" name="ps" incoming="_mffHuhLnEeuprKV89RQrrQ _6OVJEBhGEeu6or9olyIQMQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+      </nodes>
+      <nodes xmi:id="_mffHuBLnEeuprKV89RQrrQ" name="wi" incoming="_mffHvRLnEeuprKV89RQrrQ" outgoing="_6OVJEBhGEeu6or9olyIQMQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+        <attributes xmi:id="_2SH08CRFEfC_b5zNbFWUhA" value="workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mffHuRLnEeuprKV89RQrrQ" name="b" incoming="_mffHvBLnEeuprKV89RQrrQ" outgoing="_mffHvRLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_mffHuhLnEeuprKV89RQrrQ" source="_mffHtBLnEeuprKV89RQrrQ" target="_mffHtxLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_mffHvBLnEeuprKV89RQrrQ" source="_mffHtBLnEeuprKV89RQrrQ" target="_mffHuRLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+      <edges xmi:id="_mffHvRLnEeuprKV89RQrrQ" source="_mffHuRLnEeuprKV89RQrrQ" target="_mffHuBLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+      </edges>
+      <edges xmi:id="_6OVJEBhGEeu6or9olyIQMQ" source="_mffHuBLnEeuprKV89RQrrQ" target="_mffHtxLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mffH0BLnEeuprKV89RQrrQ" name="Rhs">
+      <nodes xmi:id="_mffH0RLnEeuprKV89RQrrQ" name="p" outgoing="_mffH2BLnEeuprKV89RQrrQ _mffH2hLnEeuprKV89RQrrQ _mffH3BLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan"/>
+        <attributes xmi:id="_aZkIMBhMEeu5bOMuVgCeAw" value="cur + 1">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/currentSprints"/>
+        </attributes>
+        <attributes xmi:id="_a1zYQRhMEeu5bOMuVgCeAw" value="max">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/maxSprints"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mffH1BLnEeuprKV89RQrrQ" name="ps" incoming="_mffH2BLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+      </nodes>
+      <nodes xmi:id="_mffH1RLnEeuprKV89RQrrQ" name="ns" incoming="_mffH3BLnEeuprKV89RQrrQ _9q1sMBhGEeu6or9olyIQMQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint"/>
+        <attributes xmi:id="_AYESgCT8EfC_b5zNbFWUhA" value="'S_' + workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Sprint/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mffH1hLnEeuprKV89RQrrQ" name="wi" incoming="_mffH2xLnEeuprKV89RQrrQ" outgoing="_9q1sMBhGEeu6or9olyIQMQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem"/>
+        <attributes xmi:id="_2SJDECRFEfC_b5zNbFWUhA" value="workItem">
+          <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mffH1xLnEeuprKV89RQrrQ" name="b" incoming="_mffH2hLnEeuprKV89RQrrQ" outgoing="_mffH2xLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog"/>
+      </nodes>
+      <edges xmi:id="_mffH2BLnEeuprKV89RQrrQ" source="_mffH0RLnEeuprKV89RQrrQ" target="_mffH1BLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_mffH2hLnEeuprKV89RQrrQ" source="_mffH0RLnEeuprKV89RQrrQ" target="_mffH1xLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/backlog"/>
+      </edges>
+      <edges xmi:id="_mffH2xLnEeuprKV89RQrrQ" source="_mffH1xLnEeuprKV89RQrrQ" target="_mffH1hLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Backlog/workitems"/>
+      </edges>
+      <edges xmi:id="_mffH3BLnEeuprKV89RQrrQ" source="_mffH0RLnEeuprKV89RQrrQ" target="_mffH1RLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//Plan/sprints"/>
+      </edges>
+      <edges xmi:id="_9q1sMBhGEeu6or9olyIQMQ" source="_mffH1hLnEeuprKV89RQrrQ" target="_mffH1RLnEeuprKV89RQrrQ">
+        <type href="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning#//WorkItem/isPlannedFor"/>
+      </edges>
+    </rhs>
+    <attributeConditions xmi:id="_mffH3RLnEeuprKV89RQrrQ" name="RespectMaxSprints" conditionText="cur+1 &lt;= max"/>
+    <attributeConditions xmi:id="_gYJTcNBIEfC1KvNeVZwBhg" name="AllWorkitemsAssigned" conditionText="ocl:self.backlog->any(b | b.workitems->exists(w | w.name=workItem)).workitems->select(w | w.isPlannedFor->isEmpty())->size()=0"/>
+    <mappings xmi:id="_mffH3hLnEeuprKV89RQrrQ" origin="_mffHtBLnEeuprKV89RQrrQ" image="_mffH0RLnEeuprKV89RQrrQ"/>
+    <mappings xmi:id="_mffH3xLnEeuprKV89RQrrQ" origin="_mffHtxLnEeuprKV89RQrrQ" image="_mffH1BLnEeuprKV89RQrrQ"/>
+    <mappings xmi:id="_mffH4BLnEeuprKV89RQrrQ" origin="_mffHuBLnEeuprKV89RQrrQ" image="_mffH1hLnEeuprKV89RQrrQ"/>
+    <mappings xmi:id="_mffH4RLnEeuprKV89RQrrQ" origin="_mffHuRLnEeuprKV89RQrrQ" image="_mffH1xLnEeuprKV89RQrrQ"/>
+  </units>
+</henshin:Module>
