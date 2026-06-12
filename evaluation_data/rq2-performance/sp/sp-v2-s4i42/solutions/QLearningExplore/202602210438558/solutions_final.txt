@@ -1,0 +1,9 @@
+100000
+[Infinity, Infinity, Infinity]
+[Infinity, Infinity, Infinity]
+[Infinity, Infinity, Infinity]
+[Infinity, Infinity, Infinity]
+[Infinity, Infinity, Infinity]
+[Infinity, Infinity, Infinity]
+[Infinity, Infinity, Infinity]
+[Infinity, Infinity, Infinity]

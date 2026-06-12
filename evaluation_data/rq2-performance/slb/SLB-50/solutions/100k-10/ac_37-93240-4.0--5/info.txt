@@ -1,0 +1,2 @@
+Inference time (seed=5): 8.148 seconds (10 episodes)
+Mean reward (seed=5): 16.122

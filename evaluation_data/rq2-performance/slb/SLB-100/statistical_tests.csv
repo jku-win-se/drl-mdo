@@ -1,0 +1,7 @@
+Algo_A,Algo_B,U_statistic,p_value,A12,Effect_Size,Significant_p05
+NSGAII-2,Q+,0.0,3.019859359162157e-11,0.0,large,True
+NSGAII-2,100k-10,0.0,3.019859359162157e-11,0.0,large,True
+NSGAII-2,100k,0.0,3.019859359162157e-11,0.0,large,True
+Q+,100k-10,0.0,3.019859359162157e-11,0.0,large,True
+Q+,100k,0.0,3.019859359162157e-11,0.0,large,True
+100k-10,100k,108.0,4.4440478739951943e-07,0.12,large,True

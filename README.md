@@ -7,10 +7,10 @@ The prototype consists of two modules communicating via TCP sockets:
 - The RL environment (Java, Server): Hosts the interpreter engine and evaluation utilities. It supports an API following the conventional RL interaction pattern: A "step" function to execute a received rule call (i.e., the action) on the current model state, returning a response object with the reward and transformed model (i.e., the successor state).
 
 ## 🛠 Requirements
-The prototype was tested using Python 3.9 with the depdendencies listed in `environment.yml` and Java 17. 
+The prototype was tested using Python 3.9 with the required dependencies and a Java 17 runtime. 
 
 ### RL agent
-For Python, we recommend setting up a conda environment with the provided dependencies (`environment.yml`) as follows:
+For Python, we recommend setting up a conda environment with the listed dependencies ([GNN-MT/environment.yml](./GNN-MT/environment.yml)) as follows:
 
 ```
 conda create -n <env_name> python=3.9

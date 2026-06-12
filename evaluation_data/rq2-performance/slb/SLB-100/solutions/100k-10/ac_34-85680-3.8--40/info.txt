@@ -1,0 +1,2 @@
+Inference time (seed=40): 23.890 seconds (10 episodes)
+Mean reward (seed=40): 13.806
