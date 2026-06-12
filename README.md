@@ -6,6 +6,16 @@ The prototype consists of two modules communicating via TCP sockets:
 - The RL agent (Python, Client): Implements an ML model to determine the next transformation rule call for a given input model
 - The RL environment (Java, Server): Hosts the interpreter engine and evaluation utilities. It supports an API following the conventional RL interaction pattern: A "step" function to execute a received rule call (i.e., the action) on the current model state, returning a response object with the reward and transformed model (i.e., the successor state).
 
+## Repository Structure
+
+Key directories:
+
+- `evaluation_data/`: Test cases results
+- `GNN-MT/`: RL agent (GNN-based ML model)
+- `models/`: Training/Test models
+- `server-executables/`: RL evironment module (Java server)
+
+
 ## 🛠 Requirements
 The prototype was tested using Python 3.9 with the required dependencies and a Java 17 runtime. 
 
