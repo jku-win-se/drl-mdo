@@ -13,7 +13,8 @@ Key directories:
 - `evaluation_data/`: Test cases results
 - `GNN-MT/`: RL agent (GNN-based ML model)
 - `models/`: Training/Test models
-- `server-executables/`: RL evironment module (Java server)
+- `momot-rl-env-api/`: RL environment module (source)
+- `server-executables/`: RL evironment module (standalone)
 
 
 ## 🛠 Requirements
