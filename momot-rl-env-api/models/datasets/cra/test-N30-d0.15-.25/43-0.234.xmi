@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<architecture:ClassModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:architecture="http://momot.big.tuwien.ac.at/examples/icmt/architecture/1.0">
+  <features xsi:type="architecture:Method" name="M_0" dataDependency="//@features.11 //@features.32" functionalDependency="//@features.3 //@features.4 //@features.7 //@features.18 //@features.20 //@features.23 //@features.36"/>
+  <features xsi:type="architecture:Attribute" name="A_1"/>
+  <features xsi:type="architecture:Method" name="M_2" dataDependency="//@features.17" functionalDependency="//@features.7 //@features.30"/>
+  <features xsi:type="architecture:Method" name="M_3" dataDependency="//@features.6 //@features.11 //@features.17 //@features.28 //@features.31 //@features.35" functionalDependency="//@features.12 //@features.15 //@features.33 //@features.38"/>
+  <features xsi:type="architecture:Method" name="M_4" dataDependency="//@features.6 //@features.19 //@features.25 //@features.26 //@features.35 //@features.41" functionalDependency="//@features.3 //@features.37"/>
+  <features xsi:type="architecture:Method" name="M_5" dataDependency="//@features.1 //@features.6 //@features.25 //@features.26 //@features.28 //@features.32" functionalDependency="//@features.8 //@features.9 //@features.13 //@features.14 //@features.20 //@features.21 //@features.23 //@features.29 //@features.33"/>
+  <features xsi:type="architecture:Attribute" name="A_6"/>
+  <features xsi:type="architecture:Method" name="M_7" dataDependency="//@features.10 //@features.24 //@features.31 //@features.32 //@features.41" functionalDependency="//@features.13 //@features.14 //@features.23 //@features.38 //@features.42"/>
+  <features xsi:type="architecture:Method" name="M_8" dataDependency="//@features.10 //@features.26 //@features.34" functionalDependency="//@features.0 //@features.5 //@features.7 //@features.16 //@features.21 //@features.23 //@features.27"/>
+  <features xsi:type="architecture:Method" name="M_9" dataDependency="//@features.1 //@features.17 //@features.26 //@features.28 //@features.35" functionalDependency="//@features.8 //@features.14 //@features.18 //@features.22"/>
+  <features xsi:type="architecture:Attribute" name="A_10"/>
+  <features xsi:type="architecture:Attribute" name="A_11"/>
+  <features xsi:type="architecture:Method" name="M_12" dataDependency="//@features.6" functionalDependency="//@features.0 //@features.4 //@features.9 //@features.21 //@features.23 //@features.36 //@features.38 //@features.39 //@features.42"/>
+  <features xsi:type="architecture:Method" name="M_13" dataDependency="//@features.35" functionalDependency="//@features.36"/>
+  <features xsi:type="architecture:Method" name="M_14" dataDependency="//@features.10 //@features.19 //@features.26 //@features.32" functionalDependency="//@features.5 //@features.9 //@features.12 //@features.13 //@features.20 //@features.33"/>
+  <features xsi:type="architecture:Method" name="M_15" dataDependency="//@features.6 //@features.17 //@features.24 //@features.28" functionalDependency="//@features.0 //@features.3 //@features.7 //@features.9 //@features.12 //@features.13 //@features.22 //@features.29 //@features.30 //@features.33 //@features.38 //@features.40"/>
+  <features xsi:type="architecture:Method" name="M_16" dataDependency="//@features.6 //@features.19 //@features.28 //@features.31" functionalDependency="//@features.0 //@features.3 //@features.7 //@features.15 //@features.29 //@features.36 //@features.42"/>
+  <features xsi:type="architecture:Attribute" name="A_17"/>
+  <features xsi:type="architecture:Method" name="M_18" dataDependency="//@features.25 //@features.28" functionalDependency="//@features.2 //@features.7 //@features.23 //@features.33 //@features.36 //@features.37"/>
+  <features xsi:type="architecture:Attribute" name="A_19"/>
+  <features xsi:type="architecture:Method" name="M_20" dataDependency="//@features.25" functionalDependency="//@features.0 //@features.5 //@features.13 //@features.21 //@features.22 //@features.23 //@features.33 //@features.36 //@features.38 //@features.40"/>
+  <features xsi:type="architecture:Method" name="M_21" dataDependency="//@features.11 //@features.35 //@features.41" functionalDependency="//@features.5 //@features.8 //@features.15 //@features.18 //@features.29"/>
+  <features xsi:type="architecture:Method" name="M_22" dataDependency="//@features.1 //@features.28" functionalDependency="//@features.7 //@features.8 //@features.23 //@features.30 //@features.37 //@features.40"/>
+  <features xsi:type="architecture:Method" name="M_23" dataDependency="//@features.6 //@features.11 //@features.24 //@features.32" functionalDependency="//@features.3 //@features.4 //@features.7 //@features.8 //@features.18 //@features.20 //@features.21 //@features.42"/>
+  <features xsi:type="architecture:Attribute" name="A_24"/>
+  <features xsi:type="architecture:Attribute" name="A_25"/>
+  <features xsi:type="architecture:Attribute" name="A_26"/>
+  <features xsi:type="architecture:Method" name="M_27" dataDependency="//@features.1 //@features.11 //@features.26 //@features.28 //@features.41" functionalDependency="//@features.14 //@features.36 //@features.42"/>
+  <features xsi:type="architecture:Attribute" name="A_28"/>
+  <features xsi:type="architecture:Method" name="M_29" functionalDependency="//@features.5 //@features.8 //@features.9 //@features.18 //@features.22 //@features.27 //@features.36 //@features.39 //@features.42"/>
+  <features xsi:type="architecture:Method" name="M_30" dataDependency="//@features.1 //@features.19 //@features.28 //@features.32" functionalDependency="//@features.2 //@features.4 //@features.5 //@features.7 //@features.8 //@features.9 //@features.15 //@features.18 //@features.23 //@features.29 //@features.42"/>
+  <features xsi:type="architecture:Attribute" name="A_31"/>
+  <features xsi:type="architecture:Attribute" name="A_32"/>
+  <features xsi:type="architecture:Method" name="M_33" dataDependency="//@features.6 //@features.10 //@features.11 //@features.17 //@features.19 //@features.24 //@features.32 //@features.34 //@features.35" functionalDependency="//@features.2 //@features.15 //@features.18 //@features.20 //@features.22 //@features.27 //@features.29"/>
+  <features xsi:type="architecture:Attribute" name="A_34"/>
+  <features xsi:type="architecture:Attribute" name="A_35"/>
+  <features xsi:type="architecture:Method" name="M_36" dataDependency="//@features.19 //@features.26 //@features.32" functionalDependency="//@features.9 //@features.21 //@features.27 //@features.39"/>
+  <features xsi:type="architecture:Method" name="M_37" dataDependency="//@features.24" functionalDependency="//@features.0 //@features.2 //@features.5 //@features.12 //@features.20 //@features.38 //@features.39 //@features.42"/>
+  <features xsi:type="architecture:Method" name="M_38" dataDependency="//@features.11 //@features.17" functionalDependency="//@features.15 //@features.18 //@features.23 //@features.29"/>
+  <features xsi:type="architecture:Method" name="M_39" dataDependency="//@features.10 //@features.17 //@features.31 //@features.32" functionalDependency="//@features.2 //@features.7 //@features.16 //@features.21 //@features.27 //@features.29 //@features.30 //@features.33 //@features.37 //@features.38"/>
+  <features xsi:type="architecture:Method" name="M_40" dataDependency="//@features.10 //@features.26 //@features.32 //@features.35" functionalDependency="//@features.9 //@features.20 //@features.22 //@features.33 //@features.36 //@features.38"/>
+  <features xsi:type="architecture:Attribute" name="A_41"/>
+  <features xsi:type="architecture:Method" name="M_42" dataDependency="//@features.10 //@features.11 //@features.17 //@features.26 //@features.28 //@features.32" functionalDependency="//@features.0 //@features.12 //@features.20 //@features.33 //@features.36"/>
+</architecture:ClassModel>

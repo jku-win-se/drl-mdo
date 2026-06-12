@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<refactoring:RefactoringModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:refactoring="http://momot.big.tuwien.ac.at/examples/refactoring/1.0">
+  
+  <properties name="name" type="//@types.0"/>      <!-- Shared by C1, C2, C3 - Pull Up candidate -->
+  <properties name="id" type="//@types.0"/>        <!-- Shared by C4, C5 - Extract Super Class candidate -->
+  <properties name="status" type="//@types.0"/>    <!-- Shared by I1, I2, I3 - Create Root Class candidate -->
+  <properties name="priority" type="//@types.0"/>  <!-- Shared by I4, I5 - Create Root Class candidate -->
+  
+  <properties name="version" type="//@types.0"/>   <!-- A2 attribute -->
+  <properties name="data1" type="//@types.0"/>     <!-- C1 unique attribute -->
+  <properties name="data2" type="//@types.0"/>     <!-- C2 unique attribute -->
+  <properties name="data3" type="//@types.0"/>     <!-- C3 unique attribute -->
+  <properties name="process" type="//@types.0"/>   <!-- C4 unique attribute -->
+  <properties name="method" type="//@types.0"/>    <!-- C5 unique attribute -->
+  <properties name="type" type="//@types.0"/>      <!-- C6 unique attribute -->
+  <properties name="handler" type="//@types.0"/>   <!-- C6 unique attribute -->
+  <properties name="config" type="//@types.0"/>    <!-- I1 unique attribute -->
+  <properties name="settings" type="//@types.0"/>  <!-- I2 unique attribute -->
+  <properties name="options" type="//@types.0"/>   <!-- I3 unique attribute -->
+  <properties name="queue" type="//@types.0"/>     <!-- I4 unique attribute -->
+  <properties name="buffer" type="//@types.0"/>    <!-- I5 unique attribute -->
+  <properties name="unique1" type="//@types.0"/>   <!-- S1 unique attribute -->
+  <properties name="unique2" type="//@types.0"/>   <!-- S1 unique attribute -->
+  
+
+  <entities name="Root" specialization="//@generalizations.0 //@generalizations.1"/>
+  
+  <entities name="A1" generalization="//@generalizations.0" specialization="//@generalizations.2 //@generalizations.3 //@generalizations.4"/>
+  <entities name="A2" ownedAttribute="//@properties.4" generalization="//@generalizations.1" specialization="//@generalizations.5 //@generalizations.6 //@generalizations.7"/>
+  
+  <entities name="C1" ownedAttribute="//@properties.0 //@properties.5" generalization="//@generalizations.2"/>
+  <entities name="C2" ownedAttribute="//@properties.0 //@properties.6" generalization="//@generalizations.3"/>
+  <entities name="C3" ownedAttribute="//@properties.0 //@properties.7" generalization="//@generalizations.4"/>
+  
+  <entities name="C4" ownedAttribute="//@properties.1 //@properties.8" generalization="//@generalizations.5"/>
+  <entities name="C5" ownedAttribute="//@properties.1 //@properties.9" generalization="//@generalizations.6"/>
+  <entities name="C6" ownedAttribute="//@properties.10 //@properties.11" generalization="//@generalizations.7"/>
+  
+  <entities name="I1" ownedAttribute="//@properties.2 //@properties.12"/>
+  <entities name="I2" ownedAttribute="//@properties.2 //@properties.13"/>
+  <entities name="I3" ownedAttribute="//@properties.2 //@properties.14"/>
+  
+  <entities name="I4" ownedAttribute="//@properties.3 //@properties.15"/>
+  <entities name="I5" ownedAttribute="//@properties.3 //@properties.16"/>
+  
+  <entities name="S1" ownedAttribute="//@properties.17 //@properties.18"/>
+  
+  <types name="String"/>
+  
+  <generalizations specific="//@entities.1" general="//@entities.0"/>  <!-- A1 -> Root -->
+  <generalizations specific="//@entities.2" general="//@entities.0"/>  <!-- A2 -> Root -->
+  
+  <generalizations specific="//@entities.3" general="//@entities.1"/>  <!-- C1 -> A1 -->
+  <generalizations specific="//@entities.4" general="//@entities.1"/>  <!-- C2 -> A1 -->
+  <generalizations specific="//@entities.5" general="//@entities.1"/>  <!-- C3 -> A1 -->
+  
+  <generalizations specific="//@entities.6" general="//@entities.2"/>  <!-- C4 -> A2 -->
+  <generalizations specific="//@entities.7" general="//@entities.2"/>  <!-- C5 -> A2 -->
+  <generalizations specific="//@entities.8" general="//@entities.2"/>  <!-- C6 -> A2 -->
+  
+
+</refactoring:RefactoringModel>

@@ -1,0 +1,37 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+           {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "run",
+            "program": "${file}",
+
+        },
+
+        {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "train agent",
+            "program": "${file}",
+                "args": ["--case", "slb", "--runs", "1", "--train-path", "models/datasets/slb/train-N30-25.-50./", "--experiment-name", "test_run02"],
+
+        },
+
+        {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "run policy",
+
+            "program": "${file}",
+                "args": ["--case", "slb", "--policy-dir", "test_run01", "--problem-model-dir", "models/benchmark-sets/slb", "--n-solutions", "10"],
+
+        }
+
+
+    ]
+}

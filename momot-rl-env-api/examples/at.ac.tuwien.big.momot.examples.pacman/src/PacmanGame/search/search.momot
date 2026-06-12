@@ -1,0 +1,73 @@
+package momot.^search
+
+import at.ac.tuwien.big.momot.^search.^fitness.dimension.TransformationLengthDimension
+import at.ac.tuwien.big.moea.^experiment.executor.listener.SeedRuntimePrintListener
+import PacmanGame.Game
+import PacmanGame.PacmanGamePackage
+
+initialization = {
+	PacmanGamePackage.eINSTANCE.class;
+	System.out.println("Search started.");
+}
+
+search = {
+	model          = {
+		file       = "models/input_4x4.xmi"
+	}
+	solutionLength  = 15
+
+	transformations = {
+		modules = [ "transformation/kill.henshin", "transformation/eat.henshin",
+         "transformation/move_up.henshin", "transformation/move_down.henshin", "transformation/move_left.henshin",
+         "transformation/move_right.henshin" ]
+	}
+
+	fitness         = {
+		objectives = {
+			Score : maximize { 
+			  (root as Game).scoreboard.score
+			}			
+			SolutionLength : minimize new TransformationLengthDimension
+		}
+	}
+
+	algorithms      = {
+		NSGAII  : moea.createNSGAII()
+	}
+}
+
+experiment = {
+	populationSize    = 300
+	maxEvaluations    = 10000
+	nrRuns            = 10
+	progressListeners = [ new SeedRuntimePrintListener ]
+}
+
+analysis = {
+	indicators       = [ hypervolume generationalDistance ]
+	significance     = 0.01
+	show             = [ aggregateValues statisticalSignificance individualValues ]
+	outputFile       = "output/analysis/analysis.txt"
+	boxplotDirectory = "output/analysis/"
+	printOutput
+}
+
+results = {
+	objectives = {
+		outputFile      = "output/objectives/objective_values.txt"
+		printOutput
+	}
+
+	solutions  = {
+		outputFile      = "output/solutions/objective_values.txt"
+		outputDirectory = "output/solutions/"
+	}
+
+	models     = {
+		outputDirectory = "output/models/"
+	}
+}
+
+finalization = {
+	System.out.println("Search finished.");
+}

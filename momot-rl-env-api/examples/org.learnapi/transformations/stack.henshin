@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kG2Z0COnEeSSgIOxgt2tSw" name="Stack">
+  <imports href="http://momot.big.tuwien.ac.at/stack/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_EV_a0COoEeSSgIOxgt2tSw" name="shiftLeft">
+    <parameters xmi:id="_8vd0cCkwEeSEpvItAImEdg" name="fromId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_8vd0cSkwEeSEpvItAImEdg" name="toId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_JvkHkSOoEeSSgIOxgt2tSw" name="amount">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_1UuhMikwEeSEpvItAImEdg" name="fromLoad">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_1UuhMykwEeSEpvItAImEdg" name="toLoad">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_EWGvkCOoEeSSgIOxgt2tSw" name="Lhs">
+      <nodes xmi:id="_H4s7gCPHEeSSgIOxgt2tSw" name="root" outgoing="_H4s7gyPHEeSSgIOxgt2tSw _H4s7hSPHEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel"/>
+      </nodes>
+      <nodes xmi:id="_KiG-0COoEeSSgIOxgt2tSw" name="from" incoming="_H4s7gyPHEeSSgIOxgt2tSw" outgoing="_LUUe4COoEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack"/>
+        <attributes xmi:id="_OXptACOoEeSSgIOxgt2tSw" value="fromId">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/id"/>
+        </attributes>
+        <attributes xmi:id="_Or--QSOoEeSSgIOxgt2tSw" value="fromLoad">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/load"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_KwgAICOoEeSSgIOxgt2tSw" name="to" incoming="_LUUe4COoEeSSgIOxgt2tSw _H4s7hSPHEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack"/>
+        <attributes xmi:id="_VNYOsCOoEeSSgIOxgt2tSw" value="toId">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/id"/>
+        </attributes>
+        <attributes xmi:id="_V8SjISOoEeSSgIOxgt2tSw" value="toLoad">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/load"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_LUUe4COoEeSSgIOxgt2tSw" source="_KiG-0COoEeSSgIOxgt2tSw" target="_KwgAICOoEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/left"/>
+      </edges>
+      <edges xmi:id="_H4s7gyPHEeSSgIOxgt2tSw" source="_H4s7gCPHEeSSgIOxgt2tSw" target="_KiG-0COoEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel/stacks"/>
+      </edges>
+      <edges xmi:id="_H4s7hSPHEeSSgIOxgt2tSw" source="_H4s7gCPHEeSSgIOxgt2tSw" target="_KwgAICOoEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel/stacks"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_EWGvkSOoEeSSgIOxgt2tSw" name="Rhs">
+      <nodes xmi:id="_KiHl4COoEeSSgIOxgt2tSw" name="from" incoming="_H4s7hCPHEeSSgIOxgt2tSw" outgoing="_LUVF8COoEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack"/>
+        <attributes xmi:id="_OXptASOoEeSSgIOxgt2tSw" value="fromId">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/id"/>
+        </attributes>
+        <attributes xmi:id="_3TR4kCkwEeSEpvItAImEdg" value="fromLoad-amount">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/load"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_KwgAISOoEeSSgIOxgt2tSw" name="to" incoming="_LUVF8COoEeSSgIOxgt2tSw _H4s7hiPHEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack"/>
+        <attributes xmi:id="_VNYOsSOoEeSSgIOxgt2tSw" value="toId">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/id"/>
+        </attributes>
+        <attributes xmi:id="_4-2pkCkwEeSEpvItAImEdg" value="toLoad+amount">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/load"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_H4s7gSPHEeSSgIOxgt2tSw" name="root" outgoing="_H4s7hCPHEeSSgIOxgt2tSw _H4s7hiPHEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel"/>
+      </nodes>
+      <edges xmi:id="_LUVF8COoEeSSgIOxgt2tSw" source="_KiHl4COoEeSSgIOxgt2tSw" target="_KwgAISOoEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/left"/>
+      </edges>
+      <edges xmi:id="_H4s7hCPHEeSSgIOxgt2tSw" source="_H4s7gSPHEeSSgIOxgt2tSw" target="_KiHl4COoEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel/stacks"/>
+      </edges>
+      <edges xmi:id="_H4s7hiPHEeSSgIOxgt2tSw" source="_H4s7gSPHEeSSgIOxgt2tSw" target="_KwgAISOoEeSSgIOxgt2tSw">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel/stacks"/>
+      </edges>
+    </rhs>
+    <attributeConditions xmi:id="_BujkoCkxEeSEpvItAImEdg" name="SufficientLoad" conditionText="amount &lt;= fromLoad"/>
+    <mappings xmi:id="_KiHl4SOoEeSSgIOxgt2tSw" origin="_KiG-0COoEeSSgIOxgt2tSw" image="_KiHl4COoEeSSgIOxgt2tSw"/>
+    <mappings xmi:id="_KwgnMCOoEeSSgIOxgt2tSw" origin="_KwgAICOoEeSSgIOxgt2tSw" image="_KwgAISOoEeSSgIOxgt2tSw"/>
+    <mappings xmi:id="_H4s7giPHEeSSgIOxgt2tSw" origin="_H4s7gCPHEeSSgIOxgt2tSw" image="_H4s7gSPHEeSSgIOxgt2tSw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_5RB5QCxSEeSrd-XDhpk7Dg" name="shiftRight">
+    <parameters xmi:id="_5RB5QSxSEeSrd-XDhpk7Dg" name="fromId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_5RB5QixSEeSrd-XDhpk7Dg" name="toId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_5RB5QyxSEeSrd-XDhpk7Dg" name="amount">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_5RB5RCxSEeSrd-XDhpk7Dg" name="fromLoad">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_5RB5RSxSEeSrd-XDhpk7Dg" name="toLoad">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_5RB5RixSEeSrd-XDhpk7Dg" name="Lhs">
+      <nodes xmi:id="_7UgQwWDzEeSuGNM4wD1UiQ" name="root" outgoing="_7UgQxGDzEeSuGNM4wD1UiQ _7UgQxmDzEeSuGNM4wD1UiQ">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel"/>
+      </nodes>
+      <nodes xmi:id="_5RB5SCxSEeSrd-XDhpk7Dg" name="from" incoming="_7UgQxGDzEeSuGNM4wD1UiQ" outgoing="_5RB5TixSEeSrd-XDhpk7Dg">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack"/>
+        <attributes xmi:id="_5RB5SSxSEeSrd-XDhpk7Dg" value="fromId">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/id"/>
+        </attributes>
+        <attributes xmi:id="_5RB5SixSEeSrd-XDhpk7Dg" value="fromLoad">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/load"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_5RB5SyxSEeSrd-XDhpk7Dg" name="to" incoming="_5RB5TixSEeSrd-XDhpk7Dg _7UgQxmDzEeSuGNM4wD1UiQ">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack"/>
+        <attributes xmi:id="_5RB5TCxSEeSrd-XDhpk7Dg" value="toId">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/id"/>
+        </attributes>
+        <attributes xmi:id="_5RB5TSxSEeSrd-XDhpk7Dg" value="toLoad">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/load"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_5RB5TixSEeSrd-XDhpk7Dg" source="_5RB5SCxSEeSrd-XDhpk7Dg" target="_5RB5SyxSEeSrd-XDhpk7Dg">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/right"/>
+      </edges>
+      <edges xmi:id="_7UgQxGDzEeSuGNM4wD1UiQ" source="_7UgQwWDzEeSuGNM4wD1UiQ" target="_5RB5SCxSEeSrd-XDhpk7Dg">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel/stacks"/>
+      </edges>
+      <edges xmi:id="_7UgQxmDzEeSuGNM4wD1UiQ" source="_7UgQwWDzEeSuGNM4wD1UiQ" target="_5RB5SyxSEeSrd-XDhpk7Dg">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel/stacks"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5RB5USxSEeSrd-XDhpk7Dg" name="Rhs">
+      <nodes xmi:id="_5RB5UixSEeSrd-XDhpk7Dg" name="from" incoming="_7UgQxWDzEeSuGNM4wD1UiQ" outgoing="_5RB5WSxSEeSrd-XDhpk7Dg">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack"/>
+        <attributes xmi:id="_5RB5UyxSEeSrd-XDhpk7Dg" value="fromId">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/id"/>
+        </attributes>
+        <attributes xmi:id="_5RB5VCxSEeSrd-XDhpk7Dg" value="fromLoad-amount">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/load"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_5RB5VSxSEeSrd-XDhpk7Dg" name="to" incoming="_5RB5WSxSEeSrd-XDhpk7Dg _7UgQx2DzEeSuGNM4wD1UiQ">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack"/>
+        <attributes xmi:id="_5RB5VixSEeSrd-XDhpk7Dg" value="toId">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/id"/>
+        </attributes>
+        <attributes xmi:id="_5RB5VyxSEeSrd-XDhpk7Dg" value="toLoad+amount">
+          <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/load"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7UgQwmDzEeSuGNM4wD1UiQ" name="root" outgoing="_7UgQxWDzEeSuGNM4wD1UiQ _7UgQx2DzEeSuGNM4wD1UiQ">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel"/>
+      </nodes>
+      <edges xmi:id="_5RB5WSxSEeSrd-XDhpk7Dg" source="_5RB5UixSEeSrd-XDhpk7Dg" target="_5RB5VSxSEeSrd-XDhpk7Dg">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//Stack/right"/>
+      </edges>
+      <edges xmi:id="_7UgQxWDzEeSuGNM4wD1UiQ" source="_7UgQwmDzEeSuGNM4wD1UiQ" target="_5RB5UixSEeSrd-XDhpk7Dg">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel/stacks"/>
+      </edges>
+      <edges xmi:id="_7UgQx2DzEeSuGNM4wD1UiQ" source="_7UgQwmDzEeSuGNM4wD1UiQ" target="_5RB5VSxSEeSrd-XDhpk7Dg">
+        <type href="http://momot.big.tuwien.ac.at/stack/1.0#//StackModel/stacks"/>
+      </edges>
+    </rhs>
+    <attributeConditions xmi:id="_5RB5XCxSEeSrd-XDhpk7Dg" name="SufficientLoad" conditionText="amount &lt;= fromLoad"/>
+    <mappings xmi:id="_5RB5XSxSEeSrd-XDhpk7Dg" origin="_5RB5SCxSEeSrd-XDhpk7Dg" image="_5RB5UixSEeSrd-XDhpk7Dg"/>
+    <mappings xmi:id="_5RB5XixSEeSrd-XDhpk7Dg" origin="_5RB5SyxSEeSrd-XDhpk7Dg" image="_5RB5VSxSEeSrd-XDhpk7Dg"/>
+    <mappings xmi:id="_7UgQw2DzEeSuGNM4wD1UiQ" origin="_7UgQwWDzEeSuGNM4wD1UiQ" image="_7UgQwmDzEeSuGNM4wD1UiQ"/>
+  </units>
+</henshin:Module>

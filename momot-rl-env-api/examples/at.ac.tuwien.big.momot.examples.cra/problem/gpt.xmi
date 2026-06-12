@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ASCII"?>
+<architecture:ClassModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:architecture="http://momot.big.tuwien.ac.at/examples/icmt/architecture/1.0"
+    xsi:schemaLocation="http://momot.big.tuwien.ac.at/examples/icmt/architecture/1.0 ../metamodel/architecture.ecore">
+
+  <!-- Cluster 1 -->
+  <classes name="Class"
+      encapsulates="//@features.4 //@features.6 //@features.14 //@features.24 //@features.29 //@features.32 //@features.33 //@features.11 //@features.10 //@features.19 //@features.53 //@features.59 //@features.62 //@features.63 //@features.64 //@features.66 //@features.71 //@features.75 //@features.78 //@features.79 //@features.56 //@features.67"/>
+  
+  <!-- Cluster 2 -->
+  <classes name="Class"
+      encapsulates="//@features.15 //@features.7 //@features.2 //@features.42 //@features.12 //@features.21 //@features.22 //@features.36 //@features.40 //@features.44 //@features.48 //@features.55 //@features.57 //@features.67 //@features.70"/>
+  
+  <!-- Cluster 3 -->
+  <classes name="Class"
+      encapsulates="//@features.16 //@features.25 //@features.23 //@features.39 //@features.40 //@features.3 //@features.68 //@features.69 //@features.72 //@features.73 //@features.74 //@features.76 //@features.78"/>
+
+  <!-- Cluster 4 -->
+  <classes name="Class"
+      encapsulates="//@features.18 //@features.17 //@features.5 //@features.1 //@features.9 //@features.8 //@features.26 //@features.27 //@features.20 //@features.30 //@features.31 //@features.34 //@features.35 //@features.43 //@features.0 //@features.28 //@features.37 //@features.38 //@features.41 //@features.45 //@features.46 //@features.47 //@features.49 //@features.50 //@features.51 //@features.52 //@features.54 //@features.58 //@features.60 //@features.61 //@features.65 //@features.77"/>
+
+  <!-- Features -->
+  <features xsi:type="architecture:Method" name="method0" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Method" name="method1" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Method" name="method2" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Method" name="method3" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Method" name="method4" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Method" name="method5" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Method" name="method6" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Method" name="method7" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Method" name="method8" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Method" name="method9" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute10" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute11" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute12" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Attribute" name="attribute13" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Method" name="method14" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Method" name="method15" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Method" name="method16" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute17" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute18" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute19" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Method" name="method20" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Method" name="method21" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Attribute" name="attribute22" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Attribute" name="attribute23" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute24" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute25" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Method" name="method26" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Method" name="method27" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute28" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute29" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute30" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute31" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute32" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute33" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute34" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute35" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute36" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Attribute" name="attribute37" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute38" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute39" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute40" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute41" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Method" name="method42" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Method" name="method43" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute44" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Attribute" name="attribute45" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute46" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute47" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute48" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Attribute" name="attribute49" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute50" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute51" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute52" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute53" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute54" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute55" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Attribute" name="attribute56" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute57" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Attribute" name="attribute58" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute59" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute60" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute61" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute62" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute63" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute64" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute65" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute66" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute67" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute68" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute69" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute70" isEncapsulatedBy="//@classes.1"/>
+  <features xsi:type="architecture:Attribute" name="attribute71" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute72" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute73" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute74" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute75" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute76" isEncapsulatedBy="//@classes.2"/>
+  <features xsi:type="architecture:Attribute" name="attribute77" isEncapsulatedBy="//@classes.3"/>
+  <features xsi:type="architecture:Attribute" name="attribute78" isEncapsulatedBy="//@classes.0"/>
+  <features xsi:type="architecture:Attribute" name="attribute79" isEncapsulatedBy="//@classes.0"/>
+
+</architecture:ClassModel>

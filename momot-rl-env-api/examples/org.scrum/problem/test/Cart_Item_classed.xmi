@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ASCII"?>
+<architecture:ClassModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:architecture="http://momot.big.tuwien.ac.at/examples/icmt/architecture/1.0">
+  <classes name="Class_0"
+      encapsulates="//@features.0"/>
+  <classes name="Class_1"
+      encapsulates="//@features.1"/>
+  <classes name="Class_2"
+      encapsulates="//@features.2"/>
+  <classes name="Class_3"
+      encapsulates="//@features.3"/>
+  <classes name="Class_4"
+      encapsulates="//@features.4"/>
+  <classes name="Class_5"
+      encapsulates="//@features.5"/>
+  <classes name="Class_6"
+      encapsulates="//@features.6"/>
+  <classes name="Class_7"
+      encapsulates="//@features.7"/>
+  <classes name="Class_8"
+      encapsulates="//@features.8"/>
+  <classes name="Class_9"
+      encapsulates="//@features.9"/>
+  <features
+      xsi:type="architecture:Method"
+      name="addItem"
+      isEncapsulatedBy="//@classes.0"
+      dataDependency="//@features.5 //@features.6"/>
+  <features
+      xsi:type="architecture:Method"
+      name="cartTotal"
+      isEncapsulatedBy="//@classes.1"
+      dataDependency="//@features.5"
+      functionalDependency="//@features.4"/>
+  <features
+      xsi:type="architecture:Method"
+      name="checkOut"
+      isEncapsulatedBy="//@classes.2"
+      dataDependency="//@features.5"
+      functionalDependency="//@features.1"/>
+  <features
+      xsi:type="architecture:Method"
+      name="print"
+      isEncapsulatedBy="//@classes.3"
+      dataDependency="//@features.6 //@features.7 //@features.8"/>
+  <features
+      xsi:type="architecture:Method"
+      name="itemTotal"
+      isEncapsulatedBy="//@classes.4"
+      dataDependency="//@features.7 //@features.8"/>
+  <features
+      xsi:type="architecture:Attribute"
+      name="items"
+      isEncapsulatedBy="//@classes.5"/>
+  <features
+      xsi:type="architecture:Attribute"
+      name="name"
+      isEncapsulatedBy="//@classes.6"/>
+  <features
+      xsi:type="architecture:Attribute"
+      name="price"
+      isEncapsulatedBy="//@classes.7"/>
+  <features
+      xsi:type="architecture:Attribute"
+      name="qty"
+      isEncapsulatedBy="//@classes.8"/>
+  <features
+      xsi:type="architecture:Attribute"
+      name="asd"
+      isEncapsulatedBy="//@classes.9"/>
+</architecture:ClassModel>

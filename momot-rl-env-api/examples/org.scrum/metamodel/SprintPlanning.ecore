@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="SprintPlanning" nsURI="http://www.kcl.ac.uk/mdeoptimiser/sprint-planning"
+    nsPrefix="planning">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Stakeholder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workitem" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass /org.scrum/metamodel/SprintPlanning.ecore#//WorkItem"
+        eOpposite="/org.scrum/metamodel/SprintPlanning.ecore#//WorkItem/stakeholder"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Backlog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workitems" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass /org.scrum/metamodel/SprintPlanning.ecore#//WorkItem"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isPlannedFor" upperBound="-1"
+        eType="ecore:EClass /org.scrum/metamodel/SprintPlanning.ecore#//Sprint" eOpposite="/org.scrum/metamodel/SprintPlanning.ecore#//Sprint/committedItem"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Importance" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Effort" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stakeholder" lowerBound="1"
+        eType="ecore:EClass /org.scrum/metamodel/SprintPlanning.ecore#//Stakeholder"
+        eOpposite="/org.scrum/metamodel/SprintPlanning.ecore#//Stakeholder/workitem"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sprint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="committedItem" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass /org.scrum/metamodel/SprintPlanning.ecore#//WorkItem"
+        eOpposite="/org.scrum/metamodel/SprintPlanning.ecore#//WorkItem/isPlannedFor"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Plan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stakeholders" upperBound="-1"
+        eType="ecore:EClass /org.scrum/metamodel/SprintPlanning.ecore#//Stakeholder"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="backlog" lowerBound="1"
+        eType="ecore:EClass /org.scrum/metamodel/SprintPlanning.ecore#//Backlog" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sprints" upperBound="-1"
+        eType="ecore:EClass /org.scrum/metamodel/SprintPlanning.ecore#//Sprint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxSprints" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSprints" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currentSprints" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>
