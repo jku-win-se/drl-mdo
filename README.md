@@ -10,7 +10,7 @@ The prototype consists of two modules communicating via TCP sockets:
 
 Key directories:
 
-- `evaluation_data/`: Test cases results
+- `evaluation`: Test cases results and analysis scripts
 - `GNN-MT/`: RL agent (GNN-based ML model)
 - `models/`: Training/Test models
 - `momot-rl-env-api/`: RL environment module (source)
