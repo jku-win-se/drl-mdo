@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="json-20160212.jar"/>
+	<classpathentry exported="true" kind="lib" path="nd4j-api-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="nd4j-buffer-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="nd4j-common-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="deeplearning4j-nn-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="deeplearning4j-core-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="deeplearning4j-ui-components-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="deeplearning4j-ui-model-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="deeplearning4j-vertx-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-annotations-2.10.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-core-2.10.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-databind-2.10.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="guava-1.0.0-beta6.jar"/>
+	<classpathentry exported="true" kind="lib" path="kotlin-runtime-1.0.7.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

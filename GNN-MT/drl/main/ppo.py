@@ -148,7 +148,6 @@ class PPO:
             pallete,
             args.hidden_dim,
             len(pallete.units),
-            autoregressive_mode=args.rl_autoreg,
             rnn_layer=self.rnn_type,
         ).to(args.device)
 
@@ -427,7 +426,6 @@ class PPO:
             self.pallete,
             self.args.hidden_dim,
             len(self.pallete.units),
-            autoregressive_mode=self.args.rl_autoreg,
             rnn_layer=self.rnn_type,
         ).to(self.args.device)
         self.ac.load_state_dict(torch.load(ac_model))
@@ -832,8 +830,8 @@ class PPO:
                                     f"NaN/Inf in parameters after optimizer step: {len(post_step_issues)} issues"
                                 )
 
-            if self.encoder == "shared":
-                self.lr_scheduler.step()
+           # if self.encoder == "shared":
+           #     self.lr_scheduler.step()
 
             if self.args.rl_evaluate:
                 if i_so_far % eval_interval == 0:
@@ -1713,7 +1711,7 @@ class PPO:
         # Initialize default values for hyperparameters
         self.timesteps_per_batch = 4800  # Number of timesteps per rollout batch
         self.mini_batch_size = 100  # Number of timesteps per mini batch
-        self.n_updates_per_iteration = 5  # Updates of actor/critic per iteration
+        self.n_updates_per_iteration = 4  # Updates of actor/critic per iteration
         self.lr = 3e-4  # Learning rate
         self.gamma = 0.95  # Discount factor
         self.clip = 0.2  # Recommended 0.2

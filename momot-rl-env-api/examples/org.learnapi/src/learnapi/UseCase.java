@@ -165,11 +165,11 @@ public enum UseCase {
                   .createOrchestration(modelPath, 1);
             config.function = tso.getFitnessFunction();
             config.fitnessAggregator = (final double[] objectiveVals) -> {
-               return objectiveVals[0] + objectiveVals[1];
-               // return objectiveVals[0];
+               // return objectiveVals[0] + objectiveVals[1];
+               return objectiveVals[0];
             };
             config.fitnessScaler = (final EObject m) -> {
-               return 1000.;
+               return 1.;
 
             };
             config.moduleManager = tso.getModuleManager();

@@ -703,7 +703,7 @@ class ARNodeDecoder(nn.Module):
 
             nodes_final[~tf_node_mask] = -1e10  # Mask out invalid nodes
 
-            nodes_final, _ = to_dense_batch(nodes_final, bs)
+            nodes_final, _ = to_dense_batch(nodes_final, bs, fill_value=-1e10)
             nodes_final = nodes_final.transpose(1, 2)
 
             # If nodes_final shape in dimension 1 is less than pallete.max_len, extend it
@@ -934,13 +934,11 @@ class SharedEncoderAC(nn.Module):
         pallete,
         hidden_dim,
         num_actions,
-        autoregressive_mode=False,
         rnn_layer="lstm",
     ):
         super().__init__()
 
         self.pallete = pallete
-        self.autoregressive_mode = autoregressive_mode
         # num_node_types = 1 + len(pallete.additional_node_atts)
         len_vocab_nodes = len(pallete.dic_nodes)
         num_node_attr_features = len(pallete.additional_node_atts)
@@ -954,7 +952,7 @@ class SharedEncoderAC(nn.Module):
             num_layers=3,
         )
         self.actor = ActorHead(
-            pallete, hidden_dim, num_actions, autoregressive_mode, rnn_layer
+            pallete, hidden_dim, num_actions, rnn_layer
         )
         self.critic = CriticHead(hidden_dim)
 
@@ -1021,13 +1019,11 @@ class SeparateEncoderAC(nn.Module):
         pallete,
         hidden_dim,
         num_actions,
-        autoregressive_mode=False,
         rnn_layer="lstm",
     ):
         super().__init__()
 
         self.pallete = pallete
-        self.autoregressive_mode = autoregressive_mode
         num_edge_types = len(pallete.dic_edges)
         len_vocab_nodes = len(pallete.dic_nodes)
         num_node_attr_features = len(pallete.additional_node_atts)
@@ -1049,7 +1045,7 @@ class SeparateEncoderAC(nn.Module):
             num_layers=3,
         )
         self.actor = ActorHead(
-            pallete, hidden_dim, num_actions, autoregressive_mode, rnn_layer
+            pallete, hidden_dim, num_actions, rnn_layer
         )
         self.critic = CriticHead(hidden_dim)
 
@@ -1119,21 +1115,15 @@ class ActorHead(nn.Module):
         pallete,
         hidden_dim,
         num_actions,
-        autoregressive_mode=False,
         rnn_layer="lstm",
     ):
         super(ActorHead, self).__init__()
         self.pallete = pallete
-        self.autoregressive_mode = autoregressive_mode
 
         self.action_decoder = ActionDecoder(hidden_dim, num_actions)
 
-        if autoregressive_mode:
-            self.node_decoder = ARNodeDecoder(pallete, hidden_dim, rnn_layer)
-            self.value_decoder = ARValueDecoder(pallete, hidden_dim, rnn_layer)
-        else:
-            self.node_decoder = NodeDecoder(pallete, hidden_dim, rnn_layer)
-            self.value_decoder = ValueDecoder(pallete, hidden_dim, rnn_layer)
+        self.node_decoder = ARNodeDecoder(pallete, hidden_dim, rnn_layer)
+        self.value_decoder = ARValueDecoder(pallete, hidden_dim, rnn_layer)
 
         self.emb_actions = nn.Embedding(num_actions, hidden_dim)
 

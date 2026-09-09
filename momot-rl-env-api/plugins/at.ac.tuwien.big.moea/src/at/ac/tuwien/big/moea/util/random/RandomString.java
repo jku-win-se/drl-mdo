@@ -12,8 +12,6 @@
  *******************************************************************************/
 package at.ac.tuwien.big.moea.util.random;
 
-import org.apache.commons.lang.RandomStringUtils;
-
 public class RandomString implements IRandomGenerator<String> {
 
    private final RandomInteger randomInteger;
@@ -28,6 +26,6 @@ public class RandomString implements IRandomGenerator<String> {
 
    @Override
    public String nextRandom() {
-      return RandomStringUtils.random(randomInteger.nextRandom());
+      return org.apache.commons.lang3.RandomStringUtils.random(randomInteger.nextRandom());
    }
 }

@@ -17,6 +17,8 @@ hs_err_pid*
 # xtend
 *.xtendbin
 
-**/.classpath
+# Eclipse JDT output (never commit generated class files or nested .project copies)
+**/bin/
+
 examples/org.learnapi/run_experiments.sh
 *.log

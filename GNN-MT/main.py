@@ -14,7 +14,7 @@ from prettytable import PrettyTable
 from drl.utils.pallete import Pallete
 from drl.model2graph.model2graph import get_graph_from_model
 from drl.main.rl_agent import train, sample_trajectories
-from drl.env.RemEnv import SubprocEnv
+#from drl.env.RemEnv import SubprocEnv
 from utils.seed_util import seed_everything
 import wandb
 from time import time
@@ -190,12 +190,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--rl", default="false", help="use reinforcement learning", action="store_true"
     )
-    parser.add_argument(
-        "--rl_autoreg",
-        default=False,
-        help="use reinforcement learning",
-        action="store_true",
-    )
+
     parser.add_argument(
         "--rl_hyperparams", nargs="+", help="Hyperparameters as key-value pairs"
     )

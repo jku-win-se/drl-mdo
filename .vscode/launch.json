@@ -1,0 +1,52 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "CRA (training)",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+              "env": {
+                "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+                "CUDA_LAUNCH_BLOCKING": "1"
+              },
+            "args": [
+              "--train",
+              "--rl",
+              "--rl_autoreg",
+              "--rl_evaluate",
+              "--rl_hyperparams",
+              "encoder=shared rnn_type=gru timesteps_per_batch=2500 mini_batch_size=50 num_envs=10 gamma=0.99 gae_lambda=0.95 entropy_coef=0.01 n_updates_per_iteration=10 lr=1e-4 clip=0.2 render=False render_every_i=10",
+              "--rl_tsteps",
+              "1000000",
+              "--rl_sample_partial_trajectories",
+              "True",
+              "--wandb_config",
+              "dir=cra group=260126-5tr2test-.15-.25-partial-64",
+              "--training_dataset",
+              "datasets/cra/train/cra_a",
+              "--sample_description",
+              "ds.json",
+              "--case_config",
+              "datasets/cra/config.json",
+              "--metamodel",
+              "data/cra.ecore",
+              "--root_object",
+              "ClassModel",
+              "--model_path",
+              "models/rl/cra/260126-5tr2test-.15-.25-partial-64",
+              "--batch_size",
+              "8",
+              "--hidden_dim",
+              "64",
+              "--epochs",
+              "200"
+            ]
+          },
+    ]
+}
