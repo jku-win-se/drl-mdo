@@ -6,6 +6,7 @@ import at.ac.tuwien.big.momot.examples.stack.stack.StackPackage;
 import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -16,84 +17,32 @@ import SprintPlanning.Plan;
 import SprintPlanning.SprintPlanningPackage;
 import icmt.tool.momot.demo.architecture.ArchitecturePackage;
 import icmt.tool.momot.demo.architecture.ClassModel;
-import learnapi.ConditionUtils.LimitType;
 
 public class Utils {
 
    public static int getCRATransformationLength(final String path) {
       ArchitecturePackage.eINSTANCE.eClass();
-      final Resource resource = loadModel(path);
-
-      ClassModel sm = null;
-      for(final Object obj : resource.getContents()) {
-         if(obj instanceof ClassModel) {
-            sm = (ClassModel) obj;
-         }
-      }
-      return sm.getFeatures().size() * 2;
+      return UseCase.calculateSteps("cra", requireRoot(loadModel(path), ClassModel.class));
    }
 
    public static JSONObject getScrumConditions(final String path) {
       SprintPlanningPackage.eINSTANCE.eClass();
-      final Resource resource = loadModel(path);
-
-      Plan p = null;
-      for(final Object obj : resource.getContents()) {
-         if(obj instanceof Plan) {
-            p = (Plan) obj;
-         }
-      }
-
-      final int items = p.getBacklog().getWorkitems().size();
-
-      return new ConditionUtils().addCondition(0, "elements", "Sprint", LimitType.MAX, p.getMaxSprints())
-            .addCondition(2, "elements", "Sprint", LimitType.MIN, p.getMinSprints())
-            .addCondition(4, "elements", "Sprint", LimitType.MAX, p.getMaxSprints())
-            .addCondition(1, "relations", "isPlannedFor", LimitType.MIN, items - 1)
-            .addCondition(2, "relations", "isPlannedFor", LimitType.MIN, items - 1)
-            .addCondition(4, "relations", "isPlannedFor", LimitType.MIN, items - 1).build();
+      return UseCase.calculateConditions("scrum-uc", requireRoot(loadModel(path), Plan.class));
    }
 
    public static Plan getScrumModel(final String path) {
       SprintPlanningPackage.eINSTANCE.eClass();
-
-      final Resource resource = loadModel(path);
-
-      // Retrieve StackModel
-      Plan sm = null;
-      for(final Object obj : resource.getContents()) {
-         if(obj instanceof Plan) {
-            sm = (Plan) obj;
-            return sm;
-         }
-      }
-      return sm;
+      return requireRoot(loadModel(path), Plan.class);
    }
 
    public static int getScrumTransformationLength(final String path) {
       SprintPlanningPackage.eINSTANCE.eClass();
-      final Resource resource = loadModel(path);
-
-      Plan sm = null;
-      for(final Object obj : resource.getContents()) {
-         if(obj instanceof Plan) {
-            sm = (Plan) obj;
-         }
-      }
-      return (int) Math.floor(sm.getBacklog().getWorkitems().size() * 2.3);
+      return UseCase.calculateSteps("scrum", requireRoot(loadModel(path), Plan.class));
    }
 
    public static int getSLBTransformationLength(final String path) {
       StackPackage.eINSTANCE.eClass();
-      final Resource resource = loadModel(path);
-
-      StackModel sm = null;
-      for(final Object obj : resource.getContents()) {
-         if(obj instanceof StackModel) {
-            sm = (StackModel) obj;
-         }
-      }
-      return (int) Math.floor(sm.getStacks().size() * 2.5);
+      return UseCase.calculateSteps("slb", requireRoot(loadModel(path), StackModel.class));
    }
 
    private static Resource loadModel(final String path) {
@@ -103,7 +52,6 @@ public class Utils {
 
       final Resource resource = r.getResource(URI.createFileURI(path), true);
 
-      // Ensure model is loaded
       try {
          resource.load(null);
          return resource;
@@ -111,5 +59,17 @@ public class Utils {
          e.printStackTrace();
          return null;
       }
+   }
+
+   private static <T extends EObject> T requireRoot(final Resource resource, final Class<T> type) {
+      if(resource == null) {
+         throw new IllegalStateException("Model resource is null");
+      }
+      for(final Object obj : resource.getContents()) {
+         if(type.isInstance(obj)) {
+            return type.cast(obj);
+         }
+      }
+      throw new IllegalStateException("No " + type.getSimpleName() + " found in resource");
    }
 }

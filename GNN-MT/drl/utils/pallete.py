@@ -178,7 +178,7 @@ class Pallete:
     def get_conditions(self, action):
         return {
             "elements": self.unitIdToSpec[action]["conditions"]["elements"],
-            "relations": self.unitIdToSpec[action]["conditions"]["relations"],
+            "relations": [] if 'relations' not in self.unitIdToSpec[action]["conditions"] else self.unitIdToSpec[action]["conditions"]["relations"],
         }
 
     def get_valid_node_types(self, action, pos):

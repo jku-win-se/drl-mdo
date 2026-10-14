@@ -59,9 +59,13 @@ public class SolutionProvider<S extends Solution> extends AbstractNeighborhoodFu
    @Override
    public TransformationSolution generateExtendedSolution(final TransformationSolution solution, final String rule,
          final Map<String, Object> paramValues) {
-      // final TransformationSolution nonEmptySolution = TransformationSolution
-      // .removePlaceholdersKeepUnitApplicationAssignment(solution);
       return getSearchHelper().appendParticularVariable(solution, rule, paramValues);
+   }
+
+   @Override
+   public TransformationSolution generateExtendedSolutionInPlace(final TransformationSolution solution,
+         final String rule, final Map<String, Object> paramValues) {
+      return getSearchHelper().appendParticularVariableInPlace(solution, rule, paramValues);
    }
 
    @Override

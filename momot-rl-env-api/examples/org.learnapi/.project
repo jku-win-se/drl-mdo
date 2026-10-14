@@ -3,7 +3,9 @@
 	<name>org.learnapi</name>
 	<comment></comment>
 	<projects>
-		<project>org.geodes.sms.emfmodeldistance</project>
+		<project>org.cra2</project>
+		<project>org.scrum</project>
+		<project>at.ac.tuwien.big.momot.examples.stack</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

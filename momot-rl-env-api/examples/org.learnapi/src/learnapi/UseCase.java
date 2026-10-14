@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import SprintPlanning.Plan;
 import SprintPlanning.SprintPlanningPackage;
+import icmt.tool.momot.demo.SOArchitectureSearch;
 import icmt.tool.momot.demo.architecture.ArchitecturePackage;
 import icmt.tool.momot.demo.architecture.ClassModel;
 import learnapi.ConditionUtils.LimitType;
@@ -60,36 +61,37 @@ public enum UseCase {
     * @return JSONObject with conditions for this model, or null if not applicable
     */
    public static JSONObject calculateConditions(final String caseId, final EGraph graph) {
+      if(graph == null || graph.getRoots().isEmpty()) {
+         return null;
+      }
+      return calculateConditions(caseId, graph.getRoots().get(0));
+   }
+
+   public static JSONObject calculateConditions(final String caseId, final EObject root) {
       switch(caseId.toLowerCase()) {
          case "cra":
-            // TODO: Specify conditions logic for CRA case
-            // Placeholder: no conditions
             return null;
 
          case "slb":
-            // TODO: Specify conditions logic for SLB (Stack) case
-            // Placeholder: no conditions
             return null;
 
          case "scrum":
-            final Plan p = (Plan) graph.getRoots().get(0);
-            final int items = p.getBacklog().getWorkitems().size();
+            final Plan p = (Plan) root;
 
             return new ConditionUtils().addCondition(0, "elements", "Sprint", LimitType.MAX, p.getMaxSprints())
                   .addCondition(2, "elements", "Sprint", LimitType.MIN, p.getMinSprints())
                   .addCondition(4, "elements", "Sprint", LimitType.MAX, p.getMaxSprints()).build();
          case "scrum-uc":
-            final Plan p2 = (Plan) graph.getRoots().get(0);
+            final Plan p2 = (Plan) root;
             final int items2 = p2.getBacklog().getWorkitems().size();
 
             return new ConditionUtils().addCondition(0, "elements", "Sprint", LimitType.MAX, p2.getMaxSprints())
                   .addCondition(2, "elements", "Sprint", LimitType.MIN, p2.getMinSprints())
-                  .addCondition(4, "elements", "Sprint", LimitType.MAX, p2.getMaxSprints())// .build();
+                  .addCondition(4, "elements", "Sprint", LimitType.MAX, p2.getMaxSprints())
                   .addCondition(1, "relations", "isPlannedFor", LimitType.MIN, items2 - 1)
                   .addCondition(2, "relations", "isPlannedFor", LimitType.MIN, items2 - 1)
                   .addCondition(4, "relations", "isPlannedFor", LimitType.MIN, items2 - 1).build();
          default:
-            // Default: no conditions
             return null;
       }
    }
@@ -105,33 +107,38 @@ public enum UseCase {
     * @return Number of steps for this model
     */
    public static int calculateSteps(final String caseId, final EGraph graph) {
-      // Get the number of elements in the graph as a base metric
-      final int elementCount = graph.size();
-
+      if(graph == null || graph.getRoots().isEmpty()) {
+         return 50;
+      }
       switch(caseId.toLowerCase()) {
          case "cra":
-            final ClassModel cm = (ClassModel) graph.getRoots().get(0);
-            return cm.getFeatures().size() * 2;
+         case "slb":
+         case "scrum":
+         case "scrum-uc":
+            return calculateSteps(caseId, graph.getRoots().get(0));
+         default:
+            return Math.max(50, graph.size() * 2);
+      }
+   }
+
+   public static int calculateSteps(final String caseId, final EObject root) {
+      switch(caseId.toLowerCase()) {
+         case "cra":
+            return ((ClassModel) root).getFeatures().size() * 2;
 
          case "slb":
-            final StackModel sm = (StackModel) graph.getRoots().get(0);
-
-            return (int) Math.floor(sm.getStacks().size() * 2.5);
+            return (int) Math.floor(((StackModel) root).getStacks().size() * 2.5);
 
          case "scrum":
          case "scrum-uc":
-            final Plan p = (Plan) graph.getRoots().get(0);
-
-            return (int) Math.floor(p.getBacklog().getWorkitems().size() * 2.3);
+            return (int) Math.floor(((Plan) root).getBacklog().getWorkitems().size() * 2.3);
 
          default:
-            // Default fallback
-            return Math.max(50, elementCount * 2);
+            return 50;
       }
    }
 
    public static double[] constraintNormalizer(final String caseId, final EGraph graph) {
-      final double[] c;
       switch(caseId.toLowerCase()) {
          case "cra":
             return null;
@@ -420,7 +427,7 @@ public enum UseCase {
          case "cra":
             uc = CRA;
             ArchitecturePackage.eINSTANCE.eClass();
-            final TransformationSearchOrchestration tso = icmt.tool.momot.demo.SOArchitectureSearch
+            final TransformationSearchOrchestration tso = SOArchitectureSearch
                   .createOrchestration(xmiFiles[0].getPath(), 1);
             uc.function = tso.getFitnessFunction();
             uc.fitnessAggregator = (final double[] objectiveVals) -> {
@@ -559,58 +566,12 @@ public enum UseCase {
     * @return JSONObject with conditions for this model, or null if not applicable
     */
    public static double[] objectiveNormalizer(final String caseId, final EGraph graph) {
-      final double[] c;
       switch(caseId.toLowerCase()) {
          case "cra":
-            // TODO: Specify conditions logic for CRA case
-            // Placeholder: no conditions
-            return null;
-
          case "slb":
-            // TODO: Specify conditions logic for SLB (Stack) case
-            // Placeholder: no conditions
-            return null;
          case "scrum":
          case "scrum-uc":
-            return null;
-         // final Plan p = (Plan) graph.getRoots().get(0);
-         // final int numSprints = p.getMaxSprints();
-         //
-         // final org.apache.commons.math3.stat.descriptive.moment.StandardDeviation stdDevCalculator = new
-         // org.apache.commons.math3.stat.descriptive.moment.StandardDeviation();
-         //
-         // final double worstCaseFitness = p.getStakeholders().stream().mapToDouble(stakeholder -> {
-         // // Total importance for this stakeholder across ALL items
-         // final double totalImportance = p.getBacklog().getWorkitems().stream()
-         // .filter(item -> item.getStakeholder().equals(stakeholder)).mapToInt(item -> item.getImportance())
-         // .sum();
-         //
-         // // Worst case: all importance in one sprint, zero in the rest
-         // final double[] worstCaseValues = new double[numSprints];
-         // Arrays.fill(worstCaseValues, 0.0);
-         // worstCaseValues[0] = totalImportance;
-         //
-         // return stdDevCalculator.evaluate(worstCaseValues);
-         // }).sum();
-         //
-         // // Total effort across all backlog items
-         // final double totalEffort = p.getBacklog().getWorkitems().stream().mapToInt(item -> item.getEffort()).sum();
-         //
-         // // Worst case: all effort in one sprint, zero in the rest
-         // final double[] worstCaseValues = new double[numSprints];
-         // Arrays.fill(worstCaseValues, 0.0);
-         // worstCaseValues[0] = totalEffort;
-         //
-         // final double worstCaseEffortDeviation = stdDevCalculator.evaluate(worstCaseValues);
-         //
-         // c = new double[3];
-         // c[0] = worstCaseFitness > 0 ? 1.0 / worstCaseFitness : 1.0;
-         // c[1] = worstCaseEffortDeviation > 0 ? 1.0 / worstCaseEffortDeviation : 1.0;
-         // c[2] = 1.0; // SolutionLength normalizer
-
-         // return c;
          default:
-            // Default: no conditions
             return null;
       }
    }

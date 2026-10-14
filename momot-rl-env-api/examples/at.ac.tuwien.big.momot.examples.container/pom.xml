@@ -8,6 +8,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 	<groupId>at.ac.tuwien.big.momot</groupId>
-	<artifactId>at.ac.tuwien.big.momot.examples.cra</artifactId>
+	<artifactId>at.ac.tuwien.big.momot.examples.container</artifactId>
 	<packaging>eclipse-plugin</packaging>
 </project>

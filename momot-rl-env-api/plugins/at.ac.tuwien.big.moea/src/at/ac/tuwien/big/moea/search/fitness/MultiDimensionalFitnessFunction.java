@@ -34,6 +34,47 @@ public class MultiDimensionalFitnessFunction<T extends Solution> implements IMul
    protected Class<T> clazz;
    protected ISolutionRepairer<T> repairer;
 
+   private static String[] OBJECTIVE_KEYS = new String[0];
+   private static String[] CONSTRAINT_KEYS = new String[0];
+
+   public static String constraintKey(final int i) {
+      if(i >= CONSTRAINT_KEYS.length) {
+         expandConstraintKeys(i);
+      }
+      return CONSTRAINT_KEYS[i];
+   }
+
+   public static String objectiveKey(final int i) {
+      if(i >= OBJECTIVE_KEYS.length) {
+         expandObjectiveKeys(i);
+      }
+      return OBJECTIVE_KEYS[i];
+   }
+
+   private static synchronized void expandConstraintKeys(final int minIndex) {
+      if(minIndex < CONSTRAINT_KEYS.length) {
+         return;
+      }
+      final String[] next = new String[minIndex + 1];
+      System.arraycopy(CONSTRAINT_KEYS, 0, next, 0, CONSTRAINT_KEYS.length);
+      for(int i = CONSTRAINT_KEYS.length; i <= minIndex; i++) {
+         next[i] = "c_dim_" + i;
+      }
+      CONSTRAINT_KEYS = next;
+   }
+
+   private static synchronized void expandObjectiveKeys(final int minIndex) {
+      if(minIndex < OBJECTIVE_KEYS.length) {
+         return;
+      }
+      final String[] next = new String[minIndex + 1];
+      System.arraycopy(OBJECTIVE_KEYS, 0, next, 0, OBJECTIVE_KEYS.length);
+      for(int i = OBJECTIVE_KEYS.length; i <= minIndex; i++) {
+         next[i] = "f_dim_" + i;
+      }
+      OBJECTIVE_KEYS = next;
+   }
+
    public MultiDimensionalFitnessFunction(final Class<T> clazz) {
       this.objectives = new ArrayList<>();
       this.constraints = new ArrayList<>();
@@ -53,7 +94,7 @@ public class MultiDimensionalFitnessFunction<T extends Solution> implements IMul
    }
 
    private String constraintDimName(final int dim) {
-      return "c_dim_" + String.valueOf(dim);
+      return constraintKey(dim);
    }
 
    // private double delegateEvaluation(final Solution solution) {
@@ -198,7 +239,7 @@ public class MultiDimensionalFitnessFunction<T extends Solution> implements IMul
    }
 
    private String fitnessDimName(final int dim) {
-      return "f_dim_" + String.valueOf(dim);
+      return objectiveKey(dim);
    }
 
    protected double getAggregateFitness(final Solution solution) {

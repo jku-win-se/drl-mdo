@@ -57,15 +57,15 @@ public class ModelAssignmentPolicy {
       return modelIndex.getAndIncrement() % stepsPerModel.size();
    }
 
-   public int initModelIndex(final int envIdx) {
+   public synchronized int initModelIndex(final int envIdx) {
       return chooseModelIndex(envIdx, false);
    }
 
-   public int nextModelIndex(final int envIdx) {
+   public synchronized int nextModelIndex(final int envIdx) {
       return chooseModelIndex(envIdx, true);
    }
 
-   public void reset() {
+   public synchronized void reset() {
       modelIndex.set(0);
       Arrays.fill(instanceIndexPerEnv, 0);
    }

@@ -145,3 +145,7 @@ scripts/
 launch.json
 my-plots/*.*
 .vscode/launch.json
+
+# Local run overrides
+run_cra_configs.sh
+run_cra_training.sh

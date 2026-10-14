@@ -23,6 +23,7 @@ source "$PROJECT_DIR/init.sh"
 RUNS=30
 TEST_MODELS_PATH="NONE"
 PARTIAL_TRAJECTORIES_FLAG=""
+EVAL_OPTIONS=()
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
@@ -32,6 +33,10 @@ while [[ "$#" -gt 0 ]]; do
     --experiment-name) EXPERIMENT_NAME="$2"; shift ;;
     --test-path) TEST_MODELS_PATH="$2"; shift ;;
     --partial_trajectories) PARTIAL_TRAJECTORIES_FLAG="--sample_partial_trajectories" ;;
+    --eval-mode) EVAL_OPTIONS+=(--eval_mode "$2"); shift ;;
+    --eval-interval) EVAL_OPTIONS+=(--eval_interval "$2"); shift ;;
+    --eval-save-solutions) EVAL_OPTIONS+=(--eval_save_solutions) ;;
+    --es-metric) EVAL_OPTIONS+=(--es_metric "$2"); shift ;;
     *) echo "Unknown parameter: $1"; exit 1 ;;
   esac
   shift
@@ -56,9 +61,9 @@ FES=100000
 LOGFILE_NAME="logs/${CASE}_$(date '+%Y%m%d_%H%M%S')"
 LOGFILE="$LOGFILE_NAME.log"
 N_ENVS=10
-# IF TRAINING_MODELS_PATH is != "NONE", set EVALUATE_FLAG to "--EVALUATE_FLAG"
+# Evaluate on the test models (served on port 8001) only when a test set is given.
 EVALUATE_FLAG=""
-if [ "$TRAINING_MODELS_PATH" != "NONE" ]; then
+if [ "$TEST_MODELS_PATH" != "NONE" ]; then
     EVALUATE_FLAG="--evaluate"
 fi
 
@@ -67,6 +72,6 @@ for ((i = 1; i <= $RUNS; i++)); do
     echo "=> Checkpoints will be stored at $AGENT_ROOT/models/rl/$CASE/$EXPERIMENT_NAME"
 
 	  start_server_trainingset $CASE $N_ENVS $TRAINING_MODELS_PATH $TEST_MODELS_PATH $LOGFILE_NAME
-	  run_training $CASE ${SEEDS[$i-1]} "num_envs=$N_ENVS" $FES $EXPERIMENT_NAME "models/rl/$CASE/$EXPERIMENT_NAME" $EVALUATE_FLAG $PARTIAL_TRAJECTORIES_FLAG >> $LOGFILE 2>&1 
+	  run_training $CASE ${SEEDS[$i-1]} "num_envs=$N_ENVS" $FES $EXPERIMENT_NAME "models/rl/$CASE/$EXPERIMENT_NAME" $EVALUATE_FLAG $PARTIAL_TRAJECTORIES_FLAG "${EVAL_OPTIONS[@]}" >> $LOGFILE 2>&1 
 	  cleanup >> $LOGFILE 2>&1
 done

@@ -21,6 +21,11 @@ public interface ISolutionExtender<S extends Solution> {
 
    S generateExtendedSolution(S solution, String rule, Map<String, Object> paramValues);
 
+   default S generateExtendedSolutionInPlace(final S solution, final String rule,
+         final Map<String, Object> paramValues) {
+      return generateExtendedSolution(solution, rule, paramValues);
+   }
+
    INeighborhood<S> generateNeighbors(S solution, int maxNeighbors, IEncodingStrategy<S> encodingStrategy);
 
    Map<String, Unit> getUnitMapping();

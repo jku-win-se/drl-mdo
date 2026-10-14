@@ -22,8 +22,8 @@ import co.gongzh.procbridge.Server;
  *
  * Instead of initializing environments with a fixed instance, this version:
  * - Loads multiple .xmi models from a folder (models_path)
- * - Initializes 8 general environments
- * - Cycles through models using round-robin for each reset
+ * - Initializes n_envs environments (must be a multiple of the number of models)
+ * - Assigns models deterministically per environment (envIdx mod number of models)
  * - Pre-calculates steps per model based on case-specific formula
  */
 public class MultiModelEnvServer {
@@ -88,8 +88,8 @@ public class MultiModelEnvServer {
       final Server server = new Server(port, delegate);
       server.start();
       System.out.println("Training API Server (Multi-Model) is on " + port + "...");
-      evalServer = null;
 
+      MultiModelVecEnvironment testingDelegate = null;
       if(testModelsPath.compareTo("NONE") != 0) {
          final UseCase testingUC = UseCase.fromIdMultiModel(caseId, testModelsPath);
 
@@ -108,7 +108,7 @@ public class MultiModelEnvServer {
             testingEnvFunctions.add(testingEnvConfig.function);
          }
 
-         final MultiModelVecEnvironment testingDelegate = new MultiModelVecEnvironment(true, testingEnvs, outputName,
+         testingDelegate = new MultiModelVecEnvironment(true, testingEnvs, outputName,
                testingUC.modelNames, testingUC.inputGraphs, testingUC.stepsPerModel, testingEnvFunctions,
                testingUC.conditionsPerModel, testingUC.fitnessNormalizersPerModel,
                testingUC.constraintNormalizersPerModel);
@@ -119,8 +119,13 @@ public class MultiModelEnvServer {
 
       }
 
+      final MultiModelVecEnvironment evalDelegate = testingDelegate;
       Runtime.getRuntime().addShutdownHook(new Thread(() -> {
          System.out.println("Shutdown hook triggered. Cleaning up...");
+         delegate.close();
+         if(evalDelegate != null) {
+            evalDelegate.close();
+         }
          server.getListenerThread().interrupt();
          server.stop();
          if(evalServer != null) {

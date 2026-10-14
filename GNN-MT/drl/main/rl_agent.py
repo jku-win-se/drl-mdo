@@ -38,11 +38,13 @@ def train(pallete, args, run_id):
         print(f"Successfully loaded model")
 
     model.learn(total_timesteps=args.rl_tsteps)
-    model.writer.close()
+    if hasattr(model, "writer"):
+        model.writer.close()
 
 
 def sample_trajectories(pallete, args, run_id):
-    print(f"Inference", flush=True)
+    """Run ``args.infer`` with the checkpoint ``args.ac_model``; it is loaded once there."""
+    print(f"Inference ({args.infer})", flush=True)
 
     if args.rl_hyperparams["encoder"] == "shared":
         nn_class = SharedEncoderAC
@@ -52,14 +54,10 @@ def sample_trajectories(pallete, args, run_id):
         raise ValueError(f"Unknown encoder type: {args.rl_hyperparams['encoder']}")
 
     model = PPO(gnn_actor_critic=nn_class, args=args, pallete=pallete, run_id=run_id)
-
-    # FIX: Add missing model loading logic
-    if args.ac_model and args.ac_model != "":
-        ac_model = args.ac_model
-        print(f"Loading in {ac_model}", flush=True)
-        model.ac.load_state_dict(torch.load(ac_model))
-        print(f"Successfully loaded model")
-
     model.inference_sampling(
-        args.rl_sample_n_trajectories, args.seed, args.infer_set_single, nn_class
+        args.infer,
+        args.seed,
+        nn_class,
+        num_solutions=args.num_solutions,
+        converge_patience=args.converge_patience,
     )

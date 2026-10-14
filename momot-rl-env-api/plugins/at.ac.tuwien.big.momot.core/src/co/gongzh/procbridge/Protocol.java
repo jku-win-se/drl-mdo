@@ -7,6 +7,7 @@ import static co.gongzh.procbridge.ProtocolException.INVALID_STATUS_CODE;
 import static co.gongzh.procbridge.ProtocolException.UNRECOGNIZED_PROTOCOL;
 
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,7 +30,10 @@ final class Protocol {
       // 1. FLAG
       b = stream.read();
 
-      if(b == -1 || b != FLAG[0]) {
+      if(b == -1) {
+         throw new EOFException();
+      }
+      if(b != FLAG[0]) {
          throw new ProtocolException(UNRECOGNIZED_PROTOCOL);
       }
       b = stream.read();

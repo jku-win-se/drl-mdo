@@ -1,16 +1,18 @@
 package co.gongzh.procbridge;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,28 +34,43 @@ public class Server {
 
       @Override
       public void run() {
-         try(OutputStream os = socket.getOutputStream(); InputStream is = socket.getInputStream()) {
+         try {
+            socket.setTcpNoDelay(true);
+            try(InputStream is = new BufferedInputStream(socket.getInputStream(), 65536);
+                  OutputStream os = new BufferedOutputStream(socket.getOutputStream(), 65536)) {
+               while(true) {
+                  final Map.Entry<String, Object> req;
+                  try {
+                     req = Protocol.readRequest(is);
+                  } catch(final EOFException eof) {
+                     break;
+                  }
 
-            final Map.Entry<String, Object> req = Protocol.readRequest(is);
-            final String method = req.getKey();
-            final Object payload = req.getValue();
+                  Object result = null;
+                  Exception exception = null;
+                  try {
+                     result = delegate.handleRequest(req.getKey(), req.getValue());
+                  } catch(final Exception ex) {
+                     exception = ex;
+                  }
 
-            Object result = null;
-            Exception exception = null;
-            try {
-               result = delegate.handleRequest(method, payload);
-            } catch(final Exception ex) {
-               exception = ex;
+                  if(exception != null) {
+                     Protocol.writeBadResponse(os, exception.getMessage());
+                  } else {
+                     Protocol.writeGoodResponse(os, result);
+                  }
+               }
             }
-
-            if(exception != null) {
-               Protocol.writeBadResponse(os, exception.getMessage());
-            } else {
-               Protocol.writeGoodResponse(os, result);
-            }
+         } catch(final EOFException | SocketException ex) {
+            // client closed the connection
          } catch(final Exception ex) {
             if(logger != null) {
                ex.printStackTrace(logger);
+            }
+         } finally {
+            try {
+               socket.close();
+            } catch(final IOException ignored) {
             }
          }
       }
@@ -110,9 +127,7 @@ public class Server {
       }
 
       serverSocket = new ServerSocket(this.port);
-      // executor = Executors.newCachedThreadPool();
-      executor = new ThreadPoolExecutor(50, 50, 60L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(50),
-            new ThreadPoolExecutor.CallerRunsPolicy());
+      executor = Executors.newCachedThreadPool();
       started = true;
 
       listenerThread = new Thread(() -> {

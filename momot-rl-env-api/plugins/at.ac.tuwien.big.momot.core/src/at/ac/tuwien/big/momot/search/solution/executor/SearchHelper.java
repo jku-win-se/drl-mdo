@@ -194,6 +194,36 @@ public class SearchHelper {
       return extendedSolution;
    }
 
+   public TransformationSolution appendParticularVariableInPlace(final TransformationSolution solution,
+         final String ruleIdentifier, final Map<String, Object> paramValues) {
+
+      final int newSolutionLength = solution.getNumberOfVariables() + 1;
+
+      final EGraph searchGraph = solution.execute();
+
+      final List<ITransformationVariable> variables = new ArrayList<>(Arrays.asList(solution.getVariables()));
+
+      final ITransformationVariable var = findFixedUnitApplication(searchGraph, ruleIdentifier, paramValues);
+
+      if(var == null) {
+         return null;
+      }
+
+      var.execute(false);
+
+      if(!var.isExecuted()) {
+         return null;
+      }
+
+      final TransformationSolution extendedSolution = new TransformationSolution(solution.getSourceGraph(),
+            newSolutionLength, solution.getNumberOfObjectives(), solution.getNumberOfConstraints());
+
+      variables.add(var);
+      extendedSolution.setTransformation(variables, searchGraph);
+
+      return extendedSolution;
+   }
+
    public TransformationSolution appendParticularVariableByAction(
          final IEncodingStrategy<TransformationSolution> encoder, final TransformationSolution solution,
          final int action) {
@@ -671,14 +701,7 @@ public class SearchHelper {
       if(application.execute(getMonitor())) {
          return clean(application);
       }
-      //
-      // match = this.createFixedAssignment(chosenUnit, parameterValues);
-      // application = createApplication(searchGraph, match);
-      //
-      // if(application.execute(getMonitor())) {
-      // return clean(application);
-      // }
-
+      application.undo(getMonitor());
       return null;
    }
 

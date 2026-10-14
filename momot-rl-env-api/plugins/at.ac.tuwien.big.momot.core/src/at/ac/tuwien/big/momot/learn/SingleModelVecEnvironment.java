@@ -39,10 +39,13 @@ import co.gongzh.procbridge.Delegate;
 import co.gongzh.procbridge.Handler;
 
 public class SingleModelVecEnvironment extends Delegate {
+   private static final int DEFAULT_MAX_FAILED_RETRIES = 20;
    private static String BASE_PATH = "output/nn_logs";
    private static String WRITE_PATH = null;
    private final String title;
    private AtomicInteger[] noExecutions;
+   private int[] failedInARow;
+   private int maxFailedRetries;
 
    private final AtomicInteger fe = new AtomicInteger(0);
 
@@ -67,6 +70,8 @@ public class SingleModelVecEnvironment extends Delegate {
       this.envs = envs;
       this.title = title;
       this.envMaxSteps = new int[envs.size()];
+      this.maxFailedRetries = DEFAULT_MAX_FAILED_RETRIES;
+      this.failedInARow = new int[envs.size()];
       this.conditionList = conditionList;
       this.archive = new SolutionArchive[envs.size()];
       this.initialSolutions = new TransformationSolution[envs.size()];
@@ -94,6 +99,15 @@ public class SingleModelVecEnvironment extends Delegate {
       final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
       reg.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
 
+   }
+
+   public SingleModelVecEnvironment(final List<SOEnvironment<TransformationSolution>> envs, final String title,
+         final int[] maxSteps, final List<JSONObject> conditionList, final int maxFailedRetries) {
+      this(envs, title, maxSteps, conditionList);
+      if(maxFailedRetries < 1) {
+         throw new IllegalArgumentException("maxFailedRetries must be at least 1, got " + maxFailedRetries);
+      }
+      this.maxFailedRetries = maxFailedRetries;
    }
 
    protected void addSolutionIfValid(final int envIdx, final Solution s) {
@@ -126,6 +140,19 @@ public class SingleModelVecEnvironment extends Delegate {
    @Handler
    int getMaxSteps() {
       return this.envMaxSteps[0];
+   }
+
+   /**
+    * Per-environment step budgets. Returns a copy so callers cannot mutate the live counters.
+    * Older jars have no such handler and answer the request with null.
+    */
+   @Handler
+   List<Integer> getEnvMaxSteps() {
+      final List<Integer> steps = new ArrayList<>(this.envMaxSteps.length);
+      for(final int stepsForEnv : this.envMaxSteps) {
+         steps.add(stepsForEnv);
+      }
+      return steps;
    }
 
    @Override
@@ -164,10 +191,6 @@ public class SingleModelVecEnvironment extends Delegate {
          }
       }
       writeSolutions(aggPop, "running-solutions");
-
-      IntStream.range(0, envs.size()).forEach(i -> {
-         envs.get(i).adaptLagragian();
-      });
    }
 
    @Handler
@@ -198,6 +221,7 @@ public class SingleModelVecEnvironment extends Delegate {
       final Object[] rv = new Object[2];
       try {
          failedCnt[envIdx].set(0);
+         failedInARow[envIdx] = 0;
          noExecutions[envIdx].set(0);
 
          System.out.println(
@@ -248,6 +272,7 @@ public class SingleModelVecEnvironment extends Delegate {
 
       IntStream.range(0, envs.size()).forEach(i -> {
          failedCnt[i] = new AtomicInteger(0);
+         failedInARow[i] = 0;
          noExecutions[i] = new AtomicInteger(0);
 
          hrs[i] = new ResourceSetImpl();
@@ -291,18 +316,24 @@ public class SingleModelVecEnvironment extends Delegate {
          final SOEnvResponse<TransformationSolution> r = step(envs.get(envIdx), rule, paramValues);
          final Object[] rv = new Object[3];
 
-         // Reward
-         rv[1] = r.getReward();
-
-         noExecutions[envIdx].incrementAndGet();
-
+         // A rule Henshin cannot apply is not a transition: no penalty and no budget use.
+         // After maxFailedRetries failures in a row, count one step so the env cannot stall.
          if(r.getState() == null) {
-
-            rv[0] = false;
-            rv[1] = r.getReward() - 1;
-
             LearnAPIUtils.writeFileAndConsole(fWriter[envIdx], "Failed");
+            failedInARow[envIdx] = failedInARow[envIdx] + 1;
+            if(failedInARow[envIdx] < this.maxFailedRetries) {
+               return new Object[] { false, 0.0, false };
+            }
+            failedInARow[envIdx] = 0;
+            noExecutions[envIdx].incrementAndGet();
+            System.out.println("Warning: environment " + envIdx + " failed " + this.maxFailedRetries
+                  + " transformations in a row; counting this attempt as one step with reward 0.");
+            rv[0] = false;
+            rv[1] = 0.0;
          } else {
+            failedInARow[envIdx] = 0;
+            rv[1] = r.getReward();
+            noExecutions[envIdx].incrementAndGet();
             fe.incrementAndGet();
 
             failedCnt[envIdx].set(0);
@@ -335,8 +366,6 @@ public class SingleModelVecEnvironment extends Delegate {
          if(noExecutions[envIdx].get() >= this.envMaxSteps[envIdx]) {
             System.out.println("Reset @ steps = " + noExecutions[envIdx].get());
             rv[2] = true;
-
-            envs.get(envIdx).endEpisode();
          } else {
             System.out.println("current steps = " + noExecutions[envIdx].get());
             rv[2] = false;

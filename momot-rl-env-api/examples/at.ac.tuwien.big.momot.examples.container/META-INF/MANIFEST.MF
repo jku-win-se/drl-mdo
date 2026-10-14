@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-Description: %Bundle-Description
 Bundle-Vendor: %Bundle-Vendor
-Bundle-SymbolicName: at.ac.tuwien.big.momot.examples.cra;singleton:=true
+Bundle-SymbolicName: at.ac.tuwien.big.momot.examples.container;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin

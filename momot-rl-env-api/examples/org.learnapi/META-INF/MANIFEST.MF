@@ -3,17 +3,14 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-Description: %Bundle-Description
 Bundle-Vendor: %Bundle-Vendor
-Bundle-SymbolicName: at.ac.tuwien.big.momot.examples.cra;singleton:=true
+Bundle-SymbolicName: org.learnapi;singleton:=true
+Automatic-Module-Name: org.learnapi
 Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: SprintPlanning,
- at.ac.tuwien.big.moea.search.fitness.dimension,
- at.ac.tuwien.big.momot.examples.refactoring,
- at.ac.tuwien.big.momot.examples.stack,
- icmt.tool.momot.demo,
- icmt.tool.momot.demo.architecture,
+Export-Package: learnapi
+Import-Package: icmt.tool.momot.demo,
  org.apache.commons.io;version="2.8.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.11.1,4.0.0)",
  org.eclipse.emf.ecore;bundle-version="[2.11.2,3.0.0)";visibility:=reexport,
@@ -23,7 +20,9 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.11.1,4.0.0)",
  org.eclipse.ocl;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.ocl.ecore;bundle-version="[3.4.0,4.0.0)",
  at.ac.tuwien.big.momot.core,
- org.apache.commons.cli,
+ at.ac.tuwien.big.moea;bundle-version="2.0.0",
  at.ac.tuwien.big.momot.examples.cra,
- at.ac.tuwien.big.moea;bundle-version="2.0.0"
+ at.ac.tuwien.big.momot.examples.stack,
+ org.scrum,
+ org.apache.commons.cli
 Bundle-ActivationPolicy: lazy
