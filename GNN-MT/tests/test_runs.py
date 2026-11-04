@@ -397,6 +397,10 @@ class RunTests(unittest.TestCase):
                                  "--out", out], capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr[-1500:])
         self.assertTrue(os.path.exists(os.path.join(out, "hv_over_fes_sampling.pdf")))
+        rows = read_csv(os.path.join(out, "hv_over_fes_sampling.csv"))
+        self.assertEqual([int(float(r["fe"])) for r in rows], [1, 2, 3])
+        means = [float(r["mean"]) for r in rows]
+        self.assertEqual(means, sorted(means))  # An archive never loses HV, also on average.
 
     def test_second_launch_is_refused(self):
         with socket.socket() as listener:

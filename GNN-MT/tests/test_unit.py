@@ -155,6 +155,19 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(common.best_primary("slb", points), -5.0)
         self.assertEqual(common.best_primary("sp", points), -3.0)
 
+    def test_curves_share_one_grid_and_hold_their_last_value(self):
+        rows = [
+            ("a", 1, np.array([10, 20]), np.array([0.5, 0.6])),
+            ("a", 2, np.array([10, 100]), np.array([0.1, 0.9])),
+        ]
+        table = common.curves_at_grid(rows)
+        grids = table.groupby("seed")["fe"].apply(list)
+        self.assertEqual(grids[1], grids[2])
+        last = table[table["fe"] == table["fe"].max()].set_index("seed")["value"]
+        self.assertEqual(last.to_dict(), {1: 0.6, 2: 0.9})  # Seed 1 ended early and holds 0.6.
+        curves = common.summarize_curves(table.dropna())
+        self.assertEqual(curves["seeds"].iloc[-1], 2)
+
     def test_read_solutions_with_and_without_fe_lines(self):
         with tempfile.TemporaryDirectory() as folder:
             path = os.path.join(folder, "f.txt")
