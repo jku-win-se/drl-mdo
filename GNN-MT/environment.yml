@@ -65,7 +65,6 @@ dependencies:
       - lxml==4.8.0
       - markdown==3.7
       - multidict==6.4.4
-      - multiprocess==0.70.12.2
       - multiset==2.1.1
       - nqdm==0.4.12
       - oauthlib==3.2.2

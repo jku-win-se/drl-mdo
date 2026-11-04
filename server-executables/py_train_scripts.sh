@@ -13,7 +13,7 @@ run_training() {
   CUBLAS_WORKSPACE_CONFIG=:4096:8 "$CONDA_ENV/bin/python" "${AGENT_ROOT}/main.py" \
     --train \
     "$@" \
-    --hyperparams "normalize_rewards=False encoder=shared rnn_type=gru entropy_coef=0.01 lr=1e-4 clip=0.2 timesteps_per_batch=2048 gamma=0.99 gae_lambda=0.95 mini_batch_size=64 n_updates_per_iteration=10 render=False render_every_i=10 hidden_dim=64 $custom_hyperparams" \
+    --hyperparams "normalize_rewards=False encoder=shared rnn_type=gru entropy_coef=0.01 lr=1e-4 clip=0.2 timesteps_per_batch=2048 gamma=0.99 gae_lambda=0.95 mini_batch_size=64 n_updates_per_iteration=10 hidden_dim=64 $custom_hyperparams" \
     --fes "$fes" \
     --wandb_config "dir=$case group=$wandb_group" \
     --model_path "${AGENT_ROOT}/${model_path}" \
@@ -50,7 +50,7 @@ run_inference() {
   CUBLAS_WORKSPACE_CONFIG=:4096:8 "$CONDA_ENV/bin/python" "${AGENT_ROOT}/main.py" \
     "${mode_args[@]}" \
     --seed "$seed" \
-    --hyperparams "render=False render_every_i=10" \
+    --hyperparams "" \
     --wandb_config "dir=$case group=$label" \
     --model_path "${AGENT_ROOT}/${model_path}" \
     --ac_model "$checkpoint" \

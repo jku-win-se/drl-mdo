@@ -1,89 +1,249 @@
 """Tests without a server. Run from GNN-MT/: python -m unittest tests.test_unit"""
 
+import dataclasses
+import glob
 import os
+import re
+import subprocess
 import sys
-import tempfile
 import types
+import warnings
+import tempfile
 import unittest
 
 import numpy as np
 import pandas as pd
+import torch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "evaluation", "scripts"))
 
 import analysis_common as common  # noqa: E402
-from drl.main.ppo import PPO  # noqa: E402
+from drl.main.hyperparams import Hyperparams  # noqa: E402
+from drl.main.inference import (  # noqa: E402
+    FixedEpisodeCount,
+    OneEpisodePerEnv,
+    ParetoArchive,
+    UntilNoImprovement,
+    isolated_rng,
+)
+from drl.main.reward_norm import RewardNormalizer  # noqa: E402
+from drl.main.rollout import (  # noqa: E402
+    RolloutCollector,
+    _Rollout,
+    compute_gae,
+    resolve_rollout_length,
+)
 from drl.neural_model.early_stopping import EarlyStopping  # noqa: E402
 from drl.utils.episode_stats import EpisodeStats  # noqa: E402
-from drl.utils.running_mean_std import RunningMeanStd  # noqa: E402
 
 
 class RewardNormalizationTests(unittest.TestCase):
-    def make_ppo(self, num_models=3, num_envs=1):
-        ppo = PPO.__new__(PPO)
-        ppo.normalize_rewards = True
-        ppo.gamma = 0.99
-        ppo.reward_clip = 10.0
-        ppo.rew_norm_freeze_after = -1
-        ppo.returns = np.zeros(num_envs)
-        ppo._instance_reward_normalizers = [RunningMeanStd() for _ in range(num_models)]
-        ppo._pooled_reward_normalizer = RunningMeanStd(epsilon=1.0)
-        ppo._model_warmed_up = np.zeros(num_models, dtype=bool)
-        ppo._model_norm_updates = np.zeros(num_models, dtype=np.int64)
-        ppo._rewards_scaled = ppo._rewards_clipped = ppo._steps_seen = ppo._steps_invalid = 0
-        ppo.env = types.SimpleNamespace(step_models=[0] * num_envs, instance_ids=[0] * num_envs)
-        return ppo
+    def make(self, num_models=3, freeze_after=-1):
+        return RewardNormalizer(1, num_models, gamma=0.99, reward_clip=10.0, freeze_after=freeze_after)
 
     def test_no_clipping_from_variance_startup(self):
-        ppo = self.make_ppo()
-        scaled = [ppo._normalize_reward(0, 1.0) for _ in range(5)]
+        norm = self.make()
+        scaled = [norm.normalize(0, 0, 1.0) for _ in range(5)]
         self.assertTrue(all(abs(s) < 10.0 for s in scaled), scaled)
-        self.assertEqual(ppo.take_reward_stats()["clipped_reward_share"], 0.0)
+        self.assertEqual(norm.take_stats()["clipped_reward_share"], 0.0)
 
     def test_first_visit_uses_pooled_scale_then_its_own(self):
-        ppo = self.make_ppo()
+        norm = self.make()
         for _ in range(50):  # Model 0 has large rewards.
-            ppo._normalize_reward(0, 100.0)
-        ppo.returns[0] = 0.0
-        ppo.env.step_models[0] = 1
-        pooled_std = np.sqrt(ppo._pooled_reward_normalizer.var)
-        first = ppo._normalize_reward(0, 1.0)
+            norm.normalize(0, 0, 100.0)
+        norm.reset_return(0)
+        pooled_std = np.sqrt(norm.pooled.var)
+        first = norm.normalize(0, 1, 1.0)
         self.assertAlmostEqual(first, 1.0 / pooled_std, delta=1e-2 / pooled_std + 1e-3)
 
         for _ in range(50):
-            ppo._normalize_reward(0, 1.0)
-        ppo._end_of_episode(0)
-        after = ppo._normalize_reward(0, 1.0)
-        own_std = np.sqrt(ppo._instance_reward_normalizers[1].var)
-        self.assertAlmostEqual(after, 1.0 / own_std, places=6)
+            norm.normalize(0, 1, 1.0)
+        norm.end_of_episode(1)
+        after = norm.normalize(0, 1, 1.0)
+        self.assertAlmostEqual(after, 1.0 / np.sqrt(norm.normalizers[1].var), places=6)
 
     def test_each_reward_updates_the_model_it_came_from(self):
-        ppo = self.make_ppo(num_models=4)
-        ppo.env.step_models[0] = 2
-        ppo._normalize_reward(0, 5.0)
-        self.assertEqual(ppo._model_norm_updates.tolist(), [0, 0, 1, 0])
-
-    def test_last_reward_of_episode_uses_that_episodes_model(self):
-        # The row with the last reward also moved the env on: its instance id names the next model.
-        ppo = self.make_ppo(num_models=4)
-        ppo.env.step_models[0] = 1
-        ppo.env.instance_ids[0] = 3
-        ppo._normalize_reward(0, 5.0)
-        self.assertEqual(ppo._model_norm_updates.tolist(), [0, 1, 0, 0])
+        norm = self.make(num_models=4)
+        norm.normalize(0, 2, 5.0)
+        self.assertEqual(norm.updates.tolist(), [0, 0, 1, 0])
 
     def test_freeze_counts_per_model(self):
-        ppo = self.make_ppo()
-        ppo.rew_norm_freeze_after = 2
+        norm = self.make(freeze_after=2)
         for _ in range(5):
-            ppo._normalize_reward(0, 1.0)
-        ppo.env.step_models[0] = 1
-        ppo._normalize_reward(0, 1.0)
-        self.assertEqual(ppo._model_norm_updates.tolist(), [2, 1, 0])
+            norm.normalize(0, 0, 1.0)
+        norm.normalize(0, 1, 1.0)
+        self.assertEqual(norm.updates.tolist(), [2, 1, 0])
 
     def test_pooled_model_count_is_reported(self):
-        ppo = self.make_ppo()
-        ppo._end_of_episode(0)
-        self.assertEqual(ppo.take_reward_stats()["models_on_pooled_scale"], 2)
+        norm = self.make()
+        norm.end_of_episode(0)
+        self.assertEqual(norm.take_stats()["models_on_pooled_scale"], 2)
+
+    def test_disabled_passes_rewards_through(self):
+        norm = RewardNormalizer(1, 1, gamma=0.99, reward_clip=10.0, enabled=False)
+        self.assertEqual(norm.normalize(0, 0, 123.0), 123.0)
+
+
+class RolloutTests(unittest.TestCase):
+    def collector(self, step_model=1, next_model=3):
+        env = types.SimpleNamespace(
+            reset=lambda: [None], num_envs=1, step_models=[step_model], instance_ids=[next_model], step_infos=[None]
+        )
+        stats = types.SimpleNamespace(
+            add_step_reward=lambda _: None, add_episode=lambda *_, **__: None
+        )
+        norm = RewardNormalizer(1, 4, gamma=0.99, reward_clip=10.0)
+        return RolloutCollector(env, None, None, stats, norm, 0.99, 0.95, 1, 1, "cpu"), norm
+
+    def record(self, collector, rollout, done, next_obs="next", action=("rule", None, None)):
+        collector.record_transition(0, "staged", action, [0.0, 0.0, 0.0], 0.5, 5.0, done, next_obs, rollout)
+
+    def test_last_reward_of_episode_belongs_to_that_episodes_model(self):
+        # The row with the last reward also moved the env on: its instance id names the next model.
+        collector, norm = self.collector()
+        rollout = _Rollout(1, False, types.SimpleNamespace(update=lambda _: None))
+        self.record(collector, rollout, True)
+        self.assertEqual(norm.updates.tolist(), [0, 1, 0, 0])
+        self.assertEqual(norm.warmed_up.tolist(), [False, True, False, False])
+        self.assertEqual(rollout.envs[0].models, [1])
+        self.assertEqual(rollout.ep_lens, [1])
+
+    def test_full_episode_rollout_keeps_only_finished_episodes(self):
+        collector, _ = self.collector()
+        rollout = _Rollout(1, True, types.SimpleNamespace(update=lambda _: None))
+        self.record(collector, rollout, False)
+        self.assertEqual(rollout.completed.obs, [])
+        self.record(collector, rollout, True)
+        self.assertEqual(rollout.completed.obs, ["staged", "staged"])
+        self.assertEqual(rollout.envs[0].obs, [])
+
+    def test_skipped_step_stores_nothing_and_keeps_the_observation(self):
+        collector, _ = self.collector()
+        rollout = _Rollout(1, False, types.SimpleNamespace(update=lambda _: None))
+        self.record(collector, rollout, False, next_obs=None)
+        self.assertEqual(rollout.envs[0].obs, [])
+        self.assertEqual(rollout.skipped_invalid_steps, 1)
+        self.assertEqual(collector.obs, [None])
+
+    def test_invalid_node_action_counts_but_is_not_stored(self):
+        collector, _ = self.collector()
+        rollout = _Rollout(1, False, types.SimpleNamespace(update=lambda _: None))
+        self.record(collector, rollout, False, action=("rule", torch.tensor([[-1]]), None))
+        self.assertEqual(rollout.envs[0].obs, [])
+        self.assertEqual(rollout.skipped_invalid_nodes, 1)
+        self.assertEqual(collector.obs, ["next"])
+
+    def test_invalid_action_share_resets(self):
+        collector, _ = self.collector()
+        collector.env.step_infos[0] = {"invalid": True}
+        rollout = _Rollout(1, False, types.SimpleNamespace(update=lambda _: None))
+        self.record(collector, rollout, False, next_obs=None)
+        self.assertEqual(collector.take_step_stats()["invalid_action_share"], 1.0)
+        self.assertEqual(collector.take_step_stats()["invalid_action_share"], 0.0)
+
+    def test_gae_by_hand(self):
+        # One env, two steps, no terminal: gamma 0.5, lambda 1, next value 4.
+        returns, advantages = compute_gae([[1.0, 2.0]], [[0.0, 0.0]], [[1.0, 1.0]], [4.0], 0.5, 1.0, "cpu")
+        # t=1: 2 + 0.5*4 - 1 = 3. t=0: 1 + 0.5*1 - 1 + 0.5*3 = 2.
+        self.assertEqual(advantages.tolist(), [2.0, 3.0])
+        self.assertEqual(returns.tolist(), [3.0, 4.0])
+
+    def test_gae_stops_at_a_finished_episode(self):
+        _, advantages = compute_gae([[1.0, 2.0]], [[1.0, 0.0]], [[0.0, 0.0]], [0.0], 0.5, 1.0, "cpu")
+        self.assertEqual(advantages.tolist(), [1.0, 2.0])
+
+    def test_rollout_length(self):
+        self.assertEqual(resolve_rollout_length(Hyperparams(), 4, 30), (30, 120))
+        self.assertEqual(resolve_rollout_length(Hyperparams(timesteps_per_batch=100), 4, 25), (25, 100))
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.assertEqual(resolve_rollout_length(Hyperparams(n_steps=10), 2, 30), (10, 20))
+
+
+class InferenceTests(unittest.TestCase):
+    def test_running_a_policy_does_not_need_the_training_code(self):
+        code = (
+            "import sys; import drl.main.inference; "
+            "assert 'drl.main.ppo' not in sys.modules and 'drl.main.rollout' not in sys.modules"
+        )
+        root = os.path.join(os.path.dirname(__file__), "..")
+        subprocess.run([sys.executable, "-W", "ignore", "-c", code], check=True, cwd=root)
+
+    def test_archive_only_reports_changes_of_the_front(self):
+        archive = ParetoArchive()
+        self.assertTrue(archive.add([[1.0, 2.0]]))
+        self.assertFalse(archive.add([[1.0, 2.0], [2.0, 3.0]]))  # A repeat and a dominated point.
+        self.assertTrue(archive.add([[0.5, 3.0]]))
+        self.assertEqual(len(archive), 2)
+
+    def test_schedules(self):
+        once = OneEpisodePerEnv(2)
+        self.assertEqual([once.start_episode(0), once.start_episode(0)], [True, False])
+        fixed = FixedEpisodeCount(1)
+        self.assertEqual([fixed.start_episode(0), fixed.start_episode(1)], [True, False])
+        patient = UntilNoImprovement(2)
+        patient.on_episode_end(False)
+        patient.on_episode_end(True)
+        patient.on_episode_end(False)
+        self.assertFalse(patient.stopped)
+        patient.on_episode_end(False)
+        self.assertTrue(patient.stopped)
+
+    def test_isolated_rng_repeats_and_leaves_the_outer_stream_alone(self):
+        torch.manual_seed(1)
+        expected = torch.rand(2)
+        torch.manual_seed(1)
+        with isolated_rng(7):
+            first = torch.rand(1)
+        with isolated_rng(7):
+            second = torch.rand(1)
+        self.assertEqual(first.item(), second.item())
+        self.assertTrue(torch.equal(torch.rand(2), expected))
+
+
+class HyperparamsTests(unittest.TestCase):
+    def test_unknown_key_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "es_patienc"):
+            Hyperparams.from_dict({"es_patienc": 15})
+
+    def test_values_parse_as_exec_did(self):
+        hp = Hyperparams.from_dict(
+            {"masking": "False", "time_scale": "None", "target_kl": "None", "lr": 1e-3,
+             "graph_encoder": "gatv2", "n_steps": "auto", "entropy_normalize": "yes", "value_ordinal": 0}
+        )
+        self.assertIs(hp.masking, False)
+        self.assertIsNone(hp.time_scale)
+        self.assertEqual(hp.target_kl, 0.0)
+        self.assertEqual(hp.lr, 1e-3)
+        self.assertEqual(hp.graph_encoder, "gatv2")
+        self.assertEqual(hp.n_steps, "auto")
+        self.assertIs(hp.entropy_normalize, True)
+        self.assertIs(hp.value_ordinal, False)
+        self.assertEqual(Hyperparams.from_dict({"n_steps": 100}).n_steps, 100)
+
+    def test_entropy_coefficients_default_to_the_shared_one(self):
+        hp = Hyperparams.from_dict({"entropy_coef": 0.5, "entropy_coef_node": 0.1})
+        self.assertEqual((hp.entropy_coef_rule, hp.entropy_coef_node, hp.entropy_coef_val), (0.5, 0.1, 0.5))
+
+    def test_unsupported_choice_is_rejected(self):
+        for key in ("encoder", "value_head", "node_decoder", "graph_encoder"):
+            with self.assertRaisesRegex(ValueError, key):
+                Hyperparams.from_dict({key: "nope"})
+
+    def test_every_key_in_the_experiment_scripts_is_known(self):
+        root = os.path.join(os.path.dirname(__file__), "..", "..")
+        known = {field.name for field in dataclasses.fields(Hyperparams)} | {"hidden_dim"}
+        pattern = re.compile(r"\b([a-z_0-9]+)=[^\s\"']+")
+        paths = glob.glob(os.path.join(root, "experiments", "*.sh")) + [
+            os.path.join(root, "server-executables", "py_train_scripts.sh")
+        ]
+        for path in paths:
+            with open(path) as f:
+                # Only hyperparameter strings: lines inside BASE_HP, or passed to rq1/--hyperparams.
+                for line in f:
+                    if "--hyperparams" in line or line.startswith(("BASE_HP", "entropy_coef", "target_kl")) or re.match(r"\s*(N=\S+ )?rq1 ", line):
+                        keys = set(pattern.findall(line)) - {"BASE_HP", "N", "FES"}
+                        self.assertEqual(keys - known, set(), f"{path}: {line}")
 
 
 class WindowStatsTests(unittest.TestCase):

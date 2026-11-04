@@ -11,8 +11,8 @@ import torch
 from prettytable import PrettyTable
 from drl.utils.pallete import Pallete
 from drl.main.rl_agent import train, sample_trajectories
-from drl.main.inference_sampler import INFERENCE_MODES
-#from drl.env.RemEnv import SubprocEnv
+from drl.main.hyperparams import Hyperparams
+from drl.main.inference import INFERENCE_MODES
 from utils.seed_util import seed_everything
 import wandb
 from time import time
@@ -332,12 +332,6 @@ if __name__ == "__main__":
     )
     parser.add_argument("--port", help="Port for the server.", type=int, default=8000)
     parser.add_argument(
-        "--env_transport",
-        choices=["batched", "subproc"],
-        default="batched",
-        help="Vectorized env transport: batched (persistent/compact) or subproc (legacy XMI).",
-    )
-    parser.add_argument(
         "--env_groups",
         type=int,
         default=1,
@@ -357,8 +351,8 @@ if __name__ == "__main__":
         arg.split("=")[0]: smart_cast(arg.split("=")[1])
         for arg in " ".join(args.hyperparams or []).split()
     }
-    args.hyperparams.setdefault("encoder", "shared")
     args.hidden_dim = args.hyperparams.pop("hidden_dim", args.hidden_dim)
+    Hyperparams.from_dict(args.hyperparams)  # Stops on an unknown key before anything starts.
     args.wandb_config = {
         arg.split("=")[0]: smart_cast(arg.split("=")[1])
         for arg in (args.wandb_config or [""])[0].split(" ")
@@ -383,10 +377,10 @@ if __name__ == "__main__":
     args.seeds = args.seed
     args.base_model_path = args.model_path
     args.device = "cuda" if torch.cuda.is_available() else "cpu"
-    # Categorical and Normal argument checks sync on every sample. Keep them
-    # only while hunting NaNs; rollout and the update both build distributions.
+    # Categorical and Normal argument checks sync on every sample, so they stay off:
+    # the rollout and the update both build distributions.
     torch.distributions.Distribution.set_default_validate_args(
-        bool(getattr(args, "debug_nan", False))
+        False
     )
     timestamp = time()
 

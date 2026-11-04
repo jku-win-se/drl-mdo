@@ -1,6 +1,8 @@
 import time
+from dataclasses import dataclass
 
 import numpy as np
+import procbridge as pb
 import torch
 
 from drl.env.compact_obs import decode_compact_obs
@@ -13,6 +15,15 @@ from drl.env.time_feature import (
     warn_horizon_mismatch,
 )
 from drl.utils.pallete import SEP_INV, SPECIAL
+
+
+@dataclass
+class StepTimers:
+    """Seconds spent on policy inference, waiting for the server, and decoding its answers."""
+
+    inference: float = 0.0
+    env_wait: float = 0.0
+    decode: float = 0.0
 
 
 def split_env_groups(num_envs, n_groups):
@@ -87,6 +98,13 @@ class BatchedRemoteEnv:
         self.control.request("configureObservation", self.build_observation_spec())
         self.store_reset_observations(self.control.request("resetAll"))
 
+    @classmethod
+    def connect(cls, port, pallete, run_path, **kwargs):
+        """Start a run on the server on ``port``, logging under ``run_path``, and attach to it."""
+        server = pb.Client("127.0.0.1", port)
+        server.request("resetInstance", run_path)
+        return cls(server.request("numEnvs"), pallete, port=port, **kwargs)
+
     def build_observation_spec(self):
         edge_types = {
             name: idx
@@ -123,7 +141,7 @@ class BatchedRemoteEnv:
         return obs
 
     def encode_action_payload(self, env_index, action):
-        # Keys match the Java step / stepAll contract used by RemEnv.
+        # Keys match the Java stepAll contract.
         rule_id = action[0].item()
         node_ids_t = []
         integer_sequence = []
@@ -266,6 +284,15 @@ class BatchedRemoteEnv:
             dones.append(done)
         self.last_decode_time = time.perf_counter() - t0
         return obs_out, np.array(rews), np.array(dones, dtype=bool)
+
+    def timed_wait_group(self, group_index, timers):
+        """``step_wait_group``, adding its waiting and decoding time to ``timers``."""
+        t0 = time.perf_counter()
+        result = self.step_wait_group(group_index)
+        wait_dt = time.perf_counter() - t0
+        timers.decode += self.last_decode_time
+        timers.env_wait += max(0.0, wait_dt - self.last_decode_time)
+        return result
 
     def step_async(self, actions):
         for group_index, idxs in enumerate(self.groups):

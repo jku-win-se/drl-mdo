@@ -5,7 +5,20 @@ Provides a rolling buffer system similar to Stable-Baselines3 for monitoring tra
 
 import numpy as np
 from collections import deque
+import os
 from typing import Dict, List, Optional, Tuple, Union
+
+
+def metric_name(name):
+    """A model name as it may appear in a metric key."""
+    base = os.path.basename(str(name))
+    cleaned = []
+    for character in base:
+        if character.isalnum() or character in ("-", "_"):
+            cleaned.append(character)
+        else:
+            cleaned.append("_")
+    return "".join(cleaned) or "instance"
 
 
 class EpisodeStats:
