@@ -1,2 +1,5 @@
 /logs/
 /output/
+/build/
+/build.tmp/
+/server_output.log

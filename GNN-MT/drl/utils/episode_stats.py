@@ -5,7 +5,7 @@ Provides a rolling buffer system similar to Stable-Baselines3 for monitoring tra
 
 import numpy as np
 from collections import deque
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 
 class EpisodeStats:
@@ -53,7 +53,10 @@ class EpisodeStats:
                 )
             self.instance_ids = [int(instance_id) for instance_id in instance_ids]
         self.num_instances = (max(self.instance_ids) + 1) if self.instance_ids else 0
-        if self.instance_ids and sorted(set(self.instance_ids)) != list(range(self.num_instances)):
+        # Names may cover more models than there are envs, when envs cycle through the models.
+        if instance_names is not None and len(instance_names) > self.num_instances:
+            self.num_instances = len(instance_names)
+        elif self.instance_ids and sorted(set(self.instance_ids)) != list(range(self.num_instances)):
             raise ValueError(
                 "instance_ids must be dense and start at 0, "
                 f"got {sorted(set(self.instance_ids))}"
@@ -163,6 +166,13 @@ class EpisodeStats:
             normalized_means.append(window_mean / scale)
         return float(np.mean(normalized_means))
 
+    def get_window_return_stats(self, window: int) -> Tuple[float, float]:
+        """Mean and std of the raw returns behind the windowed macro return, over all instances."""
+        returns = [ret for rets in self.instance_returns for ret in rets[-window:]]
+        if not returns:
+            return float("nan"), float("nan")
+        return float(np.mean(returns)), float(np.std(returns))
+
     def add_step_reward(self, raw_rew: float) -> None:
         """Accumulate a raw step reward for the composition-invariant per-step return."""
         self._rollout_reward_sum += float(raw_rew)
@@ -247,6 +257,7 @@ class EpisodeStats:
         episode_return: Union[float, int],
         episode_length: int,
         env_id: Optional[int] = None,
+        instance_id: Optional[int] = None,
     ) -> None:
         """
         Add a completed episode to the buffer.
@@ -255,6 +266,7 @@ class EpisodeStats:
             episode_return: Total reward for the completed episode
             episode_length: Number of steps in the completed episode
             env_id: Environment index (required for per-env tracking)
+            instance_id: Model the episode ran on. Defaults to the env's initial model.
         """
         ret = float(episode_return)
         length = int(episode_length)
@@ -266,7 +278,8 @@ class EpisodeStats:
             self.env_lengths[env_id].append(length)
             self._rollout_env_returns[env_id].append(ret)
             self._rollout_env_lengths[env_id].append(length)
-            instance_id = self.instance_ids[env_id]
+            if instance_id is None:
+                instance_id = self.instance_ids[env_id]
             self.instance_returns[instance_id].append(ret)
             self._rollout_instance_returns[instance_id].append(ret)
             self._rollout_instance_lengths[instance_id].append(length)

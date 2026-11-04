@@ -1,3 +1,6 @@
+import json
+import os
+
 import torch
 from drl.main.ppo import PPO
 from drl.neural_model.gnn_predictor import SharedEncoderAC, SeparateEncoderAC
@@ -19,12 +22,12 @@ def train(pallete, args, run_id):
 
     # Create a model for PPO.
 
-    if args.rl_hyperparams["encoder"] == "shared":
+    if args.hyperparams["encoder"] == "shared":
         nn_class = SharedEncoderAC
-    elif args.rl_hyperparams["encoder"] == "separate":
+    elif args.hyperparams["encoder"] == "separate":
         nn_class = SeparateEncoderAC
     else:
-        raise ValueError(f"Unknown encoder type: {args.rl_hyperparams['encoder']}")
+        raise ValueError(f"Unknown encoder type: {args.hyperparams['encoder']}")
 
     model = PPO(gnn_actor_critic=nn_class, args=args, pallete=pallete, run_id=run_id)
 
@@ -37,7 +40,7 @@ def train(pallete, args, run_id):
 
         print(f"Successfully loaded model")
 
-    model.learn(total_timesteps=args.rl_tsteps)
+    model.learn(total_timesteps=args.fes)
     if hasattr(model, "writer"):
         model.writer.close()
 
@@ -46,12 +49,16 @@ def sample_trajectories(pallete, args, run_id):
     """Run ``args.infer`` with the checkpoint ``args.ac_model``; it is loaded once there."""
     print(f"Inference ({args.infer})", flush=True)
 
-    if args.rl_hyperparams["encoder"] == "shared":
+    # The checkpoint knows how it was built.
+    with open(os.path.join(os.path.dirname(args.ac_model), "model_config.json"), encoding="utf-8") as f:
+        args.hyperparams["encoder"] = json.load(f)["encoder"]
+
+    if args.hyperparams["encoder"] == "shared":
         nn_class = SharedEncoderAC
-    elif args.rl_hyperparams["encoder"] == "separate":
+    elif args.hyperparams["encoder"] == "separate":
         nn_class = SeparateEncoderAC
     else:
-        raise ValueError(f"Unknown encoder type: {args.rl_hyperparams['encoder']}")
+        raise ValueError(f"Unknown encoder type: {args.hyperparams['encoder']}")
 
     model = PPO(gnn_actor_critic=nn_class, args=args, pallete=pallete, run_id=run_id)
     model.inference_sampling(
@@ -60,4 +67,5 @@ def sample_trajectories(pallete, args, run_id):
         nn_class,
         num_solutions=args.num_solutions,
         converge_patience=args.converge_patience,
+        num_batches=args.num_batches,
     )

@@ -14,11 +14,12 @@ Key directories:
 - `GNN-MT/`: RL agent (GNN-based ML model)
 - `models/`: Training/Test models
 - `momot-rl-env-api/`: RL environment module (source)
-- `server-executables/`: RL evironment module (standalone)
+- `server-executables/`: RL environment build and launch scripts
+- `experiments/`: Scripts and instructions for the experiments
 
 
 ## 🛠 Requirements
-The prototype was tested using Python 3.9 with the required dependencies and a Java 17 runtime. 
+The prototype was tested using Python 3.8 and 3.9 with the required dependencies and a Java 17 or newer JDK. 
 
 ### RL agent
 For Python, we recommend setting up a conda environment with the listed dependencies ([GNN-MT/environment.yml](./GNN-MT/environment.yml)) as follows:
@@ -44,44 +45,46 @@ See [PyTorch installation guide](https://pytorch.org/get-started/locally/) and [
 
 
 ### RL environment
-For the Java server application, executable jar's are provided to start the server for training and running policies. The server will be automatically spinned up when running the prepared scripts `train_agent.sh` and `run_policy.sh`. 
+The Java server is built from source with `server-executables/build.sh`. The server will be automatically spinned up when running the prepared scripts `train_agent.sh` and `run_policy.sh`. 
 
 > **Note:** The path to the runtime needs to be set in `.env` in the root directory (see provided `.env.example`).
 
 ## 🚀 Train a policy and run it to optimize model instances
-To train and use policies, a bash script is provided to start the RL environment (server) and agent (client) application. Run the following:
+Build the RL environment once. This needs `ECLIPSE_PLUGINS` in `.env`, the plugins folder of an Eclipse Modeling install with Henshin:
 
+```sh
+server-executables/build.sh
+```
+
+`train_agent.sh` starts the server and trains one setup for N seeds, one seed at a time, using the first N stored seeds:
 
 ```sh
 train_agent.sh \
   --case <case> \
   --runs <runs> \
-  --train-path <path_to_training_models> \
-  --test-path <path_to_test_models> \
   --experiment-name <name> \
+  --train-path <path_to_training_models> \
+  --val-path <path_to_validation_models> \
+  --test-path <path_to_test_models> \
   --partial_trajectories
 ```
 
-- `case`: one of `slb`,`cra`,`sp`,`sp_uc`.
-- `runs`: the number of training runs.
-- `train-path`: relative path to models for training, e.g., `"models/datasets/slb/train-N30-25.-50."`
-- `name`: Name of the experiment and location to store policies during/after training (stored in ./GNN-MT/models/rl/\<case\>/\<name\>/)
-- `test_path` (optional): relative path to models for evaluating current policy, e.g., `"models/datasets/slb/test-N30-25.-50."`
-- `partial_trajectories` (optional): Flag to use truncated rollouts in training updates. Otherwise, full episodes are used only
+- `case`: one of `slb`, `cra`, `sp`, `sp_uc`.
+- `runs`: the number of seeds to run.
+- `name`: name of the experiment. Results go to `GNN-MT/models/rl/<case>/<name>/<seed>-<timestamp>/`.
+- `train-path`, `val-path`, `test-path`: folders of models or a single `.xmi`, relative to the repository root. Setting `val-path` turns periodic validation on, which records solutions and returns. `test-path` is only played in the final run (`--final-eval test`).
+- `partial_trajectories` (optional): use truncated rollouts in training updates; otherwise full episodes are used.
 
-We used truncated rollouts (`--partial_trajectories`) to keep track of performance increments with fixed-size updates, but use only full episodes to obtain the best performance. 
+Instead of paths, `--gen-sizes MIN-MAX` generates a dataset per seed, stored under `models/generated/<case>/<name>/seed-<seed>/`. All flags are at the top of [train_agent.sh](./train_agent.sh), and [experiments/README.md](./experiments/README.md) shows complete setups with their artifacts and analysis.
 
-With run_policy.sh, stored policies can be used to transform problem models provided in a folder. Of each run, it automatically loads the checkpoint of a policy that achieved the highest reward. 
+`run_policy.sh` samples solutions with stored policies:
 
 ```sh
 run_policy.sh \
   --case <case> \
-  --policy-dir <path_to_policies> \
-  --problem-model-dir <path_to_models> \
-  --n-solutions <solutions> \
+  --mode <mode> \
+  --models <path_to_models> \
+  (--policy-dir <experiment_name> | --checkpoint <file>)
 ```
 
-- `case`: one of `slb`,`cra`,`sp`,`sp_uc`.
-- `policy-dir`: relative path to policies (stored in) relative to project folder "GNN-MT/models/rl", e.g., `"slb/<experiment_name>"`.
-- `problem-model-dir`: relative path to folder with models to run policy on, e.g., `"models/datasets/slb/train-N30-25.-50."`
-- `n-solutions`: number of solutions to generate with batch-wise sampling, e.g., `10` or multiple of 10 for batch-wise, `-1` for sampling until no improvement
+Run `run_policy.sh --help` for the modes and options.

@@ -20,7 +20,7 @@ from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
-INFERENCE_MODES = ("one-per-model", "fixed-count", "until-converged", "max-likelihood")
+INFERENCE_MODES = ("one-per-model", "fixed-count", "until-converged", "max-likelihood", "batches")
 
 
 class ParetoArchive:
@@ -308,7 +308,7 @@ class InferenceSampler:
 
         episode.total_reward += reward
         episode.length += 1
-        if obs is not None:
+        if obs is not None and "_ruleName" in payload:
             episode.steps.append(
                 {
                     "rule": payload["_ruleName"],

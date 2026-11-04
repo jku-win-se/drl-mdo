@@ -323,6 +323,10 @@ public class SOEnvironment<S extends Solution> extends AbstractEnvironment<S> im
       throw new RuntimeException("Not implemented");
    }
 
+   public S getCurrentState() {
+      return currentState;
+   }
+
    public SOEnvResponse<S> step(final String rule, final Map<String, Object> paramValues) {
       final SOEnvResponse<S> response = new SOEnvResponse<>();
 

@@ -1,3 +1,4 @@
+import time
 import numpy as np
 import torch
 from torch_geometric.data import Data
@@ -87,11 +88,40 @@ def generate_tensors_from_graph(G, pallete, rule_conditions=None):
     )
 
 
+_mask_seconds = 0.0
+
+
+def pop_mask_seconds():
+    """Seconds spent building action masks since the last call."""
+    global _mask_seconds
+    seconds = _mask_seconds
+    _mask_seconds = 0.0
+    return seconds
+
+
 def generate_tensors_from_arrays(
     node_types_np, edges_np, edges_lab_np, pallete, rule_conditions=None
 ):
     n_nodes = int(node_types_np.shape[0])
     additional_node_atts = pallete.additional_node_atts
+    t_mask = time.perf_counter()
+
+    if not getattr(pallete, "masking", True):
+        unit_ids, _ = _get_action_mask_specs(pallete)
+        n_actions = len(unit_ids)
+        if edges_np.ndim != 2 or edges_np.shape[0] == 0:
+            edges_np = np.zeros((0, 2), dtype=np.int64)
+            edges_lab_np = np.zeros((0,), dtype=np.int64)
+        return Data(
+            torch.from_numpy(node_types_np),
+            torch.from_numpy(edges_np.T.copy()),
+            torch.from_numpy(edges_lab_np).unsqueeze(1),
+            nodes=torch.tensor(n_nodes),
+            action_mask=torch.ones(n_actions, dtype=torch.bool),
+            action_node_mask=torch.ones(
+                (n_nodes, n_actions, pallete.max_len), dtype=torch.bool
+            ),
+        )
 
     node_types_in_graph = sorted(set(node_types_np[:, 0].astype(np.int64).tolist()))
     node_types_w_child_types_in_graph = node_types_and_childs_in_graph(
@@ -187,6 +217,9 @@ def generate_tensors_from_arrays(
 
         if action_mask[i]:
             action_node_mask[i] = node_dim_mask
+
+    global _mask_seconds
+    _mask_seconds += time.perf_counter() - t_mask
 
     node_types = torch.from_numpy(node_types_np)
     return Data(

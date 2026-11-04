@@ -4,9 +4,11 @@ NOTE: All "ALG STEP"s are following the numbers from the original PPO pseudocode
         It can be found here: https://spinningup.openai.com/en/latest/_images/math/e62a8971472597f4b014c2da064f636ffe365ba3.svg
 """
 
+import csv
 import time
 import copy
 import warnings
+from contextlib import contextmanager
 from networkx import nodes
 import procbridge as pb
 import math
@@ -27,12 +29,14 @@ from torch.utils.tensorboard import SummaryWriter
 import os
 from drl.env.RemEnv import SubprocEnv
 from drl.env.batched_env import BatchedRemoteEnv
+from drl.env.env_util import pop_mask_seconds
 from drl.env.time_feature import TIME_FEAT_DIM
 from drl.main.inference_sampler import (
     INFERENCE_MODES,
     FixedEpisodeCount,
     InferenceSampler,
     OneEpisodePerEnv,
+    ParetoArchive,
     UntilNoImprovement,
 )
 from utils.seed_util import seed_everything
@@ -43,7 +47,7 @@ from drl.utils.episode_stats import EpisodeStats
 from drl.utils.pallete import PalleteEncoder
 from drl.utils.running_mean_std import RunningMeanStd
 from drl.neural_model.early_stopping import EarlyStopping
-from drl.neural_model.gnn_predictor import LOGIT_MASK
+from drl.neural_model.gnn_predictor import LOGIT_MASK, disable_relation_masks
 
 TFAction = namedtuple("TForceAction", ["action", "nodes", "nodes_dim_mask", "values"])
 
@@ -59,22 +63,54 @@ NUM_LOGP_FACTORS = 3  # rule, node, value
 REWARD_NORM_EPS = 1e-8
 
 
-def scale_reward(normalizer, discounted_return, raw_reward, reward_clip, update_stats):
+def scale_reward(
+    normalizer, discounted_return, raw_reward, reward_clip, update_stats, scale_from=None
+):
     """Divide a reward by the instance return scale, in SB3 VecNormalize order.
 
     The running variance is updated with the discounted return first. The raw
     reward is then divided by sqrt(variance + eps) and clipped. It is not
-    mean-centered.
+    mean-centered. ``scale_from`` takes the variance from another normalizer,
+    while ``normalizer`` still updates.
     """
     if update_stats:
         normalizer.update(np.array([discounted_return], dtype=np.float64))
-    variance = float(np.asarray(normalizer.var, dtype=np.float64).reshape(-1)[0])
+    source = normalizer if scale_from is None else scale_from
+    variance = float(np.asarray(source.var, dtype=np.float64).reshape(-1)[0])
     scaled = float(raw_reward) / math.sqrt(variance + REWARD_NORM_EPS)
     if scaled > reward_clip:
         return float(reward_clip)
     if scaled < -reward_clip:
         return float(-reward_clip)
     return scaled
+
+
+@contextmanager
+def isolated_rng(seed):
+    """Sample from ``seed`` inside the block and leave the training RNG as it was."""
+    torch_state = torch.get_rng_state()
+    cuda_states = torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None
+    torch.manual_seed(seed)
+    try:
+        yield
+    finally:
+        torch.set_rng_state(torch_state)
+        if cuda_states is not None:
+            torch.cuda.set_rng_state_all(cuda_states)
+
+
+def append_csv(path, row):
+    """Append a dict as a row, writing the header when the file is new."""
+    is_new = not os.path.exists(path)
+    with open(path, "a", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(row))
+        if is_new:
+            writer.writeheader()
+        writer.writerow(row)
+
+
+def validation_label(update_step, fes):
+    return f"iter{update_step:05d}-t{fes}"
 
 
 def explained_variance(returns, values):
@@ -143,16 +179,20 @@ class PPO:
         """
 
         # Initialize hyperparameters for training with PPO
-        self._init_hyperparameters(args.rl_hyperparams)
+        self._init_hyperparameters(args.hyperparams)
         print("Using normalize_rewards:", self.normalize_rewards)
         self.args = args
         self.pallete = pallete
+        self.pallete.masking = self.masking
 
         with open(os.path.join(self.args.model_path, "pallete.json"), "w") as f:
 
             json.dump(self.pallete, f, cls=PalleteEncoder)
-        # Extract environment information
-        self.num_envs = args.rl_hyperparams["num_envs"]
+        # The server is the source of what it was started with.
+        conn = pb.Client("127.0.0.1", args.port)
+        conn.request("resetInstance", str(run_id))
+        self.run_id = run_id
+        self.num_envs = conn.request("numEnvs")
         if self.es_tick_episodes is None:
             self.es_tick_episodes = self.num_envs
         self._apply_saved_time_feature_config()
@@ -164,10 +204,6 @@ class PPO:
 
         # Track discounted returns for each environment (like OpenAI Baselines)
         self.returns = np.zeros(self.num_envs)
-        self._reward_norm_updates = 0
-
-        conn = pb.Client("127.0.0.1", args.port)
-        conn.request("resetInstance", str(run_id))
 
         port = getattr(args, "port", 8000)
         transport = getattr(args, "env_transport", "batched")
@@ -176,6 +212,7 @@ class PPO:
             "time_feature": self.time_feature,
             "time_scale": self.time_scale,
         }
+        self._eval_env_kwargs = {"groups": n_groups, **env_kwargs}
         if transport == "subproc":
             self.env = SubprocEnv(
                 self.num_envs, args.metamodel, pallete, port=port, **env_kwargs
@@ -187,36 +224,26 @@ class PPO:
 
         # Logged with the next summary (or right away for the initial/final phase).
         self.pending_eval_log = {}
-        # Per variant: env index -> |return| of the first evaluation, frozen.
-        self._eval_return_scales = {}
-        # Eval variant whose normalized return drives early stopping; None = rollouts.
-        self.es_eval_variant = (
-            None if args.rl_es_metric == "rollout" else args.rl_es_metric[len("eval_"):]
-        )
-        if self.es_eval_variant is not None and not self.args.rl_evaluate:
-            raise ValueError(f"--rl_es_metric {args.rl_es_metric} needs --rl_evaluate")
-        if self.args.rl_evaluate:
+        self.eval_ports = args.run_info.get("eval_ports", {})
+        self.validating = "val" in self.eval_ports
+        self.final_datasets = {
+            "none": (), "val": ("val",), "test": ("test",), "both": ("val", "test"),
+        }[getattr(args, "final_eval", "none")]
+        missing = set(self.final_datasets) - set(self.eval_ports)
+        if missing:
+            raise ValueError(f"The server has no dataset for {sorted(missing)}")
+        self._final_envs = {}
+        self.final_runtimes = {}
+        self.time_validation = 0.0
+        self._checkpoint_rows = []
+        if self.validating:
             if transport == "subproc":
-                raise ValueError("--rl_evaluate requires --env_transport batched")
-            if args.rl_eval_interval < 1:
-                raise ValueError("--rl_eval_interval must be at least 1")
-            self.eval_interval = args.rl_eval_interval
-            self.eval_variants = EVAL_VARIANTS[args.rl_eval_mode]
-            if (
-                self.es_eval_variant is not None
-                and self.es_eval_variant not in self.eval_variants
-            ):
-                raise ValueError(
-                    f"--rl_es_metric {args.rl_es_metric} needs --rl_eval_mode "
-                    f"{self.es_eval_variant} or both (got {args.rl_eval_mode})"
-                )
-            print("Setting up evaluation environment (port 8001)...")
-            conn_eval = pb.Client("127.0.0.1", 8001)
-            conn_eval.request("resetInstance", os.path.join(str(run_id), "eval"))
-            num_test_models = conn_eval.request("numInstances")
-            self.eval_env = BatchedRemoteEnv(
-                num_test_models, pallete, port=8001, groups=n_groups, **env_kwargs
-            )
+                raise ValueError("Validation requires --env_transport batched")
+            if args.eval_interval < 1:
+                raise ValueError("--eval_interval must be at least 1")
+            self.eval_interval = args.eval_interval
+            self.eval_variants = EVAL_VARIANTS[args.eval_mode]
+            self.eval_env = self._connect_eval_env("val")
 
         self.obs = self.env.reset()
         self._resolve_rollout_length()
@@ -238,9 +265,17 @@ class PPO:
             instance_names=self.env.instance_names,
             es_warmup_episodes=self.es_warmup_episodes,
         )
-        self._instance_reward_normalizers = [
-            RunningMeanStd() for _ in range(len(self.env.instance_names))
-        ]
+        num_models = len(self.env.instance_names)
+        self._instance_reward_normalizers = [RunningMeanStd() for _ in range(num_models)]
+        # A model uses the pooled scale until its first episode completes. The unit prior
+        # keeps this scale near 1 at the very start, where a tiny count would inflate rewards.
+        self._pooled_reward_normalizer = RunningMeanStd(epsilon=1.0)
+        self._model_warmed_up = np.zeros(num_models, dtype=bool)
+        self._model_norm_updates = np.zeros(num_models, dtype=np.int64)
+        self._rewards_scaled = 0
+        self._rewards_clipped = 0
+        self._steps_seen = 0
+        self._steps_invalid = 0
         self._write_model_config()
 
         # Create SummaryWriter with custom log directory name
@@ -272,6 +307,8 @@ class PPO:
             len(pallete.units),
             **self._ac_kwargs(),
         ).to(args.device)
+        if not self.masking:
+            disable_relation_masks(self.ac)
         n_params = sum(p.numel() for p in self.ac.parameters())
         print(f"Actor-critic parameters: {n_params:,}")
 
@@ -280,9 +317,9 @@ class PPO:
                 param.requires_grad = False
 
         # Initialize optimizers for actor and critic
-        if args.rl_hyperparams["encoder"] == "shared":
+        if args.hyperparams["encoder"] == "shared":
             self.ac_optim = Adam(self.ac.parameters(), lr=self.lr, eps=1e-5)
-            decay_steps = int(args.rl_tsteps / math.ceil(self.timesteps_per_batch))
+            decay_steps = int(args.fes / math.ceil(self.timesteps_per_batch))
             if decay_steps < 1:
                 decay_steps = 1
             print(f"Learning rate will be decayed over {decay_steps} steps")
@@ -290,12 +327,12 @@ class PPO:
                 self.ac_optim, start_factor=1.0, end_factor=0.1, total_iters=decay_steps
             )
 
-        elif args.rl_hyperparams["encoder"] == "separate":
+        elif args.hyperparams["encoder"] == "separate":
             self.a_optim = Adam(self.ac.policy_parameters(), lr=self.lr, eps=1e-5)
             self.c_optim = Adam(self.ac.value_parameters(), lr=self.lr, eps=1e-5)
 
         # Initialize early stopping for RL training
-        if args.rl_hyperparams["encoder"] == "shared":
+        if args.hyperparams["encoder"] == "shared":
             optimizer = self.ac_optim
         else:
             optimizer = {"actor": self.a_optim, "critic": self.c_optim}
@@ -372,7 +409,7 @@ class PPO:
         self.debug_nan = getattr(args, "debug_nan", False)
 
     def inference_sampling(
-        self, mode, seed, nn_class, num_solutions=None, converge_patience=None
+        self, mode, seed, nn_class, num_solutions=None, converge_patience=None, num_batches=None
     ):
         """Sample solutions with the checkpoint ``args.ac_model``.
 
@@ -382,8 +419,12 @@ class PPO:
         - ``until-converged``: episodes until ``converge_patience`` episodes in a row
           (default ``num_envs``) leave the Pareto set unchanged.
         - ``max-likelihood``: one greedy episode per model, with its transformation sequence.
+        - ``batches``: ``num_batches`` batches of one episode per env on each model, logged per
+          batch, to see how solution quality grows with continued sampling.
         """
         greedy = mode == "max-likelihood"
+        if mode == "batches":
+            return self.sampling_curve(nn_class, seed, num_batches)
         schedule = self.inference_schedule(mode, num_solutions, converge_patience)
         self.load_inference_policy(nn_class, greedy=greedy)
 
@@ -415,6 +456,21 @@ class PPO:
         self.obs = self.env.reset()
         return result
 
+    def sampling_curve(self, nn_class, seed, num_batches):
+        """Write ``<run>/sampling_curve/<group>/``, next to the checkpoint that was sampled."""
+        if not num_batches or num_batches < 1:
+            raise ValueError("batches inference needs a positive num_batches.")
+        self.load_inference_policy(nn_class)
+        self.args.seed = seed
+        root = os.path.join(
+            os.path.dirname(os.path.abspath(self.args.ac_model)),
+            "sampling_curve",
+            self.args.wandb_config.get("group", "inference"),
+        )
+        runtimes = self.sample_batches(self.env, root, num_batches)
+        with open(os.path.join(root, "runtimes.json"), "w") as f:
+            json.dump(runtimes, f, indent=2)
+
     def inference_schedule(self, mode, num_solutions=None, converge_patience=None):
         if mode in ("one-per-model", "max-likelihood"):
             return OneEpisodePerEnv(self.num_envs)
@@ -431,13 +487,19 @@ class PPO:
         ac_model = self.args.ac_model
         if not ac_model:
             raise ValueError("No checkpoint (--ac_model) given for inference.")
+        model_dir = os.path.dirname(ac_model)
+        with open(os.path.join(model_dir, "model_config.json"), encoding="utf-8") as f:
+            hidden_dim = json.load(f)["hidden_dim"]
         self.ac = nn_class(
             self.pallete,
-            self.args.hidden_dim,
+            hidden_dim,
             len(self.pallete.units),
-            **self._ac_kwargs(model_dir=os.path.dirname(ac_model)),
+            **self._ac_kwargs(model_dir=model_dir),
         ).to(self.args.device)
-        self.ac.load_state_dict(torch.load(ac_model, map_location=self.args.device))
+        if not self.masking:
+            disable_relation_masks(self.ac)
+        state = torch.load(ac_model, map_location=self.args.device)
+        self.ac.load_state_dict(state.get("model_state_dict", state))
         self.ac.eval()
         self.ac.set_greedy(greedy)
 
@@ -501,6 +563,22 @@ class PPO:
             with open(os.path.join(solutions_path, "sequence.json"), "w") as f:
                 json.dump(sequence, f, indent=2)
 
+    def write_merged_results(self, result, name, model_dir, seed):
+        """Write the merged front of a model's episodes."""
+        archive = ParetoArchive()
+        for episode in result.episodes:
+            archive.add(episode.solutions)
+        self.write_solutions_to_dir(
+            seed,
+            archive.tolist(),
+            model_dir,
+            "nn-solutions.txt",
+            len(result.episodes),
+            result.elapsed,
+            float(np.mean([e.total_reward for e in result.episodes])),
+            verbose=False,
+        )
+
     def write_solutions_to_dir(
         self,
         seed,
@@ -546,24 +624,21 @@ class PPO:
         t_so_far = 0  # Timesteps simulated so far
         e_so_far = 0  # Episodes simulated so far
         i_so_far = 0  # Iterations ran so far
+        t_start = time.perf_counter()
+        eval_log = None
 
-        if self.args.rl_evaluate:
+        if self.validating:
             print("Evaluating initial policy before training...", flush=True)
-            eval_log = self.run_evaluation("initial", 0, 0)
-            if self.es_eval_variant is not None:
-                eval_metric = eval_log[f"eval_return_norm_{self.es_eval_variant}"]
-                _, improved, _ = self._consider_early_stopping(
-                    eval_metric, 0, 0, from_evaluation=True
-                )
-                self._save_named_checkpoint(0, 0, eval_metric, improved)
+            eval_log = self.run_evaluation(validation_label(0, 0), 0, 0)
             self._flush_eval_log(0, 0)
 
         #  t_roll, t_upd = [], []
 
         while t_so_far < total_timesteps:
 
+            t_rollout = time.perf_counter()
             # Collect a batch of experience
-            if self.args.rl_sample_partial_trajectories:
+            if self.args.partial_trajectories:
                 print("Using truncated rollouts!", flush=True)
 
                 (
@@ -589,8 +664,13 @@ class PPO:
                     batch_env_ids,
                 ) = self.full_episodes_rollout()
 
-            # Count stored transitions (not segment_lens, which can overshoot after truncation)
-            t_so_far += len(batch_obs)
+            self.logger["rollout_seconds"] = time.perf_counter() - t_rollout
+            t_update = time.perf_counter()
+            # Fitness evaluations: steps that returned a successor model, counted by the server.
+            if hasattr(self.env, "get_fe_count"):
+                t_so_far = self.env.get_fe_count()
+            else:
+                t_so_far += len(batch_obs)
             e_so_far += finished_eps
             # Increment the number of iterations
             i_so_far += 1
@@ -913,30 +993,24 @@ class PPO:
            # if self.encoder == "shared":
            #     self.lr_scheduler.step()
 
+            self.logger["update_seconds"] = time.perf_counter() - t_update
+
             eval_log = None
-            if self.args.rl_evaluate and i_so_far % self.eval_interval == 0:
+            if self.validating and i_so_far % self.eval_interval == 0:
                 eval_log = self.run_evaluation(
-                    f"iter{i_so_far:05d}-t{t_so_far}", i_so_far, t_so_far
+                    validation_label(i_so_far, t_so_far), i_so_far, t_so_far
                 )
 
-            if self.es_eval_variant is None:
-                # Default: early stopping follows the rollout returns.
-                es_metric = self.episode_stats.get_windowed_macro_return(self.es_window)
-                should_stop, improved, es_ticked = self._consider_early_stopping(
-                    es_metric, i_so_far, t_so_far
-                )
-            elif eval_log is not None:
-                es_metric = eval_log[f"eval_return_norm_{self.es_eval_variant}"]
-                should_stop, improved, es_ticked = self._consider_early_stopping(
-                    es_metric, i_so_far, t_so_far, from_evaluation=True
-                )
-            else:
-                es_metric = float("nan")
-                should_stop, improved, es_ticked = False, False, False
+            # The training return decides the best policy and convergence.
+            es_metric = self.episode_stats.get_windowed_macro_return(self.es_window)
+            should_stop, improved, es_ticked = self._consider_early_stopping(
+                es_metric, i_so_far, t_so_far
+            )
+            if es_ticked:
+                self._record_checkpoint(i_so_far, t_so_far, es_metric, improved)
 
             self.logger["es_metric"] = es_metric
             self.logger["es_ticked"] = int(es_ticked)
-            self._save_named_checkpoint(i_so_far, t_so_far, es_metric, improved)
 
             if should_stop:
                 self._flush_eval_log(i_so_far, t_so_far)
@@ -947,6 +1021,7 @@ class PPO:
                 break
 
             self._log_summary()
+            self._write_train_log(i_so_far, t_so_far)
             if self.args.verbose:
                 for name, param in self.ac.named_parameters():
                     self.writer.add_histogram(f"weights/{name}", param, i_so_far)
@@ -954,95 +1029,229 @@ class PPO:
                         self.writer.add_histogram(f"grads/{name}", param.grad, i_so_far)
 
         # Reached after the timestep budget is used up and after an early-stopping break.
-        if self.args.rl_evaluate:
-            print(
-                f"Training finished after {i_so_far} iterations ({t_so_far} timesteps); "
-                "running final evaluation...",
-                flush=True,
-            )
-            self.run_evaluation("final", i_so_far, t_so_far)
+        print(
+            f"Training finished after {i_so_far} iterations ({t_so_far} timesteps)", flush=True
+        )
+        if self.validating:
+            if eval_log is None:
+                self.run_evaluation(validation_label(i_so_far, t_so_far), i_so_far, t_so_far)
             self._flush_eval_log(i_so_far, t_so_far)
+        training_seconds = (
+            time.perf_counter() - t_start - self.time_validation
+        )
+
+        if self.final_datasets:
+            self._load_best_policy()
+            for dataset in self.final_datasets:
+                self.run_final_evaluation(dataset)
+
+        if self.validating:
             self.eval_env.close()
+        for env in self._final_envs.values():
+            env.close()
 
         # Cleanup after run
         self.env.post_training()
         self.env.close()
+        self._write_runtimes(training_seconds, i_so_far, t_so_far)
+
+    def _connect_eval_env(self, dataset):
+        port = self.eval_ports[dataset]
+        print(f"Setting up evaluation environment '{dataset}' (port {port})...")
+        conn = pb.Client("127.0.0.1", port)
+        conn.request("resetInstance", os.path.join(str(self.run_id), dataset))
+        return BatchedRemoteEnv(
+            conn.request("numEnvs"), self.pallete, port=port, **self._eval_env_kwargs
+        )
+
+    def _load_best_policy(self):
+        path = os.path.join(self.args.model_path, "best_model.pth")
+        if not os.path.exists(path):
+            warnings.warn("No best policy was stored; using the current one.", stacklevel=2)
+            return
+        best = torch.load(path, map_location=self.args.device)
+        self.ac.load_state_dict(best["model_state_dict"])
+
+    def run_final_evaluation(self, dataset):
+        """Sample the current policy on each model of a served dataset, one batch per model."""
+        if dataset == "val":
+            env = self.eval_env
+        else:
+            if dataset not in self._final_envs:
+                self._final_envs[dataset] = self._connect_eval_env(dataset)
+            env = self._final_envs[dataset]
+        root = os.path.join(self.args.model_path, "final_eval", dataset)
+        self.final_runtimes[dataset] = self.sample_batches(env, root, batches=1)
+
+    def sample_batches(self, env, root, batches):
+        """Play ``batches`` batches of one episode per env on each model, one model at a time.
+
+        Writes ``<root>/<model>/nn-solutions.txt``: per batch an FE line, then the archive so
+        far. Models run one after another, so each model's time is its own. Returns the times.
+        """
+        runtimes = {}
+        self.ac.eval()
+        with isolated_rng(self.args.seed):
+            for model, name in enumerate(env.instance_names):
+                model_dir = os.path.join(root, name)
+                os.makedirs(model_dir, exist_ok=True)
+                archive = ParetoArchive()
+                fe_start = env.get_fe_count()
+                seconds = []
+                episodes = 0
+                time_inference = time_env_wait = 0.0
+                with open(os.path.join(model_dir, "nn-solutions.txt"), "w") as f:
+                    for _ in range(batches):
+                        env.reset_to_model(model)
+                        result = InferenceSampler(
+                            self, OneEpisodePerEnv(env.num_envs), env=env, desc=f"Sample {name}"
+                        ).run()
+                        for episode in result.episodes:
+                            archive.add(episode.solutions)
+                        seconds.append(result.elapsed)
+                        episodes += len(result.episodes)
+                        time_inference += result.time_inference
+                        time_env_wait += result.time_env_wait
+                        f.write(f"{env.get_fe_count() - fe_start}\n")
+                        for solution in archive.tolist():
+                            f.write(f"{solution}\n")
+                runtimes[name] = {
+                    "seconds": sum(seconds),
+                    "batch_seconds": seconds,
+                    "inference_seconds": time_inference,
+                    "env_wait_seconds": time_env_wait,
+                    "episodes": episodes,
+                    "fes": env.get_fe_count() - fe_start,
+                }
+        self.ac.train()
+        return runtimes
+
+    def _record_checkpoint(self, update_step, fes, metric, improved):
+        """Store the policy if due, and log this tick of the training metric in checkpoints.csv.
+
+        The returns come from the moving policy on training models, so they describe training
+        rather than a separate evaluation of the stored weights.
+        """
+        file_name = self._save_named_checkpoint(
+            update_step, fes, metric, improved, keep=self.args.keep_checkpoints == "all"
+        )
+        mean_return, std_return = self.episode_stats.get_window_return_stats(self.es_window)
+        self._checkpoint_rows.append(
+            {
+                "update": update_step,
+                "fe": fes,
+                "file": file_name or "",
+                "metric": metric,
+                "mean_return": mean_return,
+                "std_return": std_return,
+                "improved": improved,
+            }
+        )
+        best_row = None
+        for row in self._checkpoint_rows:
+            if row["improved"]:
+                best_row = row
+        with open(os.path.join(self.args.model_path, "checkpoints.csv"), "w", newline="") as f:
+            columns = ["update", "fe", "file", "metric", "mean_return", "std_return", "is_best"]
+            writer = csv.DictWriter(f, fieldnames=columns, extrasaction="ignore")
+            writer.writeheader()
+            for row in self._checkpoint_rows:
+                writer.writerow({**row, "is_best": row is best_row})
+
+    def _write_train_log(self, iteration, fes):
+        row = {
+            "iteration": iteration,
+            "fe": fes,
+            "rollout_seconds": self.logger.get("rollout_seconds"),
+            "update_seconds": self.logger.get("update_seconds"),
+            **getattr(self, "last_log_val", {}),
+            **self.take_reward_stats(),
+        }
+        with open(os.path.join(self.args.model_path, "train_log.jsonl"), "a") as f:
+            f.write(json.dumps(row, default=float) + "\n")
+
+    def _write_runtimes(self, training_seconds, iterations, fes):
+        """Written last, so its presence marks the seed as complete."""
+        runtimes = {
+            "training_seconds": training_seconds,
+            "validation_seconds": self.time_validation,
+            "mask_seconds": pop_mask_seconds(),
+            "iterations": iterations,
+            "fes": fes,
+            "final_eval": self.final_runtimes,
+        }
+        path = os.path.join(self.args.model_path, "runtimes.json")
+        with open(path + ".tmp", "w") as f:
+            json.dump(runtimes, f, indent=2)
+        os.replace(path + ".tmp", path)
 
     def run_evaluation(self, label, update_step, timesteps):
-        """Play one episode per evaluation model for each variant in ``self.eval_variants``.
+        """Record solutions and returns of one batch per validation model; this picks nothing.
 
-        The eval env groups are double-buffered as in the rollout. Results are stored in
-        ``self.pending_eval_log`` for logging only; early stopping does not use them.
+        All envs play one model at a time. Sampling uses its own RNG with a fixed seed, so
+        validating does not change training.
         """
         log = {}
         t0 = time.perf_counter()
+        env = self.eval_env
         self.ac.eval()
         try:
             for variant in self.eval_variants:
                 greedy = variant == "greedy"
-                self.eval_env.reset()
                 self.ac.set_greedy(greedy)
-                result = InferenceSampler(
-                    self,
-                    OneEpisodePerEnv(self.eval_env.num_envs),
-                    greedy=greedy,
-                    env=self.eval_env,
-                    desc=f"Eval {variant}",
-                ).run()
-                print(f"[eval {variant} @ {label}] {result.describe()}", flush=True)
-
-                self.episode_stats.add_eval_mean_return(result.mean_return, variant)
-                log[f"eval_return_norm_{variant}"] = self._normalized_eval_return(
-                    variant, result
-                )
-                log[f"eval_return_{variant}"] = float(result.mean_return)
-                for model_name, episode in self.episodes_by_model(result, self.eval_env):
-                    log[f"eval_return_{variant}_{_metric_name(model_name)}"] = float(
-                        episode.total_reward
-                    )
-                if greedy:
-                    log["eval_stalled_greedy"] = sum(e.stalled for e in result.episodes)
-                log[f"time_eval_{variant}_env_wait"] = result.time_env_wait
-                log[f"time_eval_{variant}_inference"] = result.time_inference
-                log[f"time_eval_{variant}_decode"] = result.time_decode
-
-                if self.args.rl_eval_save_solutions:
-                    variant_dir = os.path.join(
-                        self.args.model_path, "eval_solutions", variant
-                    )
-                    self.write_per_model_results(
-                        result,
-                        self.eval_env,
-                        lambda model_name: os.path.join(variant_dir, model_name, label),
-                        self.args.seed,
-                        {
-                            "variant": variant,
-                            "iteration": update_step,
-                            "timesteps": timesteps,
-                        },
-                        verbose=False,
-                    )
+                all_returns = []
+                time_env_wait = time_inference = time_decode = 0.0
+                with isolated_rng(self.args.seed):
+                    for model, name in enumerate(env.instance_names):
+                        env.reset_to_model(model)
+                        result = InferenceSampler(
+                            self,
+                            OneEpisodePerEnv(env.num_envs),
+                            greedy=greedy,
+                            env=env,
+                            desc=f"Eval {variant} {name}",
+                        ).run()
+                        returns = [float(e.total_reward) for e in result.episodes]
+                        all_returns += returns
+                        time_env_wait += result.time_env_wait
+                        time_inference += result.time_inference
+                        time_decode += result.time_decode
+                        log[f"eval_return_{variant}_{_metric_name(name)}"] = float(np.mean(returns))
+                        append_csv(
+                            os.path.join(self.args.model_path, "val_returns.csv"),
+                            {
+                                "variant": variant,
+                                "update": update_step,
+                                "fe": timesteps,
+                                "model": name,
+                                "mean_return": float(np.mean(returns)),
+                                "std_return": float(np.std(returns)),
+                                "episodes": len(returns),
+                            },
+                        )
+                        if self.args.eval_save_solutions:
+                            self.write_merged_results(
+                                result,
+                                name,
+                                os.path.join(
+                                    self.args.model_path, "eval_solutions", variant, name, label
+                                ),
+                                self.args.seed,
+                            )
+                mean_return = float(np.mean(all_returns))
+                print(f"[eval {variant} @ {label}] mean return {mean_return:.4f}", flush=True)
+                self.episode_stats.add_eval_mean_return(mean_return, variant)
+                log[f"eval_return_{variant}"] = mean_return
+                log[f"time_eval_{variant}_env_wait"] = time_env_wait
+                log[f"time_eval_{variant}_inference"] = time_inference
+                log[f"time_eval_{variant}_decode"] = time_decode
         finally:
             self.ac.set_greedy(False)
             self.ac.train()
         log["time_eval"] = time.perf_counter() - t0
+        self.time_validation += log["time_eval"]
         self.pending_eval_log.update(log)
         return log
-
-    def _normalized_eval_return(self, variant, result):
-        """Mean over eval models of return / |return in the first evaluation of ``variant``|."""
-        returns = {e.env_index: float(e.total_reward) for e in result.episodes}
-        if not returns:
-            return float("nan")
-        scales = self._eval_return_scales.setdefault(
-            variant, {i: max(abs(r), 1e-3) for i, r in returns.items()}
-        )
-        if set(returns) != set(scales):
-            raise ValueError(
-                f"Evaluation ({variant}) finished envs {sorted(returns)}, "
-                f"but the frozen scale covers {sorted(scales)}"
-            )
-        return float(np.mean([returns[i] / scales[i] for i in returns]))
 
     def _take_eval_log(self):
         """Pending eval values without non-finite entries; clears the pending log."""
@@ -1088,21 +1297,59 @@ class PPO:
         if not self.normalize_rewards:
             return float(raw_rew)
         self.returns[env_i] = self.returns[env_i] * self.gamma + float(raw_rew)
+        model = self._step_model(env_i)
         update_stats = (
             self.rew_norm_freeze_after < 0
-            or self._reward_norm_updates < self.rew_norm_freeze_after
+            or self._model_norm_updates[model] < self.rew_norm_freeze_after
         )
-        instance_id = int(self.env.instance_ids[env_i])
+        if update_stats:
+            self._pooled_reward_normalizer.update(
+                np.array([self.returns[env_i]], dtype=np.float64)
+            )
         scaled = scale_reward(
-            self._instance_reward_normalizers[instance_id],
+            self._instance_reward_normalizers[model],
             self.returns[env_i],
             raw_rew,
             self.reward_clip,
             update_stats,
+            scale_from=(
+                None if self._model_warmed_up[model] else self._pooled_reward_normalizer
+            ),
         )
         if update_stats:
-            self._reward_norm_updates += 1
+            self._model_norm_updates[model] += 1
+        self._rewards_scaled += 1
+        self._rewards_clipped += int(abs(scaled) >= self.reward_clip)
         return scaled
+
+    def _step_model(self, env_i):
+        """Model the env's last step ran on, also after an auto-reset moved it on."""
+        models = getattr(self.env, "step_models", None)
+        return int(models[env_i] if models is not None else self.env.instance_ids[env_i])
+
+    def _note_step(self, env_i):
+        """Count the step and whether it was invalid."""
+        infos = getattr(self.env, "step_infos", None)
+        info = infos[env_i] if infos is not None else None
+        self._steps_seen += 1
+        if info and info.get("invalid"):
+            self._steps_invalid += 1
+
+    def _end_of_episode(self, env_i):
+        self._model_warmed_up[self._step_model(env_i)] = True
+
+    def take_reward_stats(self):
+        """Per-iteration normalization and invalid-action stats; resets the counters."""
+        stats = {
+            "models_on_pooled_scale": int((~self._model_warmed_up).sum()),
+            "clipped_reward_share": self._rewards_clipped / max(self._rewards_scaled, 1),
+            "invalid_action_share": self._steps_invalid / max(self._steps_seen, 1),
+        }
+        self._rewards_scaled = 0
+        self._rewards_clipped = 0
+        self._steps_seen = 0
+        self._steps_invalid = 0
+        return stats
 
     def stage_teacher_forced_observations(self, obs, action, node_mask):
         """Build teacher-forcing copies while env workers execute the step."""
@@ -1187,7 +1434,11 @@ class PPO:
         next_obs_i,
         rollout,
     ):
+        self._note_step(i)
+
         if next_obs_i is None:
+            if done_i:
+                self._end_of_episode(i)
             rollout["skipped_invalid_steps"] += 1
             return False
 
@@ -1201,14 +1452,17 @@ class PPO:
             self._current_episode_lengths[i] += 1
             self.episode_stats.add_step_reward(rew_i)
             if done_i:
+                self._end_of_episode(i)
                 episode_return = float(self._current_episode_rewards[i])
                 episode_length = int(self._current_episode_lengths[i])
                 self.episode_stats.add_episode(
-                    episode_return, episode_length, env_id=i
+                    episode_return, episode_length, env_id=i,
+                    instance_id=self._step_model(i),
                 )
                 rollout["episodes_this_rollout"][i] += 1
                 if rollout["full_episodes"]:
                     rollout["obs_env"][i] = []
+                    rollout["models_env"][i] = []
                     rollout["acts_env"][i] = []
                     rollout["log_probs_env"][i] = []
                     rollout["rews_env"][i] = []
@@ -1227,7 +1481,10 @@ class PPO:
             return False
 
         normalized_rew = self._normalize_reward(i, rew_i)
+        if done_i:
+            self._end_of_episode(i)
         rollout["obs_env"][i].append(staged_obs_i)
+        rollout["models_env"][i].append(self._step_model(i))
         rollout["acts_env"][i].append(action_i)
         rollout["log_probs_env"][i].append(log_prob_i)
         rollout["rews_env"][i].append(normalized_rew)
@@ -1248,10 +1505,11 @@ class PPO:
                 episode_return = float(self._current_episode_rewards[i])
                 rollout["ep_lens"].append(current_ep_len)
                 self.episode_stats.add_episode(
-                    episode_return, current_ep_len, env_id=i
+                    episode_return, current_ep_len, env_id=i,
+                    instance_id=self._step_model(i),
                 )
                 rollout["episodes_this_rollout"][i] += 1
-                rollout["completed_env_ids"].extend([i] * len(rollout["obs_env"][i]))
+                rollout["completed_env_ids"].extend(rollout["models_env"][i])
                 rollout["completed_obs"].extend(rollout["obs_env"][i])
                 rollout["completed_acts"].extend(rollout["acts_env"][i])
                 rollout["completed_log_probs"].extend(rollout["log_probs_env"][i])
@@ -1259,6 +1517,7 @@ class PPO:
                 rollout["completed_dones"].extend(rollout["dones_env"][i])
                 rollout["completed_vals"].extend(rollout["vals_env"][i])
                 rollout["obs_env"][i] = []
+                rollout["models_env"][i] = []
                 rollout["acts_env"][i] = []
                 rollout["log_probs_env"][i] = []
                 rollout["rews_env"][i] = []
@@ -1279,7 +1538,8 @@ class PPO:
                 rollout["completed_ep_returns"].append(episode_return)
                 rollout["completed_ep_lens"].append(episode_length)
                 self.episode_stats.add_episode(
-                    episode_return, episode_length, env_id=i
+                    episode_return, episode_length, env_id=i,
+                    instance_id=self._step_model(i),
                 )
                 rollout["episodes_this_rollout"][i] += 1
                 rollout["segment_lens"].append(int(rollout["steps_in_current_segment"][i]))
@@ -1336,7 +1596,7 @@ class PPO:
             batch_advantages: [T] tensor of advantages (from completed episodes only)
             batch_lens:       [N] list of episode lengths (completed episodes only)
             finished_episodes: int number of completed episodes
-            batch_env_ids: env index of each stored transition
+            batch_env_ids: model index of each stored transition
         """
         self.episode_stats.start_rollout()
 
@@ -1372,6 +1632,7 @@ class PPO:
             "completed_dones": completed_dones,
             "completed_vals": completed_vals,
             "completed_env_ids": completed_env_ids,
+            "models_env": [[] for _ in range(self.num_envs)],
             "ep_lens": ep_lens,
             "skipped_invalid_steps": 0,
             "skipped_invalid_nodes": 0,
@@ -1507,6 +1768,7 @@ class PPO:
             "episodes_this_rollout": np.zeros(self.num_envs, dtype=int),
             "t": 0,
             "steps_in_current_segment": np.zeros(self.num_envs, dtype=int),
+            "models_env": [[] for _ in range(self.num_envs)],
             "last_done": np.zeros(self.num_envs, dtype=np.float32),
             "progress_bar": progress_bar,
         }
@@ -1553,11 +1815,7 @@ class PPO:
         )
 
         batch_obs = [obs for sublist in obs_env for obs in sublist]
-        batch_env_ids = [
-            env_index
-            for env_index, observations in enumerate(obs_env)
-            for _observation in observations
-        ]
+        batch_env_ids = [model for models in rollout["models_env"] for model in models]
         batch_acts = [act for sublist in acts_env for act in sublist]
         batch_log_probs = torch.tensor(
             [lp for sublist in log_probs_env for lp in sublist],
@@ -2170,7 +2428,7 @@ class PPO:
 
     def _resolve_rollout_length(self):
         """Set n_steps from 'auto', an explicit value, or timesteps_per_batch."""
-        max_horizon = max(self.env.max_steps)
+        max_horizon = getattr(self.env, "max_horizon", max(self.env.max_steps))
         self.max_horizon = max_horizon
         if self.n_steps == "auto":
             if self.timesteps_per_batch is not None:
@@ -2196,7 +2454,7 @@ class PPO:
             "slot_embedding": self.slot_embedding,
             "rnn_type": self.rnn_type,
             "hidden_dim": self.args.hidden_dim,
-            "encoder": getattr(self, "encoder", self.args.rl_hyperparams.get("encoder")),
+            "encoder": getattr(self, "encoder", self.args.hyperparams.get("encoder")),
             "entropy_coef": self.entropy_coef,
             "entropy_coef_rule": self.entropy_coef_rule,
             "entropy_coef_node": self.entropy_coef_node,
@@ -2236,45 +2494,32 @@ class PPO:
             return
         self.logger["invalid_action_rate"] = float(skipped) / float(stored)
 
-    def _consider_early_stopping(self, metric, update_step, timesteps, from_evaluation=False):
-        """Tick early stopping only on a fresh, finite metric.
-
-        By default that is a windowed training macro return after enough new
-        episodes. With ``--rl_es_metric eval_*`` it is the normalized return of
-        each evaluation phase, so patience counts evaluation phases.
-        """
-        if from_evaluation:
-            ready = math.isfinite(metric)
-        else:
-            ready = (
-                self.episode_stats.episodes_since_tick >= self.es_tick_episodes
-                and math.isfinite(metric)
-            )
+    def _consider_early_stopping(self, metric, update_step, timesteps):
+        """Tick early stopping only on a fresh, finite training metric: enough new episodes."""
+        ready = (
+            self.episode_stats.episodes_since_tick >= self.es_tick_episodes
+            and math.isfinite(metric)
+        )
         if not ready:
             return False, False, False
-        if not from_evaluation:
-            self.episode_stats.consume_tick()
+        self.episode_stats.consume_tick()
         should_stop, improved = self.early_stopping.step(
             metric, update_step, timesteps
         )
         return should_stop, improved, True
 
-    def _save_named_checkpoint(self, update_step, timesteps, metric, improved):
-        if not improved or not math.isfinite(metric):
-            return
-        torch.save(
-            self.ac.state_dict(),
-            os.path.join(
-                self.args.model_path,
-                f"ac_{update_step}-{timesteps}-{metric:.3f}.pth",
-            ),
-        )
+    def _save_named_checkpoint(self, update_step, timesteps, metric, improved, keep=False):
+        """Store the policy if it improved or ``keep`` is set; returns the file name, if stored."""
+        if not (improved or keep) or not math.isfinite(metric):
+            return None
+        file_name = f"ac_{update_step}-{timesteps}-{metric:.3f}.pth"
+        torch.save(self.ac.state_dict(), os.path.join(self.args.model_path, file_name))
+        return file_name
 
-    def _per_instance_explained_variance(self, returns, predicted_values, env_ids):
-        if not env_ids:
+    def _per_instance_explained_variance(self, returns, predicted_values, model_ids):
+        if not model_ids:
             return {}
-        instance_of_env = np.asarray(self.env.instance_ids, dtype=np.int64)
-        sample_instance = instance_of_env[np.asarray(env_ids, dtype=np.int64)]
+        sample_instance = np.asarray(model_ids, dtype=np.int64)
         by_name = {}
         for instance_id, name in enumerate(self.env.instance_names):
             mask = torch.as_tensor(
@@ -2312,6 +2557,7 @@ class PPO:
         self.entropy_coef_val = None
         self.entropy_normalize = True
         self.target_kl = 0.02
+        self.masking = True
         self.encoder_residual = True
         self.node_global_context = True
         self.slot_embedding = True
@@ -2361,6 +2607,7 @@ class PPO:
         if self.entropy_coef_val is None:
             self.entropy_coef_val = self.entropy_coef
         self.entropy_normalize = _as_bool(self.entropy_normalize, True)
+        self.masking = _as_bool(self.masking, True)
         self.encoder_residual = _as_bool(self.encoder_residual, True)
         self.node_global_context = _as_bool(self.node_global_context, True)
         self.slot_embedding = _as_bool(self.slot_embedding, True)
@@ -2687,6 +2934,7 @@ class PPO:
             if not (isinstance(value, float) and not math.isfinite(value))
         }
 
+        self.last_log_val = log_val
         if self.args.use_wandb:
             wandb.log(log_val)
 

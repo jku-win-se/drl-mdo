@@ -3,76 +3,48 @@
 # Global variables
 JAVA_PID=""
 PORT=""
-RUN_SERVER_SET_CMD="$JAVA_BIN -jar $PROJECT_DIR/rl-environment-server.jar"
-RUN_SERVER_SET_INFERENCE_CMD="$JAVA_BIN -jar $PROJECT_DIR/rl-environment-server-inference.jar"
+if [[ ! -d "$PROJECT_DIR/build/classes" ]]; then
+  echo "Error: server not built. Run server-executables/build.sh first." >&2
+  exit 1
+fi
+SERVER_CLASSPATH="$PROJECT_DIR/build/classes:$PROJECT_DIR/build/lib/*"
 
-start_server_trainingset() {
+# Python case names are the folder names; the server knows the sprint planning case as scrum.
+java_case() {
+  case "$1" in
+    sp) echo "scrum" ;;
+    sp_uc) echo "scrum-uc" ;;
+    *) echo "$1" ;;
+  esac
+}
+
+# start_server CASE N_ENVS TRAIN_PATH VAL_PATH TEST_PATH OUT_PATH [PORT] [EVAL_K] [ENV_ASSIGNMENT]
+#   Validation and test datasets (or NONE) are served on PORT + 1 and PORT + 2.
+start_server() {
   local case="$1"
   local n_envs="$2"
   local train_models_path="$3"
-  local test_models_path="$4"
-  local out_path="$5"
-  local port="${6:-8000}"
+  local val_models_path="$4"
+  local test_models_path="$5"
+  local out_path="$6"
+  local port="${7:-8000}"
+  local eval_k="${8:-1}"
+  local env_assignment="${9:-fixed}"
 
   # Store port globally for cleanup()
   PORT="$port"
 
-  if [[ -z "$out_path" ]]; then
-      out_path="$instance"
-  else
-      out_path="$instance-$out_path"
-  fi
-
-
-	echo "Run on port $PORT @ start_server"
+  echo "Run on port $PORT @ start_server"
   # Start server in background, capture PID
   cd "$PROJECT_DIR" || exit
-  $RUN_SERVER_SET_CMD \
-    --case "$case" \
+  "$JAVA_BIN" -cp "$SERVER_CLASSPATH" learnapi.MultiModelEnvServer \
+    --case "$(java_case "$case")" \
     --n_envs "$n_envs" \
     --models_path "$train_models_path" \
+    --val_models_path "$val_models_path" \
     --test_models_path "$test_models_path" \
-    --out_path "$out_path" \
-    --port "$PORT" \
-    > server_output_trainingset.log 2>&1 &
-
-  JAVA_PID=$!
-
-  echo "Waiting for server to be ready on port $PORT..."
-  while ! nc -z localhost "$PORT"; do
-      echo "Try connecting..."
-      sleep 1
-  done
-
-  echo "Server is ready on port $PORT."
-}
-
-start_server() {
-  local case="$1"
-  local n_steps="$2"
-  local n_envs="$3"
-  local instance="${4:-3}"
-  local out_path="$5"
-  local port="${6:-8000}"
-
-  # Store port globally for cleanup()
-  PORT="$port"
-
-  if [[ -z "$out_path" ]]; then
-      out_path="$instance"
-  else
-      out_path="$instance-$out_path"
-  fi
-
-
-	echo "Run on port $PORT @ start_server"
-  # Start server in background, capture PID
-  cd "$PROJECT_DIR" || exit
-  $RUN_SERVER_SET_INFERENCE_CMD \
-    --case "$case" \
-    --n_steps "$n_steps" \
-    --n_envs "$n_envs" \
-    --instance "$instance" \
+    --eval_envs "$eval_k" \
+    --env_assignment "$env_assignment" \
     --out_path "$out_path" \
     --port "$PORT" \
     > server_output.log 2>&1 &
@@ -81,8 +53,11 @@ start_server() {
 
   echo "Waiting for server to be ready on port $PORT..."
   while ! nc -z localhost "$PORT"; do
-      echo "Try connecting..."
-      sleep 1
+    if ! kill -0 "$JAVA_PID" 2>/dev/null; then
+      echo "Error: the server exited during startup, see $PROJECT_DIR/server_output.log" >&2
+      exit 1
+    fi
+    sleep 1
   done
 
   echo "Server is ready on port $PORT."

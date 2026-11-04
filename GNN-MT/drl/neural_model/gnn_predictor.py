@@ -262,6 +262,14 @@ def draw(dist, greedy):
     return dist.sample()
 
 
+def disable_relation_masks(module):
+    """Stop every node decoder below ``module`` from masking by relations to earlier slots."""
+    for submodule in module.modules():
+        if hasattr(submodule, "slot_has_dependency"):
+            submodule.slot_has_dependency = [False] * len(submodule.slot_has_dependency)
+            submodule.slot_has_restriction = [False] * len(submodule.slot_has_restriction)
+
+
 def set_greedy_decoding(module, greedy):
     """Switch every decoder below ``module`` between sampling and argmax."""
     for submodule in module.modules():

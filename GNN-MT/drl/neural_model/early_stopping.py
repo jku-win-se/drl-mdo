@@ -34,12 +34,6 @@ class EarlyStopping(object):
         self.num_bad_updates = 0
         self.min_timesteps = min_timesteps
 
-        if patience == 0:
-            def never_stop(mean_reward, update_step, current_timesteps):
-                return False, False
-
-            self.step = never_stop
-
     def step(self, mean_reward, update_step, current_timesteps):
         """
         Check whether training should stop and whether this metric is a new best.
@@ -65,7 +59,8 @@ class EarlyStopping(object):
 
         self.num_bad_updates += 1
         if (
-            current_timesteps >= self.min_timesteps
+            self.patience > 0
+            and current_timesteps >= self.min_timesteps
             and self.num_bad_updates >= self.patience
         ):
             print("Stop: No improvement in reward.")

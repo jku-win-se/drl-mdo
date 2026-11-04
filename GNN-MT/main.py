@@ -1,18 +1,15 @@
-import glob
 import logging
 import os
 import json
-from types import SimpleNamespace
+import platform
+import subprocess
 from collections import namedtuple
-import random
 from argparse import ArgumentParser, ArgumentTypeError
-import cProfile
 
-import numpy as np
+import procbridge as pb
 import torch
 from prettytable import PrettyTable
 from drl.utils.pallete import Pallete
-from drl.model2graph.model2graph import get_graph_from_model
 from drl.main.rl_agent import train, sample_trajectories
 from drl.main.inference_sampler import INFERENCE_MODES
 #from drl.env.RemEnv import SubprocEnv
@@ -21,18 +18,15 @@ import wandb
 from time import time
 
 logger = logging.getLogger(__name__)
-Sample = namedtuple("Sample", "graph ruleApplication isLast modelPath")
-# SampleDescriptor = namedtuple("SampleDescriptor", "appState isLast modelPath")
 
-
-class SampleDescriptor(
-    namedtuple("SampleDescriptor", ["appState", "isLast", "modelPath"])
-):
-    def __getitem__(self, key):
-        if isinstance(key, str):
-            return getattr(self, key)
-        else:
-            return super().__getitem__(key)
+# Files of each case the server can run: case config, metamodel, root object.
+AGENT_ROOT = os.path.dirname(os.path.abspath(__file__))
+CASE_FILES = {
+    "cra": ("datasets/cra/config.json", "data/cra.ecore", "ClassModel"),
+    "slb": ("datasets/slb/config.json", "data/stack.ecore", "StackModel"),
+    "scrum": ("datasets/sp/config.json", "data/sprintplanning.ecore", "Plan"),
+    "scrum-uc": ("datasets/sp/config.json", "data/sprintplanning.ecore", "Plan"),
+}
 
 
 class Config(
@@ -100,61 +94,31 @@ def main(args, conf, ts):
         run_inference(pallete, args, ts)
         return
 
-    if args.train:
+    if not args.train:
+        raise ValueError("--train or --infer should be provided.")
 
-        if args.rl:
-            file_handler = None
-            for seed in args.seeds:
-                detach_file_logger(file_handler)
-                args.seed = seed
-                seed_everything(seed)
-                ts = time()
-                args.model_path = os.path.join(
-                    args.base_model_path, f"{seed}-{ts}"
-                )
-                file_handler = attach_file_logger(args.model_path)
-                log_configuration(args)
+    file_handler = None
+    for seed in args.seeds:
+        detach_file_logger(file_handler)
+        args.seed = seed
+        seed_everything(seed)
+        ts = time()
+        run_id = f"{seed}-{ts}"
+        args.model_path = os.path.join(args.base_model_path, run_id)
+        file_handler = attach_file_logger(args.model_path)
+        log_configuration(args)
+        write_run_args(args)
 
-                if args.use_wandb:
-                    run = init_wandb_run(args, ts)
+        if args.use_wandb:
+            run = init_wandb_run(args, ts)
 
-                logger.info(f"Starting RL run {ts} (seed={args.seed})")
-                train(pallete, args, ts)
+        logger.info(f"Starting RL run {run_id}")
+        train(pallete, args, run_id)
 
-                if args.use_wandb:
-                    run.finish()
+        if args.use_wandb:
+            run.finish()
 
-            detach_file_logger(file_handler)
-
-        else:
-            with open(
-                os.path.join(args.training_dataset, args.sample_description), "r"
-            ) as f:
-                data_samples = json.loads(
-                    f.read(),
-                    object_hook=lambda d: (
-                        SampleDescriptor(**d)
-                        if "isLast" in d and "modelPath" in d
-                        else d
-                    ),
-                )
-
-            training_samples = [
-                Sample(
-                    pallete.remove_out_of_scope(
-                        get_graph_from_model(sample.modelPath, [args.metamodel])
-                    ),
-                    sample.appState,
-                    sample.isLast,
-                    sample.modelPath,
-                )
-                for sample in data_samples
-            ]
-            logger.info(f"Loaded dataset of {len(training_samples)} elements")
-            # train_generator(training_samples, pallete, args)
-
-    else:
-        raise ValueError("--train, --inference, or --evaluate should be provided.")
+    detach_file_logger(file_handler)
 
 
 def get_pallete(args, conf):
@@ -220,6 +184,30 @@ def detach_file_logger(file_handler):
     file_handler.close()
 
 
+def git_output(*git_args):
+    try:
+        return subprocess.run(
+            ["git", "-C", AGENT_ROOT, *git_args], capture_output=True, text=True, check=True
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return None
+
+
+def write_run_args(args):
+    """What determines this run: its arguments, datasets, code version and hardware."""
+    skipped = {"wandb_config", "base_model_path"}  # the W&B config can hold an API key
+    info = {key: value for key, value in vars(args).items() if key not in skipped}
+    info["commit"] = git_output("rev-parse", "HEAD")
+    info["dirty"] = bool(git_output("status", "--porcelain"))
+    info["hardware"] = {
+        "platform": platform.platform(),
+        "cpu_count": os.cpu_count(),
+        "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
+    }
+    with open(os.path.join(args.model_path, "run_args.json"), "w") as f:
+        json.dump(info, f, indent=2, default=str)
+
+
 def log_configuration(args):
     config_table = PrettyTable()
     config_table.field_names = ["Configuration", "Value"]
@@ -231,10 +219,7 @@ def log_configuration(args):
 
 
 if __name__ == "__main__":
-    parser = ArgumentParser(description="Script for training a M2 generator")
-    parser.add_argument("--case_config", default="config.json")
-    parser.add_argument("--metamodel", default="./data/ecore_simplified.ecore")
-    parser.add_argument("--root_object", default="EPackage")
+    parser = ArgumentParser(description="Train or sample with an RL policy on a running env server")
     parser.add_argument(
         "--hidden_dim",
         help="Hidden dimension of the neural model.",
@@ -253,55 +238,53 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoint_path", default="")
     parser.add_argument("--train", help="If training phase", action="store_true")
     parser.add_argument(
-        "--rl", default="false", help="use reinforcement learning", action="store_true"
-    )
-
-    parser.add_argument(
-        "--rl_hyperparams", nargs="+", help="Hyperparameters as key-value pairs"
+        "--hyperparams", nargs="+", help="Hyperparameters as key-value pairs"
     )
     parser.add_argument("--ac_model", default="", help="model path")
     parser.add_argument(
-        "--rl_evaluate",
-        help="Evaluate policy on server test models",
-        action="store_true",
-    )
-    parser.add_argument(
-        "--rl_eval_mode",
+        "--eval_mode",
         choices=["stochastic", "greedy", "both"],
         default="stochastic",
-        help="Evaluation episodes per test model: one sampled (stochastic), one most "
-        "likely (greedy), or both, logged and saved separately.",
+        help="Validation episodes per env: sampled (stochastic), most likely (greedy), or "
+        "both, logged and saved separately. Validation runs if the server has a validation "
+        "dataset. It records solutions and returns and picks nothing.",
     )
     parser.add_argument(
-        "--rl_eval_interval",
+        "--eval_interval",
         type=int,
         default=4,
-        help="Run an evaluation phase after every N rollouts.",
+        help="Run a validation phase after every N PPO iterations.",
     )
     parser.add_argument(
-        "--rl_es_metric",
-        choices=["rollout", "eval_stochastic", "eval_greedy"],
-        default="rollout",
-        help="Early stopping metric. rollout (default): windowed macro return of the "
-        "training rollouts. eval_stochastic / eval_greedy: per-model return of that "
-        "evaluation variant, normalized by the initial evaluation; needs --rl_evaluate "
-        "with a matching --rl_eval_mode, and patience then counts evaluation phases.",
-    )
-    parser.add_argument(
-        "--rl_eval_save_solutions",
+        "--eval_save_solutions",
         action="store_true",
-        help="Store the solutions of every evaluation phase per test model under "
+        help="Store the solutions of every validation phase per model under "
         "<model_path>/eval_solutions/<variant>/<model>/<phase>.",
+    )
+    parser.add_argument(
+        "--keep_checkpoints",
+        choices=["best", "all"],
+        default="best",
+        help="best: store a checkpoint when the best policy improves. all: at every tick of the "
+        "training metric. best_model.pth always holds the best policy, and checkpoints.csv "
+        "lists every tick.",
+    )
+    parser.add_argument(
+        "--final_eval",
+        choices=["none", "val", "test", "both"],
+        default="none",
+        help="After training, sample the best policy on these datasets of the server: one batch "
+        "per model.",
     )
     parser.add_argument(
         "--wandb_config", nargs="+", help="Wandb configuration as key-value pairs"
     )
     parser.add_argument(
-        "--rl_tsteps", type=int, default=1, help="Total steps for RL training"
+        "--fes", type=int, default=1, help="Training budget in fitness evaluations"
     )
     parser.add_argument(
-        "--rl_sample_partial_trajectories",
-        help="Sample partial trajectories for RL training",
+        "--partial_trajectories",
+        help="Use truncated rollouts for training updates instead of full episodes",
         action="store_true",
     )
     parser.add_argument(
@@ -324,7 +307,8 @@ if __name__ == "__main__":
             "until-converged: episodes until --converge_patience episodes in a row do not "
             "improve the Pareto set. "
             "max-likelihood: one greedy (most likely) episode per model, with its "
-            "transformation sequence."
+            "transformation sequence. "
+            "batches: --num_batches batches of one episode per env on each model, logged per batch."
         ),
     )
     parser.add_argument(
@@ -332,6 +316,12 @@ if __name__ == "__main__":
         type=int,
         default=None,
         help="Number of episodes for --infer fixed-count.",
+    )
+    parser.add_argument(
+        "--num_batches",
+        type=int,
+        default=None,
+        help="Number of batches per model for --infer batches.",
     )
     parser.add_argument(
         "--converge_patience",
@@ -363,10 +353,12 @@ if __name__ == "__main__":
     if args.infer == "fixed-count" and (args.num_solutions is None or args.num_solutions < 1):
         parser.error("--infer fixed-count needs a positive --num_solutions")
 
-    args.rl_hyperparams = {
+    args.hyperparams = {
         arg.split("=")[0]: smart_cast(arg.split("=")[1])
-        for arg in args.rl_hyperparams[0].split(" ")
+        for arg in " ".join(args.hyperparams or []).split()
     }
+    args.hyperparams.setdefault("encoder", "shared")
+    args.hidden_dim = args.hyperparams.pop("hidden_dim", args.hidden_dim)
     args.wandb_config = {
         arg.split("=")[0]: smart_cast(arg.split("=")[1])
         for arg in (args.wandb_config or [""])[0].split(" ")
@@ -375,7 +367,15 @@ if __name__ == "__main__":
 
     args.use_wandb = hasattr(args, "wandb_config") and "key" in args.wandb_config
 
-    with open(args.case_config, "r") as f:
+    # Case and datasets are what the server was started with.
+    args.run_info = pb.Client("127.0.0.1", args.port).request("getRunInfo") or {}
+    case_id = args.run_info.get("case")
+    if case_id not in CASE_FILES:
+        raise SystemExit(f"Unknown case {case_id!r} from the server on port {args.port}.")
+    case_config, metamodel, args.root_object = CASE_FILES[case_id]
+    args.metamodel = os.path.join(AGENT_ROOT, metamodel)
+
+    with open(os.path.join(AGENT_ROOT, case_config), "r") as f:
         conf = json.loads(
             f.read(), object_hook=lambda d: Config(**d) if "maxNodeParams" in d else d
         )
@@ -398,8 +398,7 @@ if __name__ == "__main__":
     console.setFormatter(formatter)
     logger.addHandler(console)
 
-    is_rl_train = args.train and args.rl and not args.infer
-    if not is_rl_train:
+    if args.infer or not args.train:
         args.seed = args.seeds[0]
         seed_everything(args.seed)
         if not args.infer:

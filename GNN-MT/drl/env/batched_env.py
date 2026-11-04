@@ -65,12 +65,22 @@ class BatchedRemoteEnv:
         self.last_decode_time = 0.0
         self.time_feature = bool(time_feature)
         self.max_steps = resolve_max_steps(self.control.request, num_envs)
-        if time_scale is None:
-            self.time_scale = float(max(self.max_steps))
-        else:
-            self.time_scale = float(time_scale)
         names = fetch_instance_names(self.control.request, num_envs)
         self.instance_ids, self.instance_names = instance_index_by_name(names)
+        # Longest horizon over all models, which under cycling includes models no env plays yet.
+        self.max_horizon = max(self.max_steps)
+        models = self.control.request("getModelNames")
+        if models:
+            self.instance_names = [str(name) for name in models["names"]]
+            self.instance_ids = [self.instance_names.index(name) for name in names]
+            self.max_horizon = max(models["horizons"])
+        if time_scale is None:
+            self.time_scale = float(self.max_horizon)
+        else:
+            self.time_scale = float(time_scale)
+        # Per env, for the step decoded last: the model it ran on and the server's record of it.
+        self.step_models = list(self.instance_ids)
+        self.step_infos = [None] * num_envs
         self.step_counts = [0] * num_envs
         self._horizon_mismatch_warned = set()
 
@@ -88,6 +98,8 @@ class BatchedRemoteEnv:
             "edgeTypes": edge_types,
             "idAttribute": self.pallete.get_node_id_attr_name(),
             "numericAttributes": list(self.pallete.additional_node_atts or []),
+            # Without masks an unusable action is the policy's mistake: it costs a step.
+            "invalidActionCostsStep": not getattr(self.pallete, "masking", True),
         }
 
     def store_reset_observations(self, results):
@@ -96,6 +108,9 @@ class BatchedRemoteEnv:
         for env_index, row in enumerate(results):
             payload, cond = row[0], row[1] if len(row) > 1 else None
             self.conditions[env_index] = parse_rule_conditions(cond)
+            if len(row) > 2 and row[2]:
+                self.instance_ids[env_index] = int(row[2]["model"])
+                self.max_steps[env_index] = int(row[2]["horizon"])
             data, nids = decode_compact_obs(
                 payload, self.pallete, self.conditions[env_index]
             )
@@ -151,6 +166,11 @@ class BatchedRemoteEnv:
         rew = row[1]
         done = bool(row[2])
         cond = row[3] if len(row) > 3 else None
+        info = row[4] if len(row) > 4 else None
+        self.step_infos[env_index] = info
+        self.step_models[env_index] = (
+            int(info["model"]) if info else self.instance_ids[env_index]
+        )
         parsed_cond = parse_rule_conditions(cond)
         if parsed_cond is not None:
             self.conditions[env_index] = parsed_cond
@@ -168,16 +188,25 @@ class BatchedRemoteEnv:
                     self.max_steps[env_index],
                 )
                 self.step_counts[env_index] = 0
+                self._apply_next_model(env_index, info)
             return None, 0.0, done
 
         data, nids = decode_compact_obs(
             raw_obs, self.pallete, self.conditions[env_index]
         )
         steps_taken = self._advance_step_counter(env_index, done)
+        if done:
+            self._apply_next_model(env_index, info)
         data = self._with_time_feature(data, env_index, steps_taken)
         self.obs[env_index] = data
         self.node_ids[env_index] = nids
         return data, rew, done
+
+    def _apply_next_model(self, env_index, info):
+        """After an auto-reset the env's next steps belong to the model the server chose."""
+        if info and "next_model" in info:
+            self.instance_ids[env_index] = int(info["next_model"])
+            self.max_steps[env_index] = int(info["next_horizon"])
 
     def _with_time_feature(self, data, env_index, steps_taken):
         if not self.time_feature:
@@ -265,6 +294,10 @@ class BatchedRemoteEnv:
     def reset(self):
         return self.store_reset_observations(self.control.request("resetAll"))
 
+    def reset_to_model(self, model):
+        """Point every env at one model of this dataset and reset it."""
+        return self.store_reset_observations(self.control.request("resetEnvsToModel", int(model)))
+
     def close(self):
         for client in self.clients:
             client.close()
@@ -284,6 +317,9 @@ class BatchedRemoteEnv:
 
     def get_env_model_name(self, env_id):
         return self.control.request("getEnvModelName", env_id)
+
+    def get_fe_count(self):
+        return self.control.request("getFeCount")
 
     def get_maxsteps(self):
         return self.control.request("getMaxSteps")

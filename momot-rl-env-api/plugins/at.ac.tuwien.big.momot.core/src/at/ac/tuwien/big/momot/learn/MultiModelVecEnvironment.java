@@ -51,7 +51,8 @@ import co.gongzh.procbridge.Handler;
  *
  * Stores a list of input graphs and their pre-calculated step counts.
  * Assigns models to environments with DETERMINISTIC_PER_ENV_AND_INSTANCE
- * (envIdx mod number of models) and updates envMaxSteps based on the current model.
+ * (envIdx mod number of models), or moves training envs through all models with CYCLE,
+ * and updates envMaxSteps based on the current model.
  */
 public class MultiModelVecEnvironment extends Delegate {
    private static final boolean STEP_LOG = Boolean.getBoolean("momot.stepLog");
@@ -89,12 +90,28 @@ public class MultiModelVecEnvironment extends Delegate {
    private final Object[] envLocks;
    private final ExecutorService stepPool;
    private volatile CompactGraphEncoder graphEncoder;
+   // Set by the client through configureObservation: an action that cannot be applied uses one step.
+   private volatile boolean invalidActionCostsStep = false;
+   private JSONObject runInfo = new JSONObject();
 
    public MultiModelVecEnvironment(final boolean evalMode, final List<SOEnvironment<TransformationSolution>> envs,
          final String title, final List<String> modelNames, final List<EGraph> inputGraphs,
          final List<Integer> stepsPerModel, final List<IEGraphMultiDimensionalFitnessFunction> fitnessFunctions,
          final List<JSONObject> conditionsPerModel, final List<double[]> fitnessNormalizersPerModel,
          final List<double[]> constraintNormalizersPerModel) {
+      this(evalMode, envs, title, modelNames, inputGraphs, stepsPerModel, fitnessFunctions, conditionsPerModel,
+            fitnessNormalizersPerModel, constraintNormalizersPerModel, false);
+   }
+
+   /**
+    * @param cycleModels
+    *           Training envs move through the models instead of each staying on one.
+    */
+   public MultiModelVecEnvironment(final boolean evalMode, final List<SOEnvironment<TransformationSolution>> envs,
+         final String title, final List<String> modelNames, final List<EGraph> inputGraphs,
+         final List<Integer> stepsPerModel, final List<IEGraphMultiDimensionalFitnessFunction> fitnessFunctions,
+         final List<JSONObject> conditionsPerModel, final List<double[]> fitnessNormalizersPerModel,
+         final List<double[]> constraintNormalizersPerModel, final boolean cycleModels) {
       this.evalMode = evalMode;
       this.envs = envs;
       this.title = title;
@@ -106,7 +123,8 @@ public class MultiModelVecEnvironment extends Delegate {
       this.fitnessNormalizersPerModel = fitnessNormalizersPerModel;
       this.constraintNormalizersPerModel = constraintNormalizersPerModel;
 
-      if(!evalMode && stepsPerModel != null && !stepsPerModel.isEmpty()
+      // Evaluation envs are pointed at one model at a time, so any env count fits.
+      if(!evalMode && !cycleModels && stepsPerModel != null && !stepsPerModel.isEmpty()
             && envs.size() % stepsPerModel.size() != 0) {
          throw new IllegalArgumentException("n_envs=" + envs.size()
                + " must be a multiple of the number of models=" + stepsPerModel.size());
@@ -119,6 +137,9 @@ public class MultiModelVecEnvironment extends Delegate {
          this.envLocks[i] = new Object();
       }
       this.modelAssignmentPolicy = new ModelAssignmentPolicy(stepsPerModel, envs.size());
+      if(cycleModels) {
+         this.modelAssignmentPolicy.setStrategy(ModelAssignmentPolicy.Strategy.CYCLE);
+      }
       this.stepPool = Executors.newFixedThreadPool(Integer.getInteger("momot.stepThreads", envs.size()),
             daemonThreadFactory("momot-step"));
       this.maxFailedRetries = DEFAULT_MAX_FAILED_RETRIES;
@@ -134,7 +155,7 @@ public class MultiModelVecEnvironment extends Delegate {
       reg.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
 
       IntStream.range(0, envs.size()).forEach(i -> {
-         final int modelIdx = evalMode ? i : modelAssignmentPolicy.initModelIndex(i);
+         final int modelIdx = modelAssignmentPolicy.initModelIndex(i);
 
          currentModelIdx[i] = modelIdx;
 
@@ -178,8 +199,9 @@ public class MultiModelVecEnvironment extends Delegate {
       this.maxFailedRetries = maxFailedRetries;
    }
 
-   protected void addSolutionIfValid(final int envIdx, final Solution s) {
-      if(!this.hasNaNOrInfinity(s.getObjectives())) {
+   /** Only feasible states that changed the model can be results. */
+   protected void addSolutionIfValid(final int envIdx, final TransformationSolution s) {
+      if(!this.hasNaNOrInfinity(s.getObjectives()) && !s.violatesConstraints() && s.getSolutionLength() > 0) {
          this.ndps[envIdx].add(new Solution(s.getObjectives()));
       }
    }
@@ -200,6 +222,7 @@ public class MultiModelVecEnvironment extends Delegate {
    @Handler
    void configureObservation(final JSONObject spec) {
       this.graphEncoder = CompactGraphEncoder.fromSpec(spec);
+      this.invalidActionCostsStep = spec.optBoolean("invalidActionCostsStep", false);
    }
 
    private static ThreadFactory daemonThreadFactory(final String name) {
@@ -259,14 +282,45 @@ public class MultiModelVecEnvironment extends Delegate {
       return solutions;
    }
 
+   /** Set once by the server's main: what the client would otherwise have to be told separately. */
+   public void setRunInfo(final JSONObject runInfo) {
+      this.runInfo = runInfo;
+   }
+
+   /** The case, the port of each evaluation dataset, and the dataset paths. */
+   @Handler
+   JSONObject getRunInfo() {
+      return this.runInfo;
+   }
+
+   /** Steps that returned a successor model since resetInstance. */
+   @Handler
+   int getFeCount() {
+      return this.fe.get();
+   }
+
+   @Handler
+   int numEnvs() {
+      return this.envs.size();
+   }
+
+   /** Every model of this dataset with its horizon, whether or not an env currently plays it. */
+   @Handler
+   JSONObject getModelNames() {
+      final JSONObject out = new JSONObject();
+      out.put("names", new JSONArray(this.modelNames));
+      out.put("horizons", new JSONArray(this.stepsPerModel));
+      return out;
+   }
+
    /**
-    * Returns the largest per-environment step budget currently assigned.
+    * Returns the largest step budget over all models of this dataset.
     * Individual environments may have a smaller budget depending on their model.
     */
    @Handler
    int getMaxSteps() {
       int max = 0;
-      for(final int steps : this.envMaxSteps) {
+      for(final int steps : this.stepsPerModel) {
          if(steps > max) {
             max = steps;
          }
@@ -371,6 +425,18 @@ public class MultiModelVecEnvironment extends Delegate {
       return asJsonArray(invokeAll(tasks));
    }
 
+   /** Point every env at one model and reset it, so all of them play that model next. */
+   @Handler
+   JSONArray resetEnvsToModel(final int modelIdx) {
+      ensureObservationEncoderConfigured();
+      final List<Callable<Object[]>> tasks = new ArrayList<>(envs.size());
+      for(int i = 0; i < envs.size(); i++) {
+         final int envIdx = i;
+         tasks.add(() -> resetEnv(envIdx, true, modelIdx));
+      }
+      return asJsonArray(invokeAll(tasks));
+   }
+
    @Handler
    void resetInstance(final String logPath) {
       WRITE_PATH = Path.of(BASE_PATH, title, logPath).toString();
@@ -389,6 +455,7 @@ public class MultiModelVecEnvironment extends Delegate {
          failedInARow[i] = 0;
          hrs[i] = new ResourceSetImpl();
          ndps[i] = new NondominatedPopulation();
+         currentModelIdx[i] = modelAssignmentPolicy.initModelIndex(i);
       });
 
       try {
@@ -424,14 +491,59 @@ public class MultiModelVecEnvironment extends Delegate {
       for(int i = 0; i < actions.length(); i++) {
          final JSONObject action = actions.getJSONObject(i);
          tasks.add(() -> {
+            final int envIdx = action.getInt("_envId");
             if(action.optBoolean("_skip", false)) {
-               return new Object[] { JSONObject.NULL, 0.0, false, JSONObject.NULL };
+               return skipEnv(envIdx, autoReset);
             }
-            return stepEnv(action.getInt("_envId"), action.getString("_ruleName"),
+            return stepEnv(envIdx, action.getString("_ruleName"),
                   jsonObjectToMap(action.getJSONObject("_paramValues")), true, autoReset);
          });
       }
       return asJsonArray(invokeAll(tasks));
+   }
+
+   /** The client found no legal action for this env, so nothing reached the environment. */
+   private Object[] skipEnv(final int envIdx, final boolean autoReset) {
+      synchronized(envLocks[envIdx]) {
+         final JSONObject info = new JSONObject();
+         info.put("model", currentModelIdx[envIdx]);
+         info.put("invalid", true);
+         if(!invalidActionCostsStep) {
+            return new Object[] { JSONObject.NULL, 0.0, false, JSONObject.NULL, info };
+         }
+         return invalidStep(envIdx, true, autoReset, info);
+      }
+   }
+
+   /** One used step that leaves the model unchanged, returned as an ordinary transition. */
+   private Object[] invalidStep(final int envIdx, final boolean compact, final boolean autoReset,
+         final JSONObject info) {
+      failedInARow[envIdx] = 0;
+      noExecutions[envIdx].incrementAndGet();
+      final Object[] rv = new Object[5];
+      rv[0] = encodeObservation(envIdx, envs.get(envIdx).getCurrentState(), compact);
+      rv[1] = 0.0;
+      rv[4] = info;
+      return finishStep(envIdx, compact, autoReset, rv);
+   }
+
+   private Object[] finishStep(final int envIdx, final boolean compact, final boolean autoReset, final Object[] rv) {
+      final boolean done = noExecutions[envIdx].get() >= this.envMaxSteps[envIdx];
+      rv[2] = done;
+      if(done && STEP_LOG) {
+         flushWriters();
+      }
+
+      if(autoReset && done) {
+         final Object[] resetRv = resetEnv(envIdx, compact);
+         rv[0] = resetRv[0];
+         rv[3] = resetRv[1];
+         final JSONObject info = (JSONObject) rv[4];
+         info.put("next_model", currentModelIdx[envIdx]);
+         info.put("next_horizon", envMaxSteps[envIdx]);
+      }
+
+      return rv;
    }
 
    protected SOEnvResponse<TransformationSolution> step(final SOEnvironment<TransformationSolution> env,
@@ -441,12 +553,19 @@ public class MultiModelVecEnvironment extends Delegate {
 
    private Object[] resetEnv(final int envIdx, final boolean compact) {
       synchronized(envLocks[envIdx]) {
-         final Object[] rv = new Object[2];
+         // A reset without any step played does not move the env on to its next model.
+         final boolean played = noExecutions[envIdx].get() > 0;
+         return resetEnv(envIdx, compact, played ? modelAssignmentPolicy.nextModelIndex(envIdx) : currentModelIdx[envIdx]);
+      }
+   }
+
+   private Object[] resetEnv(final int envIdx, final boolean compact, final int modelIdx) {
+      synchronized(envLocks[envIdx]) {
+         final Object[] rv = new Object[3];
          try {
             noExecutions[envIdx].set(0);
             failedInARow[envIdx] = 0;
 
-            final int modelIdx = evalMode ? envIdx : modelAssignmentPolicy.nextModelIndex(envIdx);
             currentModelIdx[envIdx] = modelIdx;
 
             this.envMaxSteps[envIdx] = stepsPerModel.get(modelIdx);
@@ -478,6 +597,11 @@ public class MultiModelVecEnvironment extends Delegate {
                   && this.conditionsPerModel.get(modelIdx) != null) {
                rv[1] = this.conditionsPerModel.get(modelIdx);
             }
+
+            final JSONObject info = new JSONObject();
+            info.put("model", modelIdx);
+            info.put("horizon", envMaxSteps[envIdx]);
+            rv[2] = info;
          } catch(final Exception e) {
             e.printStackTrace();
          }
@@ -492,16 +616,24 @@ public class MultiModelVecEnvironment extends Delegate {
             log(envIdx, "\nR: " + rule.substring(rule.lastIndexOf("::") + 2) + " (env " + envIdx + ")");
             paramValues.forEach((key, value) -> log(envIdx, key + " " + value + " (env " + envIdx + ")"));
 
+            final JSONObject info = new JSONObject();
+            info.put("model", currentModelIdx[envIdx]);
+
             final SOEnvResponse<TransformationSolution> r = step(envs.get(envIdx), rule, paramValues);
-            final Object[] rv = new Object[4];
+            final Object[] rv = new Object[5];
+            rv[4] = info;
 
             // A rule Henshin cannot apply is not a transition: no penalty and no budget use.
             // After maxFailedRetries failures in a row, count one step so the env cannot stall.
             if(r.getState() == null) {
                log(envIdx, "Failed");
+               info.put("invalid", true);
+               if(invalidActionCostsStep) {
+                  return invalidStep(envIdx, compact, autoReset, info);
+               }
                failedInARow[envIdx] = failedInARow[envIdx] + 1;
                if(failedInARow[envIdx] < this.maxFailedRetries) {
-                  return new Object[] { false, 0.0, false, null };
+                  return new Object[] { false, 0.0, false, null, info };
                }
                failedInARow[envIdx] = 0;
                noExecutions[envIdx].incrementAndGet();
@@ -520,19 +652,7 @@ public class MultiModelVecEnvironment extends Delegate {
                log(envIdx, "len: " + r.getState().getSolutionLength() + " (R " + rv[1] + ")");
             }
 
-            final boolean done = noExecutions[envIdx].get() >= this.envMaxSteps[envIdx];
-            rv[2] = done;
-            if(done && STEP_LOG) {
-               flushWriters();
-            }
-
-            if(autoReset && done) {
-               final Object[] resetRv = resetEnv(envIdx, compact);
-               rv[0] = resetRv[0];
-               rv[3] = resetRv[1];
-            }
-
-            return rv;
+            return finishStep(envIdx, compact, autoReset, rv);
          } catch(final Exception e) {
             log(envIdx, "ERR:");
             log(envIdx, e.getMessage());

@@ -407,7 +407,9 @@ public enum UseCase {
    public static UseCase fromIdMultiModel(final String id, final String modelsPath) {
       // First, get base UseCase configuration using first model found
       final File folder = new File(modelsPath);
-      final File[] xmiFiles = folder.listFiles((dir, name) -> name.endsWith(".xmi"));
+      // A single .xmi path is a dataset of one model.
+      final File[] xmiFiles = folder.isFile() ? new File[] { folder }
+            : folder.listFiles((dir, name) -> name.endsWith(".xmi"));
 
       if(xmiFiles == null || xmiFiles.length == 0) {
          throw new IllegalArgumentException("No .xmi files found in: " + modelsPath);
