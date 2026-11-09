@@ -69,6 +69,24 @@ public class ModelGenerator {
 
    private static final int MAX_ATTEMPTS = 100;
 
+   // Model characteristics: edit by hand and rebuild (server-executables/build.sh). Ranges are
+   // {min, max}, inclusive. The drawn values of each model are stored in manifest.csv.
+
+   // Size per case, used when --sizes is not given: from 0.9 x the smallest to 1.1 x the largest
+   // benchmark, rounded down.
+   private static final int[] CRA_FEATURES = { 16, 176 };
+   private static final int[] SLB_STACKS = { 9, 110 };
+   private static final int[] SP_ITEMS = { 37, 136 };
+
+   // Drawn uniformly per model; measured on the existing datasets, widened to cover the benchmarks.
+   private static final double[] CRA_ATTRIBUTE_SHARE = { 0.30, 0.65 }; // Share of features that are attributes
+   private static final double[] CRA_DEPENDENCY_DENSITY = { 0.05, 0.26 }; // Chance of each possible dependency
+   private static final double[] SLB_MEAN_LOAD = { 5.8, 54.5 };
+   private static final int[] SP_STAKEHOLDERS = { 4, 6 };
+   private static final double[] SP_STAKEHOLDER_SKEW = { 0.0, 1.5 }; // 0: items spread evenly over stakeholders
+   private static final double[] SP_MIN_SPRINTS_PER_ITEM = { 0.10, 0.18 };
+   private static final double[] SP_MAX_SPRINTS_PER_ITEM = { 0.17, 0.26 };
+
    private final String caseId;
    private final Random random;
    private final Set<String> seen = new HashSet<>();
@@ -82,16 +100,17 @@ public class ModelGenerator {
    public static void main(final String[] args) throws IOException, ParseException {
       final Options options = new Options();
       options.addOption(null, "case", true, "cra, slb or scrum");
-      options.addOption(null, "sizes", true, "Size range MIN-MAX (features, stacks or work items)");
+      options.addOption(null, "sizes", true, "Size range MIN-MAX (features, stacks or work items); default: the case's range below");
       options.addOption(null, "train", true, "Comma-separated training-set sizes, e.g. 20,40,80");
       options.addOption(null, "val", true, "Number of validation models");
       options.addOption(null, "test", true, "Number of test models");
       options.addOption(null, "seed", true, "Generator seed");
-      options.addOption(null, "exclude", true, "Folder of models the dataset must not contain");
+      options.addOption(null, "exclude", true, "Folder of models the dataset must not contain; repeatable");
       options.addOption(null, "out", true, "Output folder");
       final CommandLine cmd = new DefaultParser().parse(options, args);
 
-      final String[] range = cmd.getOptionValue("sizes").split("-");
+      final int[] defaultSizes = defaultSizes(cmd.getOptionValue("case"));
+      final String[] range = cmd.getOptionValue("sizes", defaultSizes[0] + "-" + defaultSizes[1]).split("-");
       final int minSize = Integer.parseInt(range[0]);
       final int maxSize = Integer.parseInt(range[range.length - 1]);
       final int[] trainSizes = Arrays.stream(cmd.getOptionValue("train").split(",")).mapToInt(Integer::parseInt)
@@ -101,7 +120,9 @@ public class ModelGenerator {
       final ModelGenerator generator = new ModelGenerator(cmd.getOptionValue("case"),
             Long.parseLong(cmd.getOptionValue("seed")));
       if(cmd.hasOption("exclude")) {
-         generator.exclude(new File(cmd.getOptionValue("exclude")));
+         for(final String folder : cmd.getOptionValues("exclude")) {
+            generator.exclude(new File(folder));
+         }
       }
 
       final Path out = Path.of(cmd.getOptionValue("out"));
@@ -113,9 +134,9 @@ public class ModelGenerator {
       generator.generateSplit("train", temporary.resolve(largestFolder), largestFolder, largest, minSize, maxSize,
             false);
       generator.generateSplit("val", temporary.resolve("val"), "val", Integer.parseInt(cmd.getOptionValue("val", "0")),
-            minSize, maxSize, true);
+            minSize, maxSize, false);
       generator.generateSplit("test", temporary.resolve("test"), "test",
-            Integer.parseInt(cmd.getOptionValue("test", "0")), minSize, maxSize, true);
+            Integer.parseInt(cmd.getOptionValue("test", "0")), minSize, maxSize, false);
 
       // File names sort in generation order, so the first n are contained in any larger set.
       final File[] order = temporary.resolve(largestFolder).toFile().listFiles();
@@ -214,27 +235,43 @@ public class ModelGenerator {
             "Could not generate a new " + caseId + " model of size " + size + " in " + MAX_ATTEMPTS + " attempts");
    }
 
-   private double uniform(final double low, final double high) {
-      return low + random.nextDouble() * (high - low);
+   private static int[] defaultSizes(final String caseId) {
+      switch(caseId) {
+         case "cra":
+            return CRA_FEATURES;
+         case "slb":
+            return SLB_STACKS;
+         case "scrum":
+         case "scrum-uc":
+            return SP_ITEMS;
+         default:
+            throw new IllegalArgumentException("Unknown case: " + caseId);
+      }
+   }
+
+   private double uniform(final double[] range) {
+      return range[0] + random.nextDouble() * (range[1] - range[0]);
    }
 
    private JSONObject sampleProperties(final int size) {
       final JSONObject properties = new JSONObject();
       switch(caseId) {
          case "cra":
-            properties.put("attribute_share", uniform(0.30, 0.65));
-            properties.put("dependency_density", uniform(0.05, 0.26));
+            properties.put("attribute_share", uniform(CRA_ATTRIBUTE_SHARE));
+            properties.put("dependency_density", uniform(CRA_DEPENDENCY_DENSITY));
             break;
          case "slb":
-            properties.put("mean_load", uniform(5.8, 54.5));
+            properties.put("mean_load", uniform(SLB_MEAN_LOAD));
             break;
          case "scrum":
          case "scrum-uc":
-            properties.put("stakeholders", 4 + random.nextInt(3));
-            properties.put("stakeholder_skew", uniform(0.0, 1.5));
-            final int minSprints = Math.max(1, (int) Math.round(uniform(0.10, 0.18) * size));
+            properties.put("stakeholders",
+                  SP_STAKEHOLDERS[0] + random.nextInt(SP_STAKEHOLDERS[1] - SP_STAKEHOLDERS[0] + 1));
+            properties.put("stakeholder_skew", uniform(SP_STAKEHOLDER_SKEW));
+            final int minSprints = Math.max(1, (int) Math.round(uniform(SP_MIN_SPRINTS_PER_ITEM) * size));
             properties.put("min_sprints", minSprints);
-            properties.put("max_sprints", Math.max(minSprints + 1, (int) Math.round(uniform(0.17, 0.26) * size)));
+            properties.put("max_sprints",
+                  Math.max(minSprints + 1, (int) Math.round(uniform(SP_MAX_SPRINTS_PER_ITEM) * size)));
             break;
          default:
             throw new IllegalArgumentException("Unknown case: " + caseId);
