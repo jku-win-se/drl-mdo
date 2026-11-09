@@ -72,10 +72,16 @@ train_agent.sh \
 - `case`: one of `slb`, `cra`, `sp`, `sp_uc`.
 - `runs`: the number of seeds to run.
 - `name`: name of the experiment. Results go to `GNN-MT/models/rl/<case>/<name>/<seed>-<timestamp>/`.
-- `train-path`, `val-path`, `test-path`: folders of models or a single `.xmi`, relative to the repository root. Setting `val-path` turns periodic validation on, which records solutions and returns. `test-path` is only played in the final run (`--final-eval test`).
+- `train-path`, `val-path`, `test-path`: folders of models or a single `.xmi`, relative to the repository root. Setting `val-path` turns periodic validation on, which records solutions and returns. Setting `test-path` turns the final run on: after training, the best policy samples one batch per test model. Only `train-path` is required.
 - `partial_trajectories` (optional): use truncated rollouts in training updates; otherwise full episodes are used.
 
-Instead of paths, `--gen-sizes MIN-MAX` generates a dataset per seed, stored under `models/generated/<case>/<name>/seed-<seed>/`. All flags are at the top of [train_agent.sh](./train_agent.sh), and [experiments/README.md](./experiments/README.md) shows complete setups with their artifacts and analysis.
+`train_agent.sh` never generates models. `generate_dataset.sh` does, beforehand:
+
+```sh
+generate_dataset.sh --case <case> [--sizes MIN-MAX] --train 20,40 [--val N] [--test N] --seed <seed> --out <folder>
+```
+
+It writes `train-<n>/` per training size (smaller sets are contained in larger ones), `val/`, `test/` and `manifest.csv`. Models identical to a benchmark of the case (`models/benchmark/<case>`, plus any `--exclude` folder) or to another generated model in any split are rejected and redrawn. It skips a folder that already holds a dataset. Without `--sizes`, the size range of the case applies; that range and the other model characteristics are constants at the top of [ModelGenerator.java](./momot-rl-env-api/examples/org.learnapi/src/learnapi/ModelGenerator.java). All flags are at the top of [train_agent.sh](./train_agent.sh), and [experiments/README.md](./experiments/README.md) shows complete setups with their artifacts and analysis.
 
 `run_policy.sh` samples solutions with stored policies:
 

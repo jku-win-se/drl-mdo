@@ -85,6 +85,15 @@ def base_flags(fes=200, envs=2, hp=HP):
             "--hyperparams", hp]
 
 
+def generate_dataset(case, out, *flags, check=True):
+    """Through generate_dataset.sh, which excludes the case's benchmarks."""
+    result = subprocess.run(["bash", os.path.join(ROOT, "generate_dataset.sh"), "--case", case, "--out", out, *flags],
+                            capture_output=True, text=True, env=ENV, cwd=ROOT)
+    if check and result.returncode != 0:
+        raise AssertionError(f"generate_dataset failed:\n{result.stdout[-1500:]}\n{result.stderr[-1500:]}")
+    return result
+
+
 def run_dirs(case, name):
     return sorted(glob.glob(os.path.join(GNN_MT, "models", "rl", case, f"{PREFIX}-{name}", "*-*")))
 
@@ -121,6 +130,18 @@ class GeneratorTests(unittest.TestCase):
             self.assertEqual((len(small), len(large)), (2, 4))
             self.assertTrue(small < large)
             self.assertTrue(os.path.islink(f"{a}/train-2/{sorted(small)[0]}"))
+
+    def test_excluded_models_are_redrawn(self):
+        flags = ("--sizes", "9-12", "--train", "4", "--test", "2", "--seed", "7")
+        a = f"{WORK}/gen/excl-a"
+        b = f"{WORK}/gen/excl-b"
+        generate_dataset("slb", a, *flags)
+        # The same seed reproduces a exactly, unless its models are excluded.
+        generate_dataset("slb", b, *flags, "--exclude", f"{a}/train-4", "--exclude", f"{a}/test")
+        rows_a, rows_b = read_csv(f"{a}/manifest.csv"), read_csv(f"{b}/manifest.csv")
+        self.assertEqual(len(rows_b), 6)
+        self.assertEqual(len({row["hash"] for row in rows_b}), 6)
+        self.assertFalse({row["hash"] for row in rows_a} & {row["hash"] for row in rows_b})
 
     def test_sizes_stay_in_range(self):
         out = generate("slb", f"{WORK}/gen/range", train_sizes="20", val=5, test=5, sizes="9-11")
@@ -244,9 +265,10 @@ class RunTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.gen = ["--gen-sizes", "9-12", "--gen-train", "2,4", "--train-size", "4", "--gen-test", "2",
-                   "--gen-seed", "5", "--gen-name", f"{PREFIX}-shared"]
-        cls.flags = base_flags(fes=300) + cls.gen + ["--final-eval", "test"]
+        cls.dataset = f"models/generated/slb/{PREFIX}-shared/seed-5"
+        generate_dataset("slb", cls.dataset, "--sizes", "9-12", "--train", "2,4", "--test", "2", "--seed", "5")
+        cls.paths = ["--train-path", f"{cls.dataset}/train-4", "--test-path", f"{cls.dataset}/test"]
+        cls.flags = base_flags(fes=300) + cls.paths
         train("slb", "all", *cls.flags, "--keep-checkpoints", "all", runs=2)
         cls.runs = run_dirs("slb", "all")
 
@@ -326,8 +348,8 @@ class RunTests(unittest.TestCase):
     def test_same_flags_repeat_and_test_data_has_no_influence(self):
         # Same training data with a different test set: the selection must not change.
         train("slb", "again", *self.flags)
-        other_test = base_flags(fes=300) + self.gen[:-4] + ["--gen-seed", "5", "--gen-name", f"{PREFIX}-shared",
-                                                            "--test-path", "models/benchmark/slb", "--final-eval", "test"]
+        other_test = base_flags(fes=300) + ["--train-path", f"{self.dataset}/train-4",
+                                            "--test-path", "models/benchmark/slb"]
         train("slb", "other-test", *other_test)
         for name in ("again", "other-test"):
             self.assertEqual(self.selection(run_dirs("slb", name)[0]), self.selection(self.seed42()), name)
@@ -338,8 +360,7 @@ class RunTests(unittest.TestCase):
         return [tuple(row[c] for c in columns) for row in read_csv(os.path.join(run, "checkpoints.csv"))]
 
     def test_validation_records_without_changing_training(self):
-        dataset = os.path.join(ROOT, "models", "generated", "slb", f"{PREFIX}-shared", "seed-5", "test")
-        train("slb", "validated", *self.flags, "--val-path", dataset, "--test-path", "models/benchmark/slb",
+        train("slb", "validated", *self.flags, "--val-path", f"{self.dataset}/test", "--test-path", "models/benchmark/slb",
               "--eval-interval", "2", "--eval-save-solutions")
         run = run_dirs("slb", "validated")[0]
         rows = read_csv(os.path.join(run, "val_returns.csv"))
@@ -352,7 +373,7 @@ class RunTests(unittest.TestCase):
     def test_convergence_stops_training_early(self):
         hp = HP.replace("es_patience=0", "es_patience=2") + " es_min_timesteps=0 es_window=1 es_warmup_episodes=1 es_tick_episodes=1"
         flags = ["--fes", "20000", "--n-envs", "2", "--env-assignment", "cycle", "--eval-k", "2", "--hyperparams", hp]
-        train("slb", "converge", *flags, *self.gen, "--final-eval", "test")
+        train("slb", "converge", *flags, *self.paths)
         run = run_dirs("slb", "converge")[0]
         with open(os.path.join(run, "runtimes.json")) as f:
             times = json.load(f)
@@ -378,7 +399,7 @@ class RunTests(unittest.TestCase):
         result = subprocess.run(
             ["bash", os.path.join(ROOT, "run_policy.sh"), "--case", "slb", "--mode", "batches", "--n-batches", "3",
              "--n-envs", "2", "--label", "heldout", "--checkpoint", os.path.join(self.seed42(), "best_model.pth"),
-             "--models", f"models/generated/slb/{PREFIX}-shared/seed-5/test"],
+             "--models", f"{self.dataset}/test"],
             capture_output=True, text=True, env=ENV, cwd=ROOT,
         )
         self.assertEqual(result.returncode, 0, result.stderr[-1500:] + result.stdout[-1500:])
@@ -417,10 +438,11 @@ class RunTests(unittest.TestCase):
         self.assertEqual(result.stdout.count("already complete"), 2)
         self.assertEqual(run_dirs("slb", "all"), before)
 
-    def test_generated_dataset_is_reused(self):
-        manifest = os.path.join(ROOT, "models", "generated", "slb", f"{PREFIX}-shared", "seed-5", "manifest.csv")
+    def test_existing_dataset_is_not_regenerated(self):
+        manifest = os.path.join(ROOT, self.dataset, "manifest.csv")
         before = os.stat(manifest).st_mtime_ns
-        train("slb", "reuse", *self.flags)
+        result = generate_dataset("slb", self.dataset, "--sizes", "9-12", "--train", "2,4", "--seed", "5")
+        self.assertIn("skipping", result.stdout)
         self.assertEqual(os.stat(manifest).st_mtime_ns, before)
 
     def test_test_path_equal_to_train_needs_an_explicit_flag(self):
@@ -429,26 +451,34 @@ class RunTests(unittest.TestCase):
         result = train("slb", "same", *flags, check=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("must differ", result.stderr)
-        train("slb", "same", *flags, "--allow-train-as-test", "--final-eval", "test")
+        train("slb", "same", *flags, "--allow-train-as-test")
         self.assertTrue(os.path.isdir(os.path.join(run_dirs("slb", "same")[0], "final_eval", "test", "model_ten_stacks")))
 
 
-class PerSeedDatasetTests(unittest.TestCase):
-    def test_each_seed_gets_its_own_dataset_named_after_it(self):
-        train("slb", "perseed", *base_flags(fes=50), "--gen-sizes", "9-10", "--gen-train", "2", runs=2)
-        root = os.path.join(ROOT, "models", "generated", "slb", f"{PREFIX}-perseed")
-        self.assertEqual(sorted(os.listdir(root)), ["seed-17", "seed-42"])
-        self.assertNotEqual(read_csv(f"{root}/seed-17/manifest.csv"), read_csv(f"{root}/seed-42/manifest.csv"))
-        for run in run_dirs("slb", "perseed"):
-            seed = os.path.basename(run).split("-")[0]
-            with open(os.path.join(run, "run_args.json")) as f:
-                self.assertIn(f"seed-{seed}", json.load(f)["run_info"]["datasets"]["train"])
+class FlagTests(unittest.TestCase):
+    def test_run_trains_only_that_stored_seed(self):
+        data = f"models/generated/slb/{PREFIX}-run/seed-1"
+        generate_dataset("slb", data, "--sizes", "9-10", "--train", "2", "--seed", "1")
+        train("slb", "run", *base_flags(fes=50), "--train-path", f"{data}/train-2", "--run", "2")
+        runs = run_dirs("slb", "run")
+        self.assertEqual([os.path.basename(r).split("-")[0] for r in runs], ["17"])
+        self.assertFalse(os.path.isdir(os.path.join(runs[0], "final_eval")))  # No --test-path, no final run.
+
+    def test_datasets_are_required_and_must_exist(self):
+        result = train("slb", "nodata", *base_flags(fes=50), check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("--train-path is required", result.stderr)
+        result = train("slb", "nodata", *base_flags(fes=50), "--train-path", "models/none", check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("does not exist", result.stderr)
 
 
 class AllCasesTests(unittest.TestCase):
     def policy(self, case, sizes, hidden_dim):
         hp = HP.replace("hidden_dim=16", f"hidden_dim={hidden_dim}")
-        train(case, "policy", *base_flags(fes=250, hp=hp), "--gen-sizes", sizes, "--gen-train", "2")
+        data = f"models/generated/{case}/{PREFIX}-policy/seed-1"
+        generate_dataset(case, data, "--sizes", sizes, "--train", "2", "--seed", "1")
+        train(case, "policy", *base_flags(fes=250, hp=hp), "--train-path", f"{data}/train-2")
         return run_dirs(case, "policy")[0]
 
     def run_policy(self, case, checkpoint, models, *flags):
