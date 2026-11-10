@@ -87,8 +87,7 @@ def main(args, conf, ts):
     pallete = get_pallete(args, conf)
 
     if args.use_wandb:
-        wandb.login(key=args.wandb_config['key'])
-        args.wandb_config.pop('key')
+        wandb.login(key=args.wandb_config.pop("key", None))  # None: WANDB_API_KEY
 
     if args.infer:
         run_inference(pallete, args, ts)
@@ -376,7 +375,8 @@ if __name__ == "__main__":
         if arg
     }
 
-    args.use_wandb = hasattr(args, "wandb_config") and "key" in args.wandb_config
+    # W&B logs when a key is given, as key=... in --wandb_config or as WANDB_API_KEY (e.g. in .env).
+    args.use_wandb = "key" in args.wandb_config or bool(os.environ.get("WANDB_API_KEY"))
 
     # Case and datasets are what the server was started with.
     args.run_info = pb.Client("127.0.0.1", args.port).request("getRunInfo") or {}

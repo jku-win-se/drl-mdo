@@ -51,6 +51,7 @@ def load_env():
 
 
 ENV = load_env()
+ENV["WANDB_MODE"] = "disabled"  # Test runs never log to W&B, even with WANDB_API_KEY set.
 CLASSPATH = f"{ROOT}/server-executables/build/classes:{ROOT}/server-executables/build/lib/*"
 
 
