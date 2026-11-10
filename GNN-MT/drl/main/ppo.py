@@ -142,6 +142,16 @@ class PPO:
             self.eval_interval = self.args.eval_interval
             self.eval_variants = EVAL_VARIANTS[self.args.eval_mode]
             self.eval_env = self._connect_eval_env("val")
+        # With --select_on val, each validation phase ticks early stopping and the best policy.
+        self.select_on_val = self.args.select_on == "val"
+        self._val_should_stop = False
+        self._val_ticked = False
+        if self.select_on_val:
+            if not self.validating:
+                raise ValueError("--select_on val needs a validation dataset (--val-path)")
+            if "stochastic" not in self.eval_variants:
+                raise ValueError("--select_on val ticks on the stochastic validation return; "
+                                 "use --eval_mode stochastic or both")
 
     def _connect_eval_env(self, dataset):
         port = self.eval_ports[dataset]
@@ -431,26 +441,31 @@ class PPO:
     def _check_convergence(self, update_step, fes):
         """Tick on the training return, the one metric behind the best policy and convergence.
 
-        A tick needs a finite metric and enough new episodes. Returns whether to stop.
+        A tick needs a finite metric and enough new episodes. Returns whether to stop. With
+        --select_on val the validation phases tick instead (see ``_tick_validation``).
         """
+        if self.select_on_val:
+            self.train_log.metrics["es_ticked"] = int(self._val_ticked)
+            self._val_ticked = False
+            return self._val_should_stop
         metric = self.episode_stats.get_windowed_macro_return(self.hp.es_window)
         should_stop = improved = ticked = False
         if self.episode_stats.episodes_since_tick >= self.hp.es_tick_episodes and math.isfinite(metric):
             self.episode_stats.consume_tick()
             should_stop, improved = self.early_stopping.step(metric, update_step, fes)
             ticked = True
-            self._record_checkpoint(update_step, fes, metric, improved)
+            mean_return, std_return = self.episode_stats.get_window_return_stats(self.hp.es_window)
+            self._record_checkpoint(update_step, fes, metric, mean_return, std_return, improved)
         self.train_log.metrics["es_metric"] = metric
         self.train_log.metrics["es_ticked"] = int(ticked)
         return should_stop
 
-    def _record_checkpoint(self, update_step, fes, metric, improved):
-        """Store the policy if due, and log this tick of the training metric."""
+    def _record_checkpoint(self, update_step, fes, metric, mean_return, std_return, improved):
+        """Store the policy if due, and log this tick of the selection metric."""
         file_name = None
         if improved or self.args.keep_checkpoints == "all":
             file_name = f"ac_{update_step}-{fes}-{metric:.3f}.pth"
             torch.save(self.ac.state_dict(), os.path.join(self.args.model_path, file_name))
-        mean_return, std_return = self.episode_stats.get_window_return_stats(self.hp.es_window)
         self.train_log.add_checkpoint_row(update_step, fes, file_name, metric, mean_return, std_return, improved)
 
     def _validate(self, update_step, fes):
@@ -468,7 +483,20 @@ class PPO:
             self.episode_stats.add_eval_mean_return(log[f"eval_return_{variant}"], variant)
         self.time_validation += log["time_eval"]
         self.train_log.add_eval_log(log)
+        if self.select_on_val:
+            self._tick_validation(update_step, fes, log)
         return log
+
+    def _tick_validation(self, update_step, fes, log):
+        """One tick of early stopping and the best policy on the stochastic validation return."""
+        metric = log["eval_return_stochastic"]
+        should_stop, improved = self.early_stopping.step(metric, update_step, fes)
+        self._val_should_stop = self._val_should_stop or should_stop
+        self._val_ticked = True
+        self._record_checkpoint(
+            update_step, fes, metric, metric, log["eval_return_stochastic_std"], improved
+        )
+        self.train_log.metrics["es_metric"] = metric
 
     def _load_best_policy(self):
         path = os.path.join(self.args.model_path, "best_model.pth")
@@ -478,12 +506,19 @@ class PPO:
         self.policy.load_weights(path)
 
     def run_final_evaluation(self, dataset):
-        """Sample the current policy on each model of a served dataset, one batch per model."""
+        """Run the current policy on each model of a served dataset, one batch per model.
+
+        Sampled batches go to final_eval/<dataset>, greedy ones to final_eval/<dataset>-greedy.
+        """
         if dataset == "val":
             env = self.eval_env
         else:
             if dataset not in self._final_envs:
                 self._final_envs[dataset] = self._connect_eval_env(dataset)
             env = self._final_envs[dataset]
-        root = os.path.join(self.args.model_path, "final_eval", dataset)
-        self.final_runtimes[dataset] = sample_batches(self.policy, env, root, 1, self.args.seed)
+        for variant in EVAL_VARIANTS[self.args.final_mode]:
+            label = dataset if variant == "stochastic" else f"{dataset}-greedy"
+            root = os.path.join(self.args.model_path, "final_eval", label)
+            self.final_runtimes[label] = sample_batches(
+                self.policy, env, root, 1, self.args.seed, greedy=variant == "greedy"
+            )

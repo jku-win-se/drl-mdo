@@ -380,6 +380,31 @@ class RunTests(unittest.TestCase):
         self.assertLess(times["fes"], 20000)
         self.assertTrue(os.path.isdir(os.path.join(run, "final_eval", "test")))
 
+    def test_validation_selects_and_stops_and_final_run_adds_greedy(self):
+        # A gain of 1000 is never reached: the first phase is the best, the second stops.
+        hp = f"{HP} es_patience=1 es_min_delta=1000 es_min_timesteps=0"
+        flags = ["--fes", "20000", "--n-envs", "2", "--env-assignment", "cycle", "--eval-k", "2", "--hyperparams", hp]
+        train("slb", "select-val", *flags, "--train-path", f"{self.dataset}/train-4",
+              "--val-path", f"{self.dataset}/test", "--test-path", "models/benchmark/slb", "--eval-interval", "2",
+              "--select-on", "val", "--final-mode", "both")
+        run = run_dirs("slb", "select-val")[0]
+        rows = read_csv(os.path.join(run, "checkpoints.csv"))
+        self.assertEqual([row["update"] for row in rows], ["0", "2"])
+        self.assertEqual([row["is_best"] for row in rows], ["True", "False"])
+        val = read_csv(os.path.join(run, "val_returns.csv"))
+        first = [float(r["mean_return"]) for r in val if r["update"] == "0"]
+        self.assertAlmostEqual(float(rows[0]["metric"]), sum(first) / len(first), places=4)
+        with open(os.path.join(run, "runtimes.json")) as f:
+            times = json.load(f)
+        self.assertLess(times["fes"], 20000)
+        self.assertEqual(sorted(times["final_eval"]), ["test", "test-greedy"])
+        for label in ("test", "test-greedy"):
+            curves = common.final_curves(common.Run(run, "s", 0, "slb"), label)
+            self.assertEqual(len(curves), len(os.listdir(os.path.join(ROOT, "models", "benchmark", "slb"))), label)
+        for model, numbers in times["final_eval"]["test-greedy"].items():
+            self.assertEqual(numbers["episodes"], 1, model)  # Greedy: one episode, not one per env.
+            self.assertEqual(times["final_eval"]["test"][model]["episodes"], 2, model)
+
     def test_analysis_scripts_write_their_files(self):
         experiment = os.path.dirname(self.runs[0])
         out = os.path.join(WORK, "analysis")
@@ -471,6 +496,13 @@ class FlagTests(unittest.TestCase):
         result = train("slb", "nodata", *base_flags(fes=50), "--train-path", "models/none", check=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("does not exist", result.stderr)
+
+
+    def test_select_on_val_needs_a_validation_dataset(self):
+        result = train("slb", "noval", *base_flags(fes=50), "--train-path", "models/benchmark/slb",
+                       "--select-on", "val", check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("--select-on val needs --val-path", result.stderr)
 
 
 class AllCasesTests(unittest.TestCase):

@@ -72,7 +72,7 @@ train_agent.sh \
 - `case`: one of `slb`, `cra`, `sp`, `sp_uc`.
 - `runs`: the number of seeds to run.
 - `name`: name of the experiment. Results go to `GNN-MT/models/rl/<case>/<name>/<seed>-<timestamp>/`.
-- `train-path`, `val-path`, `test-path`: folders of models or a single `.xmi`, relative to the repository root. Setting `val-path` turns periodic validation on, which records solutions and returns. Setting `test-path` turns the final run on: after training, the best policy samples one batch per test model. Only `train-path` is required.
+- `train-path`, `val-path`, `test-path`: folders of models or a single `.xmi`, relative to the repository root. Setting `val-path` turns periodic validation on, which records solutions and returns. Setting `test-path` turns the final run on: after training, the best policy samples one batch per test model. Only `train-path` is required. `--select-on val` lets the mean validation return drive early stopping and pick the best policy (patience then counts validation phases), and `--final-mode greedy|both` adds one greedy episode per test model under `final_eval/test-greedy/` (greedy decoding is deterministic, so one episode is all it can give).
 - `partial_trajectories` (optional): use truncated rollouts in training updates; otherwise full episodes are used.
 
 `train_agent.sh` never generates models. `generate_dataset.sh` does, beforehand:

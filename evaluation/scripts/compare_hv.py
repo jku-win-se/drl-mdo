@@ -69,7 +69,7 @@ def main():
     runs = common.find_runs(options.runs)
     table = collect(runs, options.dataset, options.source)
     if table.empty:
-        raise SystemExit(f"No solutions for dataset '{options.dataset}'; did the runs use --final-eval?")
+        raise SystemExit(f"No solutions for dataset '{options.dataset}'; did the runs use --test-path (and --final-mode for greedy)?")
 
     rows = []
     # Means over models are only comparable on models every setting covers.

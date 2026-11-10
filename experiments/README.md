@@ -7,20 +7,21 @@ Setup, once: set `CONDA_ENV`, `JAVA_BIN` and `ECLIPSE_PLUGINS` in `.env` (see `.
 Setup, once per case: generate the RQ1 dataset that all RQ1 runs share (sizes span all benchmarks of the case):
 
 ```sh
-./generate_dataset.sh --case cra --sizes 16-176 --train 20,40 --test 10 --seed 1 --out models/generated/cra/rq1/seed-1
-./generate_dataset.sh --case slb --sizes 9-110  --train 20,40 --test 10 --seed 1 --out models/generated/slb/rq1/seed-1
-./generate_dataset.sh --case sp  --sizes 37-136 --train 20,40 --test 10 --seed 1 --out models/generated/sp/rq1/seed-1
+./generate_dataset.sh --case cra --sizes 16-176 --train 20,40,60 --val 10 --test 10 --seed 1 --out models/generated/cra/rq1/seed-1
+./generate_dataset.sh --case slb --sizes 9-110  --train 20,40,60 --val 10 --test 10 --seed 1 --out models/generated/slb/rq1/seed-1
+./generate_dataset.sh --case sp  --sizes 37-136 --train 20,40,60 --val 10 --test 10 --seed 1 --out models/generated/sp/rq1/seed-1
 ```
 
-No generated model equals a benchmark or another generated model, so the splits are disjoint. RQ3 generates its datasets itself, one per seed, just before training it.
+No generated model equals a benchmark or another generated model, so the splits are disjoint. A folder that already holds a dataset is skipped, so move an older `seed-1` away first. RQ3 generates its datasets itself, one per seed, just before training it.
 
 **How runs work**
 
-- **RQ1 and RQ3** train to convergence: no gain of 1% in the training return across 15 passes over the training set, after at least 100k FEs. Both stop at 500k FEs at the latest; lower RQ3's cap in `rq3_ranges.sh` if RQ1 shows convergence well below it.
+- **RQ1a** trains until 10 validation phases in a row (one every 10 iterations, 50 episodes per validation model) bring no gain of 1% in the mean validation return, capped at 1M FEs (`--select-on val`).
+- **RQ1b–e and RQ3** train to convergence: no gain of 1% in the training return across 15 passes over the training set, after at least 100k FEs. Both stop at 500k FEs at the latest; lower RQ3's cap in `rq3_ranges.sh` if RQ1 shows convergence well below it.
 - **RQ2** trains for exactly 100k FEs per instance.
 - **Fitness evaluations:** one FE is one step that returned a successor model.
-- **Best policy:** the training return picks `best_model.pth`. After training, it samples one batch of 100 solutions on each model of the test dataset.
-- **Periodic validation** (`--val-path`) is available but unused here. It records solutions and returns and picks nothing.
+- **Best policy:** the metric behind stopping (training return, or validation return in RQ1a) picks `best_model.pth`. After training, it samples one batch of 100 solutions (50 in RQ1a) on each model of the test dataset; RQ1a adds one greedy episode per model (`--final-mode both`).
+- **Periodic validation** (`--val-path`) records solutions and returns per validation model. It picks the best policy only with `--select-on val`, as in RQ1a.
 
 For the commands below (`c` is `cra`, `slb` or `sp`):
 
@@ -46,19 +47,25 @@ Each run folder `$R/<experiment>/<seed>-<ts>/` holds:
 experiments/rq1a_encoder.sh $c
 ```
 
-**Produces:** `$R/rq1a-*/<seed>-<ts>/`, trained on `models/generated/$c/rq1/seed-1/train-40/` and tested on its `test/`.
+**Produces:** `$R/rq1a-{sage,gatv2}-n{20,40,60}/<seed>-<ts>/`, trained on `models/generated/$c/rq1/seed-1/train-<n>/`, validated on its `val/` and tested on its `test/`. Besides the files above:
+- `eval_solutions/stochastic/<model>/iter<N>-t<FE>/nn-solutions.txt`: solutions of each validation phase per validation model.
+- `val_returns.csv`: mean and std return per validation phase and model.
+- `checkpoints.csv`: one row per validation phase, with the mean validation return as the metric.
+- `final_eval/test-greedy/<model>/nn-solutions.txt`: the single greedy episode of the best policy.
 
 **Analyze:**
 
 ```sh
 O=evaluation/rq1-learnability/encoder/$c
+python $A/hv_over_fes.py     --runs $R/rq1a-* --source validation --out $O/val
+python $A/reward_over_fes.py --runs $R/rq1a-* --out $O
 python $A/rank_configs.py    --runs $R/rq1a-* --out $O
 python $A/compare_hv.py      --runs $R/rq1a-* --out $O
-python $A/reward_over_fes.py --runs $R/rq1a-* --out $O
+python $A/compare_hv.py      --runs $R/rq1a-* --dataset test-greedy --out $O
 python $A/runtimes.py        --runs $R/rq1a-* --out $O
 ```
 
-**Gives:** `$O/ranks.csv`, `ranks.tex` (ranks on held-out HV, plus training rank and FEs to convergence), `hv_test.csv`, `hv_test.tex`, `reward_over_fes.pdf`, `runtimes.csv`.
+**Gives:** validation HV over FEs (`$O/val/`), `reward_over_fes.pdf` (here the validation return per phase), `ranks.csv`, `ranks.tex`, `hv_test.csv`, `hv_test.tex` (sampled) and `hv_test-greedy.csv`, `hv_test-greedy.tex` (greedy), `runtimes.csv`.
 
 **You decide:** the encoder per domain. Set it in the `SEL` block of the later scripts, e.g. `cra) SEL="graph_encoder=gatv2" ;;`.
 
@@ -221,7 +228,8 @@ Pending until baselines exist: comparison against them and break-even n\*.
 
 | Subexperiments | Runs | FEs per run |
 | --- | --- | --- |
-| RQ1a–e | 15 settings × 3 domains × 5 seeds = 225 | To convergence, 100k–500k |
+| RQ1a | 6 settings × 3 domains × 5 seeds = 90 | Until validation patience, up to 1M |
+| RQ1b–e | 12 settings × 3 domains × 5 seeds = 180 | To convergence, 100k–500k |
 | RQ1f | No training | 10 batches of 100 per held-out model |
 | RQ2 | 4 × 3 × 30 = 360 | 100k |
 | RQ3 | 4 × 3 × 30 = 360 | To convergence, up to 500k |

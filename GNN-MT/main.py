@@ -245,9 +245,11 @@ if __name__ == "__main__":
         "--eval_mode",
         choices=["stochastic", "greedy", "both"],
         default="stochastic",
-        help="Validation episodes per env: sampled (stochastic), most likely (greedy), or "
+        help="Validation episodes: sampled, one per env (stochastic), one most likely episode "
+        "per model (greedy), or "
         "both, logged and saved separately. Validation runs if the server has a validation "
-        "dataset. It records solutions and returns and picks nothing.",
+        "dataset. It records solutions and returns, and picks the best policy only with "
+        "--select_on val.",
     )
     parser.add_argument(
         "--eval_interval",
@@ -275,6 +277,21 @@ if __name__ == "__main__":
         default="none",
         help="After training, sample the best policy on these datasets of the server: one batch "
         "per model.",
+    )
+    parser.add_argument(
+        "--final_mode",
+        choices=["stochastic", "greedy", "both"],
+        default="stochastic",
+        help="Final run per model: one sampled batch (stochastic), one greedy episode (greedy), "
+        "or both. Greedy runs go to final_eval/<dataset>-greedy.",
+    )
+    parser.add_argument(
+        "--select_on",
+        choices=["train", "val"],
+        default="train",
+        help="Metric behind early stopping and the best policy. train: the training return, "
+        "ticked every es_tick_episodes episodes. val: the mean stochastic validation return, "
+        "ticked at every validation phase, so es_patience counts validation phases.",
     )
     parser.add_argument(
         "--wandb_config", nargs="+", help="Wandb configuration as key-value pairs"

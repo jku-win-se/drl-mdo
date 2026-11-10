@@ -2,6 +2,8 @@
 # Train one setup for N seeds, one seed at a time. See experiments/README.md for examples.
 # Datasets are given, never generated here (see generate_dataset.sh): --train-path is required,
 # --val-path turns on periodic validation and --test-path the final run on the test dataset.
+# --select-on val stops on and keeps the best validation reward instead of the training return;
+# --final-mode greedy|both adds a greedy run to the final one.
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_DIR="$SCRIPT_DIR/server-executables"
@@ -35,6 +37,7 @@ EVAL_K=1
 ENV_ASSIGNMENT=fixed
 PY_FLAGS=()
 ALLOW_TRAIN_AS_TEST=""
+SELECT_ON=""
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
@@ -54,6 +57,8 @@ while [[ "$#" -gt 0 ]]; do
     --eval-mode) PY_FLAGS+=(--eval_mode "$2"); shift ;;
     --eval-interval) PY_FLAGS+=(--eval_interval "$2"); shift ;;
     --eval-save-solutions) PY_FLAGS+=(--eval_save_solutions) ;;
+    --select-on) SELECT_ON="$2"; PY_FLAGS+=(--select_on "$2"); shift ;;
+    --final-mode) PY_FLAGS+=(--final_mode "$2"); shift ;;
     --keep-checkpoints) PY_FLAGS+=(--keep_checkpoints "$2"); shift ;;
     --allow-train-as-test) ALLOW_TRAIN_AS_TEST=1 ;;
     *) echo "Unknown parameter: $1" >&2; exit 1 ;;
@@ -79,6 +84,7 @@ else
   [[ "$RUNS" -le "${#SEEDS[@]}" ]] ||
     fail "--runs $RUNS asks for more seeds than the ${#SEEDS[@]} stored; append to SEEDS"
 fi
+[[ "$SELECT_ON" != val || -n "$VAL_PATH" ]] || fail "--select-on val needs --val-path"
 [[ -n "$TEST_PATH" ]] && PY_FLAGS+=(--final_eval test)
 # Runs share the machine with nothing else, so their runtimes stay clean.
 if nc -z localhost 8000 2>/dev/null; then

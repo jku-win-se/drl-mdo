@@ -51,7 +51,7 @@ def main():
     runs = common.find_runs(options.runs)
     rows = hv_rows(runs, options.dataset)
     if not rows:
-        raise SystemExit(f"No solutions for dataset '{options.dataset}'; did the runs use --final-eval?")
+        raise SystemExit(f"No solutions for dataset '{options.dataset}'; did the runs use --test-path (and --final-mode for greedy)?")
 
     wide, ranks = common.rank_within_blocks(pd.DataFrame(rows))
     mean_ranks = ranks.mean().sort_values()

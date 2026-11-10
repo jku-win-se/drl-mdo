@@ -160,7 +160,7 @@ class EpisodeSchedule:
 
 
 class OneEpisodePerEnv(EpisodeSchedule):
-    """Every env (one per model) plays exactly one episode."""
+    """Each of the first ``num_envs`` envs plays exactly one episode; the others stay idle."""
 
     auto_reset = False
 
@@ -169,7 +169,7 @@ class OneEpisodePerEnv(EpisodeSchedule):
         self.started = set()
 
     def start_episode(self, env_index):
-        if env_index in self.started:
+        if env_index in self.started or env_index >= self.progress_total:
             return False
         self.started.add(env_index)
         return True
@@ -448,14 +448,28 @@ def write_merged_results(result, model_dir, seed):
     )
 
 
-def sample_batches(policy, env, root, batches, seed):
+def sample_batches(policy, env, root, batches, seed, greedy=False):
     """Play ``batches`` batches of one episode per env on each model, one model at a time.
 
     Writes ``<root>/<model>/nn-solutions.txt``: per batch an FE line, then the archive so
-    far. Models run one after another, so each model's time is its own. Returns the times.
+    far. Models run one after another, so each model's time is its own. Greedy decoding is
+    deterministic, so with ``greedy`` one env plays a single batch of one episode per model.
+    Returns the times.
     """
+    if greedy and batches != 1:
+        raise ValueError("Greedy decoding repeats the same episode; use one batch.")
     runtimes = {}
     policy.eval()
+    policy.set_greedy(greedy)
+    try:
+        _sample_batches(policy, env, root, batches, seed, greedy, runtimes)
+    finally:
+        policy.set_greedy(False)
+        policy.train()
+    return runtimes
+
+
+def _sample_batches(policy, env, root, batches, seed, greedy, runtimes):
     with isolated_rng(seed):
         for model, name in enumerate(env.instance_names):
             model_dir = os.path.join(root, name)
@@ -469,7 +483,8 @@ def sample_batches(policy, env, root, batches, seed):
                 for _ in range(batches):
                     env.reset_to_model(model)
                     result = InferenceSampler(
-                        policy, OneEpisodePerEnv(env.num_envs), env, desc=f"Sample {name}"
+                        policy, OneEpisodePerEnv(1 if greedy else env.num_envs), env, greedy=greedy,
+                        desc=f"{'Greedy' if greedy else 'Sample'} {name}",
                     ).run()
                     for episode in result.episodes:
                         archive.add(episode.solutions)
@@ -488,13 +503,12 @@ def sample_batches(policy, env, root, batches, seed):
                 "episodes": episodes,
                 "fes": env.get_fe_count() - fe_start,
             }
-    policy.train()
-    return runtimes
 
 
 def run_validation(policy, env, update_step, fes, variants, seed, model_path, save_solutions):
-    """Record solutions and returns of one batch per validation model; this picks nothing.
+    """Record solutions and returns of one batch per validation model.
 
+    The phase's mean return can tick early stopping and the best policy (--select_on val).
     All envs play one model at a time. Sampling uses its own RNG with a fixed seed, so
     validating does not change training. Returns the metrics of this phase.
     """
@@ -511,9 +525,10 @@ def run_validation(policy, env, update_step, fes, variants, seed, model_path, sa
             with isolated_rng(seed):
                 for model, name in enumerate(env.instance_names):
                     env.reset_to_model(model)
+                    # Greedy episodes on one model are identical, so one env plays it.
                     result = InferenceSampler(
                         policy,
-                        OneEpisodePerEnv(env.num_envs),
+                        OneEpisodePerEnv(1 if greedy else env.num_envs),
                         env,
                         greedy=greedy,
                         desc=f"Eval {variant} {name}",
@@ -543,6 +558,7 @@ def run_validation(policy, env, update_step, fes, variants, seed, model_path, sa
             mean_return = float(np.mean(all_returns))
             print(f"[eval {variant} @ {label}] mean return {mean_return:.4f}", flush=True)
             log[f"eval_return_{variant}"] = mean_return
+            log[f"eval_return_{variant}_std"] = float(np.std(all_returns))
             log[f"time_eval_{variant}_env_wait"] = time_env_wait
             log[f"time_eval_{variant}_inference"] = time_inference
             log[f"time_eval_{variant}_decode"] = time_decode
