@@ -505,10 +505,14 @@ def _sample_batches(policy, env, root, batches, seed, greedy, runtimes):
             }
 
 
-def run_validation(policy, env, update_step, fes, variants, seed, model_path, save_solutions):
+def run_validation(policy, env, update_step, fes, variants, seed, model_path, save_solutions, scales):
     """Record solutions and returns of one batch per validation model.
 
-    The phase's mean return can tick early stopping and the best policy (--select_on val).
+    Each model's mean return is divided by a scale frozen in the first phase of a variant:
+    the mean absolute return there, at least 1e-3. ``scales`` maps a variant to these
+    scales and is filled on that first call. The mean of the normalized returns
+    (``eval_macro_return_<variant>``) weighs every model equally, whatever its return
+    magnitude; it can tick early stopping and the best policy (--select_on val).
     All envs play one model at a time. Sampling uses its own RNG with a fixed seed, so
     validating does not change training. Returns the metrics of this phase.
     """
@@ -521,6 +525,7 @@ def run_validation(policy, env, update_step, fes, variants, seed, model_path, sa
             greedy = variant == "greedy"
             policy.set_greedy(greedy)
             all_returns = []
+            model_returns = []
             time_env_wait = time_inference = time_decode = 0.0
             with isolated_rng(seed):
                 for model, name in enumerate(env.instance_names):
@@ -535,29 +540,42 @@ def run_validation(policy, env, update_step, fes, variants, seed, model_path, sa
                     ).run()
                     returns = [float(e.total_reward) for e in result.episodes]
                     all_returns += returns
+                    model_returns.append(returns)
                     time_env_wait += result.time_env_wait
                     time_inference += result.time_inference
                     time_decode += result.time_decode
                     log[f"eval_return_{variant}_{metric_name(name)}"] = float(np.mean(returns))
-                    append_csv(
-                        os.path.join(model_path, "val_returns.csv"),
-                        {
-                            "variant": variant,
-                            "update": update_step,
-                            "fe": fes,
-                            "model": name,
-                            "mean_return": float(np.mean(returns)),
-                            "std_return": float(np.std(returns)),
-                            "episodes": len(returns),
-                        },
-                    )
                     if save_solutions:
                         write_merged_results(
                             result, os.path.join(model_path, "eval_solutions", variant, name, label), seed
                         )
+            if variant not in scales:
+                scales[variant] = [max(float(np.mean(np.abs(r))), 1e-3) for r in model_returns]
+            normalized = []
+            for name, returns, scale in zip(env.instance_names, model_returns, scales[variant]):
+                normalized.append(float(np.mean(returns)) / scale)
+                append_csv(
+                    os.path.join(model_path, "val_returns.csv"),
+                    {
+                        "variant": variant,
+                        "update": update_step,
+                        "fe": fes,
+                        "model": name,
+                        "mean_return": float(np.mean(returns)),
+                        "std_return": float(np.std(returns)),
+                        "episodes": len(returns),
+                        "scale": scale,
+                        "normalized_return": normalized[-1],
+                    },
+                )
             mean_return = float(np.mean(all_returns))
-            print(f"[eval {variant} @ {label}] mean return {mean_return:.4f}", flush=True)
+            macro_return = float(np.mean(normalized))
+            print(
+                f"[eval {variant} @ {label}] mean return {mean_return:.4f}, macro {macro_return:.4f}",
+                flush=True,
+            )
             log[f"eval_return_{variant}"] = mean_return
+            log[f"eval_macro_return_{variant}"] = macro_return
             log[f"eval_return_{variant}_std"] = float(np.std(all_returns))
             log[f"time_eval_{variant}_env_wait"] = time_env_wait
             log[f"time_eval_{variant}_inference"] = time_inference

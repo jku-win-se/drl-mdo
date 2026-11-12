@@ -289,8 +289,17 @@ if __name__ == "__main__":
         choices=["train", "val"],
         default="train",
         help="Metric behind early stopping and the best policy. train: the training return, "
-        "ticked every es_tick_episodes episodes. val: the mean stochastic validation return, "
-        "ticked at every validation phase, so es_patience counts validation phases.",
+        "ticked every es_tick_episodes episodes. val: the validation macro return of "
+        "--select_variant (each model's mean return over its scale frozen in the initial phase, "
+        "averaged over models), ticked at every validation phase, so es_patience counts "
+        "validation phases.",
+    )
+    parser.add_argument(
+        "--select_variant",
+        choices=["stochastic", "greedy"],
+        default=None,
+        help="Validation variant behind --select_on val. Defaults to greedy with --eval_mode "
+        "greedy and to stochastic otherwise; it must be one --eval_mode plays.",
     )
     parser.add_argument(
         "--wandb_config", nargs="+", help="Wandb configuration as key-value pairs"

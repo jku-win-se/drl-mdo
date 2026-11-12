@@ -146,12 +146,16 @@ class PPO:
         self.select_on_val = self.args.select_on == "val"
         self._val_should_stop = False
         self._val_ticked = False
+        self._val_scales = {}  # Per variant, each validation model's frozen return scale.
         if self.select_on_val:
             if not self.validating:
                 raise ValueError("--select_on val needs a validation dataset (--val-path)")
-            if "stochastic" not in self.eval_variants:
-                raise ValueError("--select_on val ticks on the stochastic validation return; "
-                                 "use --eval_mode stochastic or both")
+            self.select_variant = self.args.select_variant or (
+                "greedy" if self.args.eval_mode == "greedy" else "stochastic"
+            )
+            if self.select_variant not in self.eval_variants:
+                raise ValueError(f"--select_variant {self.select_variant} is not validated; "
+                                 f"--eval_mode {self.args.eval_mode} plays {list(self.eval_variants)}")
 
     def _connect_eval_env(self, dataset):
         port = self.eval_ports[dataset]
@@ -478,6 +482,7 @@ class PPO:
             self.args.seed,
             self.args.model_path,
             self.args.eval_save_solutions,
+            self._val_scales,
         )
         for variant in self.eval_variants:
             self.episode_stats.add_eval_mean_return(log[f"eval_return_{variant}"], variant)
@@ -488,13 +493,18 @@ class PPO:
         return log
 
     def _tick_validation(self, update_step, fes, log):
-        """One tick of early stopping and the best policy on the stochastic validation return."""
-        metric = log["eval_return_stochastic"]
+        """One tick of early stopping and the best policy on the validation return.
+
+        The metric is the macro return of --select_variant, so each validation model counts equally.
+        """
+        v = self.select_variant
+        metric = log[f"eval_macro_return_{v}"]
         should_stop, improved = self.early_stopping.step(metric, update_step, fes)
         self._val_should_stop = self._val_should_stop or should_stop
         self._val_ticked = True
         self._record_checkpoint(
-            update_step, fes, metric, metric, log["eval_return_stochastic_std"], improved
+            update_step, fes, metric, log[f"eval_return_{v}"], log[f"eval_return_{v}_std"],
+            improved,
         )
         self.train_log.metrics["es_metric"] = metric
 
